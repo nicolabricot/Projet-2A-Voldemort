@@ -4,6 +4,9 @@
 # Java #
 *.class
 
-*.jar
+# *.jar #
 *.war
 *.ear
+
+# NetBeans #
+nbproject/private
