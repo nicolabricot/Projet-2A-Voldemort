@@ -13,7 +13,7 @@ import org.bson.types.ObjectId;
  *
  * @author bruno
  */
-public class CharacterClass {
+public final class CharacterClass {
 
     public static final String COLLECTION = "character_class";
     

@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package framework.character.item.armor;
+package framework.item.armor;
 
 /**
  *
  * @author bruno
  */
-public class Helmet extends ArmorItem {
+public final class Gauntlet extends ArmorItem {
     
 }

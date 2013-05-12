@@ -15,7 +15,7 @@ import org.bson.types.ObjectId;
  */
 public final class Individual  {
     
-    public static final String COLLECTION = "character_individual";
+    public static final String COLLECTION = "individual";
     
     private static final String ID = "_id";
     private static final String CLASS_ID = "class_id";

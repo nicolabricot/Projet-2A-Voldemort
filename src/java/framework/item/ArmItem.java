@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package framework.character.item.armor;
+package framework.item;
+
+import framework.item.arm.Item;
 
 /**
  *
  * @author bruno
  */
-public class Vambrace extends ArmorItem {
+public class ArmItem extends Item {
     
 }
