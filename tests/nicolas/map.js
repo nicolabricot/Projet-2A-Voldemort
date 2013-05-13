@@ -1,5 +1,5 @@
 window.onload = function() {
-  var paper = new Raphael(document.getElementById('map'), 600, 600);
+  var paper = new Raphael(document.getElementById('map'), 520, 560);
   var colorStroke = {
     "default": "#888",
     "opened": "#888",
