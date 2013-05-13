@@ -42,7 +42,7 @@
                 StringBuilder str = new StringBuilder();
 
                 str.append("<ul>");
-                //str.append("<li>" + bdbo + "</li>");
+                str.append("<li>" + bdbo + "</li>");
                 str.append("<li>Id : " + i.getId() + "</li>");
                 str.append("<li>Name : " + i.getName() + "</li>");
                 str.append("<li>Life: " + i.getLife() + "</li>");
@@ -81,6 +81,16 @@
                        
                     }
                     str.append("</ul>");
+                    
+                    str.append("<li>Arm:</li>");
+                        Item arm = i.getArm();
+                        if (arm != null) {
+                            str.append("<ul>");
+                            str.append("<li>Id: " + arm.getId() + "</li>");
+                            str.append("<li>Name: " + arm.getName() + "</li>");
+                            str.append("<li>Description: " + arm.getDescription() + "</li>");
+                            str.append("</ul>");
+                        }
                     
                 str.append("</ul>");
 

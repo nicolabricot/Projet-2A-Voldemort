@@ -4,6 +4,7 @@
     Author     : bruno
 --%>
 
+<%@page import="framework.item.UnexpectedItemException"%>
 <%@page import="framework.item.ItemType"%>
 <%@page import="framework.character.Armor"%>
 <%@page import="framework.item.Item"%>
@@ -50,21 +51,21 @@
                     cct.save();
                     
                     res.getCollection(Individual.COLLECTION).drop();
+                    /*
+                    Individual cigi = new Individual();
+                    cigi.setName("Gimli");
+                    cigi.setCharacterClass(ccb);
+                    cigi.save();
+                    */
+                    Individual cigu = new Individual();
+                    cigu.setName("Gurdil");
+                    cigu.setCharacterClass(cct);
+                    //cigu.save(); TODO : régler le bug de l'update
                     
                     Individual ciga = new Individual();
                     ciga.setName("Gandalf");
                     ciga.setCharacterClass(cct);
                     ciga.save();
-                    
-                    Individual cigi = new Individual();
-                    cigi.setName("Gimli");
-                    cigi.setCharacterClass(ccb);
-                    cigi.save();
-                    
-                    Individual cigu = new Individual();
-                    cigu.setName("Gurdil");
-                    cigu.setCharacterClass(cct);
-                    //cigu.save(); TODO : régler le bug de l'update
                     
                     res.getCollection(Item.COLLECTION).drop();
                     
@@ -98,7 +99,13 @@
                     ir.setDescription("Perdu par une étrange créature dans un marais, il est écrit dessus \"Un anneau pour les gouverner tous. Un anneau pour les trouver tous, Un anneau pour les amener tous et dans les ténèbres les lier.\"");
                     ir.save();
                     
-                    cigu.getArmor().set(ia); // ne fera rien car pas amure
+                    try {
+                        cigu.getArmor().set(ia); // va trhower une exception car une amre ne peut pas être ajoutée à une armure
+                    } catch (UnexpectedItemException e) {
+                        out.println(e.getMessage());
+                    }
+
+                    cigu.setArm(ia);
                     cigu.getArmor().set(ic);
                     cigu.getArmor().set(ig);
                     cigu.save();

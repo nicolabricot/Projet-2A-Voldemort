@@ -7,6 +7,7 @@ package framework.character;
 import com.mongodb.BasicDBObject;
 import framework.item.ItemType;
 import framework.item.Item;
+import framework.item.UnexpectedItemException;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -29,6 +30,9 @@ public final class Armor {
         this.armor = new EnumMap<ItemType, Item>(ItemType.class);
     }
     
+    /**
+     * Construit l'objet à partir d'un objet JSON
+     */
     private void hydrate(BasicDBObject ob) {
         
        Iterator<Entry<String, Object>> it = ob.entrySet().iterator();
@@ -38,6 +42,11 @@ public final class Armor {
         }
     }
 
+    /**
+     * Génère l'objet sous forme d'un objet JSON
+     * @return 
+     * Objet JSON
+     */
     public BasicDBObject toBasicDBObject() {
         BasicDBObject ob = new BasicDBObject();
         
@@ -53,14 +62,50 @@ public final class Armor {
         return ob;
     }
     
-    public Item get(ItemType item) {
-        return this.armor.get(item);
+    /**
+     * Permet d'obtenir un item équipant l'armure
+     * @param itemType
+     * Type de l'item à obtenir
+     * @return 
+     * L'item associé au type ou <i>null</i>
+     * 
+     * @see ItemType
+     * @see Item
+     */
+    public Item get(ItemType itemType) {
+        return this.armor.get(itemType);
     }
     
-    public void set(Item item) {
+    /**
+     * Place un item sur l'armure
+     * @param item
+     * Un item pouvant être placé sur l'armure
+     * @return
+     * L'item précédemment équipé ou <i>null</i>
+     * @throws UnexpectedItemException
+     * Si l'item ne peut pas être placé sur l'armure à cause de sont type ou du niveau minimum requis
+     * 
+     * @see Item
+     * @see UnexectedItemException
+     */
+    public Item set(Item item) throws UnexpectedItemException {
         ItemType type = item.getType();
         
-        if (type.isArmor())    
-            this.armor.put(type, item);
+        Item previous = null;
+        if (type.isArmor()) {
+            previous = this.armor.get(type);
+            this.armor.put(type, item);            
+        }
+        else {
+            StringBuilder str = new StringBuilder();
+            str.append("Item \"");
+            str.append(item.getName());
+            str.append("\" of type \"");
+            str.append(item.getType());
+            str.append("\" cannot be placed on an Armor");
+            throw new UnexpectedItemException(str.toString());
+        }
+        
+        return previous;
     }
 }

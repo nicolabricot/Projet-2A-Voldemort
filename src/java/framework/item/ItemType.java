@@ -5,7 +5,7 @@
 package framework.item;
 
 /**
- *
+ * Les différents types d'item existants
  * @author bruno
  */
 public enum ItemType {
@@ -24,10 +24,20 @@ public enum ItemType {
     
     private final String json;
 
+    /**
+     * 
+     * @param json 
+     * Code json de l'item
+     */
     private ItemType(final String json) {
         this.json = json;
     }
 
+    /**
+     * 
+     * @return 
+     * Le code json de l'item
+     */
     @Override
     public String toString() {
         return json;
@@ -42,10 +52,23 @@ public enum ItemType {
         return null;
     }
     
+    /**
+     * 
+     * @return 
+     * <i>true</i> si l'item est un élément d'armure
+     */
     public boolean isArmor() {
         return (this.equals(CUIRASS) || this.equals(GAUNTLET) ||
                 this.equals(GREAVE) || this.equals(HELMET) ||
                 this.equals(PAULDRON) || this.equals(SOLLERET) ||
                 this.equals(VAMBRACE));
+    }
+    /**
+     * 
+     * @return 
+     * <i>true</i> si l'item est une arme
+     */
+    public boolean isArm() {
+        return (this.equals(ARM));
     }
 }

@@ -6,6 +6,8 @@ package framework.character;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import framework.item.Item;
+import framework.item.UnexpectedItemException;
 import framework.ressource.Ressources;
 import org.bson.types.ObjectId;
 
@@ -27,6 +29,7 @@ public final class Individual  {
     private static final String LUCK = "luck";
     private static final String ROBUSTNESS = "robustness";
     private static final String ARMOR = "armor";
+    private static final String ARM = "arm";
     
     private ObjectId id;
     private String name;
@@ -34,6 +37,7 @@ public final class Individual  {
     private int life, attack, defense, initiative, luck, robustness;
     private Armor armor;
     private CharacterClass characterClass;
+    private Item arm;
 
     public Individual(ObjectId oid) {                
         Ressources res = Ressources.getInstance();
@@ -60,6 +64,7 @@ public final class Individual  {
         this.luck = ob.getInt(LUCK);
         this.robustness = ob.getInt(ROBUSTNESS);
         this.armor = new Armor((BasicDBObject) ob.get(ARMOR));
+        if (ob.containsField(ARM)) this.arm = new Item(ob.getObjectId(ARM));
         this.characterClass = new CharacterClass(ob.getObjectId(CLASS_ID));
     }  
     
@@ -76,6 +81,7 @@ public final class Individual  {
         ob.append(ROBUSTNESS, this.robustness);
         ob.append(ARMOR, this.armor.toBasicDBObject());
         ob.append(CLASS_ID, this.characterClass.getId());
+        if (this.arm != null) ob.append(ARM, this.arm.getId());
         
         return ob;
     }
@@ -164,5 +170,29 @@ public final class Individual  {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public Item getArm() {
+        return arm;
+    }
+
+    public Item setArm(Item arm) throws UnexpectedItemException {
+        Item previous = null;
+        
+        if (arm.getType().isArm()) {
+            previous = this.arm;
+            this.arm = arm;
+        }
+        else {
+            StringBuilder str = new StringBuilder();
+            str.append("Item \"");
+            str.append(arm.getName());
+            str.append("\" of type \"");
+            str.append(arm.getType());
+            str.append("\" cannot be used as an Arm");
+            throw new UnexpectedItemException(str.toString());
+        }
+        
+        return null;
     }
 }
