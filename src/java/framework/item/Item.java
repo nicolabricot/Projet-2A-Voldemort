@@ -13,23 +13,8 @@ import org.bson.types.ObjectId;
  *
  * @author bruno
  */
-public final class Item {
-    
-    /* Armor */
-    public static final String CUIRASS = "cuirass";
-    public static final String GAUNTLET = "gauntlet";
-    public static final String GREAVE = "greave";
-    public static final String HELMET = "helmet";
-    public static final String PAULDRON = "pauldron";
-    public static final String SOLLERET = "solleret";
-    public static final String VAMBRACE = "vambrace";
-    
-    /* Ohter */
-    public static final String ARM = "arm";
-    public static final String RING = "ring";
-    public static final String BAG = "bag";
-    public static final String OHTER = "other";
-    
+public class Item {  
+        
     public static final String COLLECTION = "item";
     
     private static final String ID = "_id";
@@ -39,7 +24,8 @@ public final class Item {
     private static final String DESCRIPTION = "description";
     
     private ObjectId id;
-    private String type, name, description;
+    private String name, description;
+    private ItemType type;
 
     public Item(DBObject ob) {
         this.hydrate((BasicDBObject) ob);
@@ -56,7 +42,7 @@ public final class Item {
     
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
-        this.type = ob.getString(TYPE);
+        this.type = ItemType.fromString(ob.getString(TYPE));        
         this.name = ob.getString(NAME);
         this.description = ob.getString(DESCRIPTION);
     }
@@ -65,7 +51,7 @@ public final class Item {
         BasicDBObject ob = new BasicDBObject();
         
         if (this.id != null) ob.append(ID, id);
-        ob.append(TYPE, type);
+        ob.append(TYPE, type.toString());
         ob.append(NAME, name);
         ob.append(DESCRIPTION, description);
         
@@ -86,11 +72,11 @@ public final class Item {
         this.id = id;
     }
 
-    public String getType() {
+    public ItemType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 

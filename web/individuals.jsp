@@ -4,6 +4,9 @@
     Author     : bruno
 --%>
 
+<%@page import="framework.item.Item"%>
+<%@page import="framework.character.Armor"%>
+<%@page import="framework.item.ItemType"%>
 <%@page import="framework.character.CharacterClass"%>
 <%@page import="framework.character.Individual"%>
 <%@page import="com.mongodb.BasicDBObject"%>
@@ -39,6 +42,7 @@
                 StringBuilder str = new StringBuilder();
 
                 str.append("<ul>");
+                //str.append("<li>" + bdbo + "</li>");
                 str.append("<li>Id : " + i.getId() + "</li>");
                 str.append("<li>Name : " + i.getName() + "</li>");
                 str.append("<li>Life: " + i.getLife() + "</li>");
@@ -49,14 +53,35 @@
                 str.append("<li>Luck: " + i.getLuck() + "</li>");
                 str.append("<li>Class:</li>");
                 
-                str.append("<ul>");
-                CharacterClass cc = i.getCharacterClass();
-                str.append("<li>Id: " + cc.getId() + "</li>");
-                str.append("<li>Name: " + cc.getName() + "</li>");
-                str.append("<li>Description: " + cc.getDescription() + "</li>");
+                    str.append("<ul>");
+                    CharacterClass cc = i.getCharacterClass();
+                    str.append("<li>Id: " + cc.getId() + "</li>");
+                    str.append("<li>Name: " + cc.getName() + "</li>");
+                    str.append("<li>Description: " + cc.getDescription() + "</li>");
+                    str.append("</ul>");
                 
-                str.append("</ul>");
+                str.append("<li>Armor:</li>");
                 
+                Armor a = i.getArmor();
+                    str.append("<ul>");
+                    
+                    for(ItemType it : ItemType.values()) {
+                        if (!it.isArmor()) continue;
+                         
+                        Item t = a.get(it);
+                        
+                        if (t == null) continue;
+                        
+                        str.append("<li>" + t.getType().toString() + "</li>");
+                            str.append("<ul>");
+                            str.append("<li>Id: " + t.getId() + "</li>");
+                            str.append("<li>Name: " + t.getName() + "</li>");
+                            str.append("<li>Description: " + t.getDescription() + "</li>");
+                            str.append("</ul>");
+                       
+                    }
+                    str.append("</ul>");
+                    
                 str.append("</ul>");
 
                 out.println(str.toString());

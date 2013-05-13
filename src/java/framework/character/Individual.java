@@ -46,6 +46,10 @@ public final class Individual  {
         this.armor = new Armor();
     }
     
+    public Individual() {
+        this.armor = new Armor();
+    }
+    
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
         this.name = ob.getString(NAME);
@@ -55,7 +59,7 @@ public final class Individual  {
         this.initiative = ob.getInt(INITIATIVE);
         this.luck = ob.getInt(LUCK);
         this.robustness = ob.getInt(ROBUSTNESS);
-        // this.armor = new Armor((BasicDBObject) ob.get(ARMOR));
+        this.armor = new Armor((BasicDBObject) ob.get(ARMOR));
         this.characterClass = new CharacterClass(ob.getObjectId(CLASS_ID));
     }  
     
@@ -70,7 +74,7 @@ public final class Individual  {
         ob.append(INITIATIVE, this.initiative);
         ob.append(LUCK, this.luck);
         ob.append(ROBUSTNESS, this.robustness);
-        // ob.append(ARMOR, this.armor.toBasicDBObject());
+        ob.append(ARMOR, this.armor.toBasicDBObject());
         ob.append(CLASS_ID, this.characterClass.getId());
         
         return ob;
@@ -78,11 +82,8 @@ public final class Individual  {
     
     public void save() {
         BasicDBObject ob = this.toBasicDBObject();
-        Ressources.getInstance().getCollection(COLLECTION).insert(ob);
+        Ressources.getInstance().getCollection(COLLECTION).insert(ob); // TODO : bug update
         this.id = ob.getObjectId(ID);
-    }
-    
-    public Individual() {
     }
     
     public int getLife() {

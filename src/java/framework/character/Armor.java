@@ -5,9 +5,12 @@
 package framework.character;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import framework.item.ItemType;
 import framework.item.Item;
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -15,93 +18,49 @@ import java.util.HashMap;
  */
 public final class Armor {
         
-    private HashMap<String, Item> armor;
+    private EnumMap<ItemType, Item> armor;
 
     protected Armor(BasicDBObject ob) {
-        this.armor = new HashMap<String, Item>();
+        this.armor = new EnumMap<ItemType, Item>(ItemType.class);
         this.hydrate(ob);
     }
 
     protected Armor() {
-        this.armor = new HashMap<String, Item>();
+        this.armor = new EnumMap<ItemType, Item>(ItemType.class);
     }
     
-    public void hydrate(BasicDBObject ob) {
-        this.armor.put(Item.CUIRASS, new Item((DBObject) ob.get(Item.CUIRASS)));
-        this.armor.put(Item.GAUNTLET, new Item((DBObject) ob.get(Item.GAUNTLET)));
-        this.armor.put(Item.GREAVE, new Item((DBObject) ob.get(Item.GREAVE)));
-        this.armor.put(Item.HELMET, new Item((DBObject) ob.get(Item.HELMET)));
-        this.armor.put(Item.PAULDRON, new Item((DBObject) ob.get(Item.PAULDRON)));
-        this.armor.put(Item.SOLLERET, new Item((DBObject) ob.get(Item.SOLLERET)));
-        this.armor.put(Item.VAMBRACE, new Item((DBObject) ob.get(Item.VAMBRACE)));
+    private void hydrate(BasicDBObject ob) {
+        
+       Iterator<Entry<String, Object>> it = ob.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String, Object> e = it.next();
+            this.armor.put(ItemType.fromString(e.getKey()), new Item((ObjectId) e.getValue()));
+        }
     }
 
     public BasicDBObject toBasicDBObject() {
         BasicDBObject ob = new BasicDBObject();
-        ob.append(Item.CUIRASS, this.getCuirass().toBasicDBObject());
-        ob.append(Item.GAUNTLET, this.getGauntlet().toBasicDBObject());
-        ob.append(Item.GREAVE, this.getGreave().toBasicDBObject());
-        ob.append(Item.HELMET, this.getHelmet().toBasicDBObject());
-        ob.append(Item.PAULDRON, this.getPauldron().toBasicDBObject());
-        ob.append(Item.SOLLERET, this.getSolleret().toBasicDBObject());
-        ob.append(Item.VAMBRACE, this.getVambrace().toBasicDBObject());   
         
+        Iterator<Entry<ItemType, Item>> it = this.armor.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<ItemType, Item> e = it.next();
+            if (e.getValue() != null)
+                ob.append(e.getKey().toString(), e.getValue().getId());
+            else
+                System.out.println("Mouhouhouahhahah tu m'auras pas, je suis plus malin que toi");
+        }
+  
         return ob;
     }
     
-    public Item getCuirass() {
-        return this.armor.get(Item.CUIRASS);
+    public Item get(ItemType item) {
+        return this.armor.get(item);
     }
-
-    public void setCuirass(Item item) {
-        this.armor.put(Item.CUIRASS, item);
-    }
-
-    public Item getGauntlet() {
-        return this.armor.get(Item.GAUNTLET);
-    }
-
-    public void setGauntlet(Item item) {
-        this.armor.put(Item.GAUNTLET, item);
-    }
-
-    public Item getGreave() {
-        return this.armor.get(Item.GREAVE);
-    }
-
-    public void setGreave(Item item) {
-        this.armor.put(Item.GREAVE, item);
-    }
-
-    public Item getHelmet() {
-        return this.armor.get(Item.HELMET);
-    }
-
-    public void setHelmet(Item item) {
-        this.armor.put(Item.HELMET, item);
-    }
-
-    public Item getPauldron() {
-        return this.armor.get(Item.PAULDRON);
-    }
-
-    public void setPauldron(Item item) {
-        this.armor.put(Item.PAULDRON, item);
-    }
-
-    public Item getSolleret() {
-        return this.armor.get(Item.SOLLERET);
-    }
-
-    public void setSolleret(Item item) {
-        this.armor.put(Item.SOLLERET, item);
-    }
-
-    public Item getVambrace() {
-        return this.armor.get(Item.VAMBRACE);
-    }
-
-    public void setVambrace(Item item) {
-        this.armor.put(Item.VAMBRACE, item);
+    
+    public void set(Item item) {
+        ItemType type = item.getType();
+        
+        if (type.isArmor())    
+            this.armor.put(type, item);
     }
 }

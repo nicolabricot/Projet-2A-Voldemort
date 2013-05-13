@@ -4,7 +4,7 @@
     Author     : bruno
 --%>
 
-<%@page import="framework.item.Item"%>
+<%@page import="framework.item.ItemType"%>
 <%@page import="framework.character.Armor"%>
 <%@page import="framework.item.Item"%>
 <%@page import="framework.character.Individual"%>
@@ -64,42 +64,45 @@
                     Individual cigu = new Individual();
                     cigu.setName("Gurdil");
                     cigu.setCharacterClass(cct);
-                    cigu.save();
+                    //cigu.save(); TODO : régler le bug de l'update
                     
                     res.getCollection(Item.COLLECTION).drop();
                     
                     Item ig = new Item();
-                    ig.setType(Item.GAUNTLET);
+                    ig.setType(ItemType.GAUNTLET);
                     ig.setName("Gant de base");
                     ig.setDescription("Gant parfait pour un noob.");
                     ig.save();
                     
                     Item ic = new Item();
-                    ic.setType(Item.CUIRASS);
+                    ic.setType(ItemType.CUIRASS);
                     ic.setName("Cuirass de m***e");
-                    ic.setDescription("Cette cuirass n'a aucun effet possitif.");
+                    ic.setDescription("Cette cuirasse n'a aucun effet possitif.");
                     ic.save();
                     
                     Item ia = new Item();
-                    ia.setType(Item.ARM);
+                    ia.setType(ItemType.ARM);
                     ia.setName("Epée rouillée");
                     ia.setDescription("D'aventages de risque de choper le tetanos que de tuer un adversaire en la manipulant.");
                     ia.save();
                     
                     Item ib = new Item();
-                    ib.setType(Item.BAG);
+                    ib.setType(ItemType.BAG);
                     ib.setName("Sacoche 6 emplacements");
                     ib.setDescription("Augmente votre inventaire de 6 cases.");
                     ib.save();
                     
                     Item ir = new Item();
-                    ir.setType(Item.RING);
+                    ir.setType(ItemType.RING);
                     ir.setName("Anneau de pouvoir");
                     ir.setDescription("Perdu par une étrange créature dans un marais, il est écrit dessus \"Un anneau pour les gouverner tous. Un anneau pour les trouver tous, Un anneau pour les amener tous et dans les ténèbres les lier.\"");
                     ir.save();
                     
-                    //cigu.getArmor().setGauntlet(ic);
-
+                    cigu.getArmor().set(ia); // ne fera rien car pas amure
+                    cigu.getArmor().set(ic);
+                    cigu.getArmor().set(ig);
+                    cigu.save();
+                    
 
                     res.close();
                 %>
