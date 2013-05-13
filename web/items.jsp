@@ -45,6 +45,8 @@
                 str.append("</ul>");
                 out.println(str.toString());
             }
+            
+            res.close();
         %>
         
         

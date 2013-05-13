@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
 public class Ressources {
 
     private static Ressources self;
-    
+
     private String serverAddress;
     private int serverPort;
     private String databaseName;
@@ -23,7 +23,6 @@ public class Ressources {
     private Mongo mongo;
 
     private Ressources() {
-        // TODO : load from JSON file
         this.serverAddress = "localhost";
         this.serverPort = 27017;
         this.databaseName = "voldemort";
@@ -36,18 +35,18 @@ public class Ressources {
         return Ressources.self;
     }
 
-    public void connect() throws UnknownHostException {
-       // if (this.mongo == null) {
-            this.mongo = new Mongo(this.serverAddress, this.serverPort);
-        //}
-    }
-
     public DBCollection getCollection(String collection) {
         return this.mongo.getDB(this.databaseName).getCollection(collection);
     }
     
+    public void connect() throws UnknownHostException {
+        if (this.mongo == null)
+            this.mongo = new Mongo(this.serverAddress, this.serverPort);
+    }
+    
     public void close() {
         this.mongo.close();
+        this.mongo = null;
     }
-
+    
 }
