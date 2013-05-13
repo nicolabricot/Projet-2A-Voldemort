@@ -1,0 +1,2 @@
+Tooltip (amélioration du servol de zone dans la map)
+• http://calebjacob.com/tooltipster/
