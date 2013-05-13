@@ -4,6 +4,9 @@
     Author     : bruno
 --%>
 
+<%@page import="framework.item.Item"%>
+<%@page import="framework.character.Armor"%>
+<%@page import="framework.item.Item"%>
 <%@page import="framework.character.Individual"%>
 <%@page import="com.mongodb.BasicDBObject"%>
 <%@page import="com.mongodb.DBCursor"%>
@@ -23,13 +26,13 @@
         <ul>
             <li>Character Classes</li>
             <li>Individuals</li>
+            <li>Items</li>
                 <%
                     Ressources res = Ressources.getInstance();
                     res.connect();
                     
                     
                     res.getCollection(CharacterClass.COLLECTION).drop();
-                    DBCollection coll = res.getCollection(CharacterClass.COLLECTION);
 
                     CharacterClass ccb = new CharacterClass();
                     ccb.setName("Brute");
@@ -47,7 +50,6 @@
                     cct.save();
                     
                     res.getCollection(Individual.COLLECTION).drop();
-                    coll = res.getCollection(Individual.COLLECTION);
                     
                     Individual ciga = new Individual();
                     ciga.setName("Gandalf");
@@ -63,7 +65,40 @@
                     cigu.setName("Gurdil");
                     cigu.setCharacterClass(cct);
                     cigu.save();
-
+                    
+                    res.getCollection(Item.COLLECTION).drop();
+                    
+                    Item ig = new Item();
+                    ig.setType(Item.GAUNTLET);
+                    ig.setName("Gant de base");
+                    ig.setDescription("Gant parfait pour un noob.");
+                    ig.save();
+                    
+                    Item ic = new Item();
+                    ic.setType(Item.CUIRASS);
+                    ic.setName("Cuirass de m***e");
+                    ic.setDescription("Cette cuirass n'a aucun effet possitif.");
+                    ic.save();
+                    
+                    Item ia = new Item();
+                    ia.setType(Item.ARM);
+                    ia.setName("Epée rouillée");
+                    ia.setDescription("D'aventages de risque de choper le tetanos que de tuer un adversaire en la manipulant.");
+                    ia.save();
+                    
+                    Item ib = new Item();
+                    ib.setType(Item.BAG);
+                    ib.setName("Sacoche 6 emplacements");
+                    ib.setDescription("Augmente votre inventaire de 6 cases.");
+                    ib.save();
+                    
+                    Item ir = new Item();
+                    ir.setType(Item.RING);
+                    ir.setName("Anneau de pouvoir");
+                    ir.setDescription("Perdu par une étrange créature dans un marais, il est écrit dessus \"Un anneau pour les gouverner tous. Un anneau pour les trouver tous, Un anneau pour les amener tous et dans les ténèbres les lier.\"");
+                    ir.save();
+                    
+                    //cigu.getArmor().setGauntlet(ic);
 
 
                     res.close();

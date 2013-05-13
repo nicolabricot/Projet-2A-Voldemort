@@ -4,7 +4,6 @@
  */
 package framework.ressource;
 
-import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
 import java.net.UnknownHostException;

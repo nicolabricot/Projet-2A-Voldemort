@@ -4,106 +4,104 @@
  */
 package framework.character;
 
-import framework.item.armor.Gauntlet;
-import framework.item.armor.Helmet;
-import framework.item.armor.Vambrace;
-import framework.item.armor.Solleret;
-import framework.item.armor.Greave;
-import framework.item.armor.Cuirass;
-import framework.item.armor.Pauldron;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import framework.item.Item;
+import java.util.HashMap;
 
 /**
  *
  * @author bruno
  */
 public final class Armor {
-    
-    private static final String CUIRASS = "cuirass";
-    private static final String GAUNTLET = "gauntlet";
-    private static final String Greave = "greave";
-    private static final String HELMET = "helmet";
-    private static final String PAULDRON = "pauldron";
-    private static final String SOLLERET = "solleret";
-    private static final String VEMBRACE = "vembrace";
-    
-    private Cuirass cuirass;
-    private Gauntlet gauntlet;
-    private Greave greave;
-    private Helmet helmet;
-    private Pauldron pauldron;
-    private Solleret solleret;
-    private Vambrace vambrace;
+        
+    private HashMap<String, Item> armor;
 
-    Armor(BasicDBObject ob) {
+    protected Armor(BasicDBObject ob) {
+        this.armor = new HashMap<String, Item>();
         this.hydrate(ob);
     }
 
-    Armor() {
+    protected Armor() {
+        this.armor = new HashMap<String, Item>();
     }
     
     public void hydrate(BasicDBObject ob) {
-        
-        
+        this.armor.put(Item.CUIRASS, new Item((DBObject) ob.get(Item.CUIRASS)));
+        this.armor.put(Item.GAUNTLET, new Item((DBObject) ob.get(Item.GAUNTLET)));
+        this.armor.put(Item.GREAVE, new Item((DBObject) ob.get(Item.GREAVE)));
+        this.armor.put(Item.HELMET, new Item((DBObject) ob.get(Item.HELMET)));
+        this.armor.put(Item.PAULDRON, new Item((DBObject) ob.get(Item.PAULDRON)));
+        this.armor.put(Item.SOLLERET, new Item((DBObject) ob.get(Item.SOLLERET)));
+        this.armor.put(Item.VAMBRACE, new Item((DBObject) ob.get(Item.VAMBRACE)));
     }
 
     public BasicDBObject toBasicDBObject() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BasicDBObject ob = new BasicDBObject();
+        ob.append(Item.CUIRASS, this.getCuirass().toBasicDBObject());
+        ob.append(Item.GAUNTLET, this.getGauntlet().toBasicDBObject());
+        ob.append(Item.GREAVE, this.getGreave().toBasicDBObject());
+        ob.append(Item.HELMET, this.getHelmet().toBasicDBObject());
+        ob.append(Item.PAULDRON, this.getPauldron().toBasicDBObject());
+        ob.append(Item.SOLLERET, this.getSolleret().toBasicDBObject());
+        ob.append(Item.VAMBRACE, this.getVambrace().toBasicDBObject());   
+        
+        return ob;
     }
     
-    public Cuirass getCuirass() {
-        return cuirass;
+    public Item getCuirass() {
+        return this.armor.get(Item.CUIRASS);
     }
 
-    public void setCuirass(Cuirass cuirass) {
-        this.cuirass = cuirass;
+    public void setCuirass(Item item) {
+        this.armor.put(Item.CUIRASS, item);
     }
 
-    public Gauntlet getGauntlet() {
-        return gauntlet;
+    public Item getGauntlet() {
+        return this.armor.get(Item.GAUNTLET);
     }
 
-    public void setGauntlet(Gauntlet gauntlet) {
-        this.gauntlet = gauntlet;
+    public void setGauntlet(Item item) {
+        this.armor.put(Item.GAUNTLET, item);
     }
 
-    public Greave getGreave() {
-        return greave;
+    public Item getGreave() {
+        return this.armor.get(Item.GREAVE);
     }
 
-    public void setGreave(Greave greave) {
-        this.greave = greave;
+    public void setGreave(Item item) {
+        this.armor.put(Item.GREAVE, item);
     }
 
-    public Helmet getHelmet() {
-        return helmet;
+    public Item getHelmet() {
+        return this.armor.get(Item.HELMET);
     }
 
-    public void setHelmet(Helmet helmet) {
-        this.helmet = helmet;
+    public void setHelmet(Item item) {
+        this.armor.put(Item.HELMET, item);
     }
 
-    public Pauldron getPauldron() {
-        return pauldron;
+    public Item getPauldron() {
+        return this.armor.get(Item.PAULDRON);
     }
 
-    public void setPauldron(Pauldron pauldron) {
-        this.pauldron = pauldron;
+    public void setPauldron(Item item) {
+        this.armor.put(Item.PAULDRON, item);
     }
 
-    public Solleret getSolleret() {
-        return solleret;
+    public Item getSolleret() {
+        return this.armor.get(Item.SOLLERET);
     }
 
-    public void setSolleret(Solleret solleret) {
-        this.solleret = solleret;
+    public void setSolleret(Item item) {
+        this.armor.put(Item.SOLLERET, item);
     }
 
-    public Vambrace getVambrace() {
-        return vambrace;
+    public Item getVambrace() {
+        return this.armor.get(Item.VAMBRACE);
     }
 
-    public void setVambrace(Vambrace vambrace) {
-        this.vambrace = vambrace;
+    public void setVambrace(Item item) {
+        this.armor.put(Item.VAMBRACE, item);
     }
 }

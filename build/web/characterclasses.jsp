@@ -44,8 +44,6 @@
                 str.append("</ul>");
 
                 out.println(str.toString());
-
-
             }
 
 
