@@ -134,6 +134,8 @@ public final class Ressources {
         cgu.getEquipment().setItem(new Item(imc));
         cgu.getEquipment().setItem(new Item(img));
         cgu.getEquipment().setItem(new Item(ima));
+        cgu.getInventory().add(new Item(imb));
+        cgu.getInventory().add(new Item(imr));
         cgu.save(); // TODO : régler le bug de l'update
     }
 }

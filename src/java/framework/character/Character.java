@@ -25,6 +25,7 @@ public final class Character {
     private Properties properties;
     private String name;
     private Equipment equipment;
+    private Inventory inventory;
 
     public Character(ObjectId oid) {
         Ressources res = Ressources.getInstance();
@@ -36,6 +37,7 @@ public final class Character {
         this.model = model;
         this.properties = new Properties();
         this.equipment = new Equipment();
+        this.inventory = new Inventory();
     }
 
     private void hydrate(BasicDBObject ob) {
@@ -45,6 +47,7 @@ public final class Character {
         this.name = ob.getString(NAME);
         this.properties = new Properties((DBObject) ob.get(Properties.PROPERTIES));
         this.equipment = new Equipment((DBObject) ob.get(Equipment.EQUIPMENT));
+        this.inventory = new Inventory((DBObject) ob.get(Inventory.INVENTORY));
     }
 
     public DBObject toDBObject() {
@@ -57,6 +60,7 @@ public final class Character {
         ob.append(NAME, this.name);
         ob.append(Properties.PROPERTIES, this.properties.toDBObject());
         ob.append(Equipment.EQUIPMENT, this.equipment.toDBObject());
+        ob.append(Inventory.INVENTORY, this.inventory.toDBObject());
 
         return ob;
     }
@@ -111,6 +115,14 @@ public final class Character {
 
     public Equipment getEquipment() {
         return this.equipment;
+    }
+    
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+    
+    public Inventory getInventory() {
+        return this.inventory;
     }
 
     /**

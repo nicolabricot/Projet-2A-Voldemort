@@ -40,7 +40,8 @@ public class CharacterView {
         str.append("</ul>");
         str.append("<li>Equipment :</li>");
         str.append(new EquipmentView(this.model.getEquipment()));
-        
+        str.append("<li>Inventory :</li>");
+        str.append(new InventoryView(this.model.getInventory()));
         str.append("</ul>");
         return str.toString();
     }
