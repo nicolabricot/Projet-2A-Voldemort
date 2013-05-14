@@ -4,9 +4,10 @@
     Author     : bruno
 --%>
 
+<%@page import="framework.view.ItemModelView"%>
 <%@page import="com.mongodb.BasicDBObject"%>
-<%@page import="framework.item.Item"%>
 <%@page import="com.mongodb.DBCursor"%>
+<%@page import="framework.item.ItemModel"%>
 <%@page import="com.mongodb.DBCollection"%>
 <%@page import="framework.ressource.Ressources"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -17,40 +18,22 @@
      <title>Projet Voldemort</title>
     </head>
     <body>
-        <h1>Items</h1>
-        
+        <h1>Items</h1> 
         <%
             Ressources res = Ressources.getInstance();
             res.connect();
-        %>
-
-
-
-        <p>Items :</p>
- 
-        <%
-            DBCollection coll = res.getCollection(Item.COLLECTION);
+            DBCollection coll = res.getCollection(ItemModel.COLLECTION);
             DBCursor cursor = coll.find();
 
             while (cursor.hasNext()) {      
                 BasicDBObject bdbo = (BasicDBObject) cursor.next();
-                Item i = new Item(bdbo.getObjectId("_id"));
-                StringBuilder str = new StringBuilder();
-
-                str.append("<ul>");
-                str.append("<li>Id : " + i.getId() + "</li>");
-                str.append("<li>Type : " + i.getType() + "</li>");
-                str.append("<li>Name : " + i.getName() + "</li>");
-                str.append("<li>Description : " + i.getDescription() + "</li>");
-                str.append("</ul>");
-                out.println(str.toString());
+                ItemModel im = new ItemModel(bdbo.getObjectId("_id"));
+                ItemModelView imv = new ItemModelView(im);
+                out.println(imv);
             }
             
             res.close();
         %>
-        
-        
-        
         <a href="index.jsp">return</a>
     </body>   
 </html>

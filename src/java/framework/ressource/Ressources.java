@@ -6,20 +6,24 @@ package framework.ressource;
 
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
+import framework.character.CharacterModel;
+import framework.character.Character;
+import framework.item.Item;
+import framework.item.ItemModel;
+import framework.item.ItemType;
+import framework.item.UnexpectedItemException;
 import java.net.UnknownHostException;
 
 /**
  *
  * @author bruno
  */
-public class Ressources {
+public final class Ressources {
 
     private static Ressources self;
-
     private String serverAddress;
     private int serverPort;
     private String databaseName;
-    
     private Mongo mongo;
 
     private Ressources() {
@@ -38,15 +42,83 @@ public class Ressources {
     public DBCollection getCollection(String collection) {
         return this.mongo.getDB(this.databaseName).getCollection(collection);
     }
-    
+
     public void connect() throws UnknownHostException {
-        if (this.mongo == null)
+        if (this.mongo == null) {
             this.mongo = new Mongo(this.serverAddress, this.serverPort);
+        }
     }
-    
+
     public void close() {
         this.mongo.close();
         this.mongo = null;
     }
-    
+
+    public void fill() throws UnexpectedItemException {
+        this.getCollection(CharacterModel.COLLECTION).drop();
+        this.getCollection(Character.COLLECTION).drop();
+        this.getCollection(ItemModel.COLLECTION).drop();
+
+        CharacterModel cmb = new CharacterModel();
+        cmb.setName("Brute");
+        cmb.setDescription("Grande défense, petite attaque. (50%, 10%)");
+        cmb.save();
+
+        CharacterModel cmc = new CharacterModel();
+        cmc.setName("Canaille");
+        cmc.setDescription("Moyenne défense, moyenne attaque. (25%, 25%)");
+        cmc.save();
+
+        CharacterModel cmt = new CharacterModel();
+        cmt.setName("Tacticien");
+        cmt.setDescription("Petite défense, grande attaque. (10%, 50%)");
+        cmt.save();
+
+        ItemModel img = new ItemModel();
+        img.setType(ItemType.GAUNTLET);
+        img.setName("Gant de base");
+        img.setDescription("Gant parfait pour un noob.");
+        img.save();
+
+        ItemModel imc = new ItemModel();
+        imc.setType(ItemType.CUIRASS);
+        imc.setName("Cuirass de m***e");
+        imc.setDescription("Cette cuirasse n'a aucun effet possitif.");
+        imc.save();
+
+        ItemModel ima = new ItemModel();
+        ima.setType(ItemType.ARM);
+        ima.setName("Epée rouillée");
+        ima.setDescription("D'aventages de risque de choper le tetanos que de tuer un adversaire en la manipulant.");
+        ima.save();
+
+        ItemModel imb = new ItemModel();
+        imb.setType(ItemType.BAG);
+        imb.setName("Sacoche 6 emplacements");
+        imb.setDescription("Augmente votre inventaire de 6 cases.");
+        imb.save();
+
+        ItemModel imr = new ItemModel();
+        imr.setType(ItemType.RING);
+        imr.setName("Anneau de pouvoir");
+        imr.setDescription("Perdu par une étrange créature dans un marais, il est écrit dessus \"Un anneau pour les gouverner tous. Un anneau pour les trouver tous, Un anneau pour les amener tous et dans les ténèbres les lier.\"");
+        imr.save();
+
+        /*
+        Character cga = new Character(cmt);
+        cga.setName("Gandalf");
+        cga.save();
+
+        Character cgi = new Character(cmb);
+        cgi.setName("Gimli");
+        cgi.save();
+        */
+        
+        Character cgu = new Character(cmc);
+        cgu.setName("Gurdil");
+        cgu.getEquipment().setItem(new Item(imc));
+        cgu.getEquipment().setItem(new Item(img));
+        cgu.getEquipment().setItem(new Item(ima));
+        cgu.save(); // TODO : régler le bug de l'update
+    }
 }

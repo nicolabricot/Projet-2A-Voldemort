@@ -15,10 +15,10 @@
         <h1>Index</h1>
 
         <ul>
-            <li><a href="individuals.jsp">Show Individuals</a></li>
-            <li><a href="characterclasses.jsp">Show Character Classes</a></li>
-            <li><a href="items.jsp">Show Items</a></li>
-            <li><a href="initbdd.jsp">Init BDD</a></li>
+            <li><a href="fill.jsp">Fill database</a></li>
+            <li><a href="charactermodels.jsp">Show Character Models</a></li>
+            <li><a href="itemmodels.jsp">Show Item Models</a></li>
+            <li><a href="characters.jsp">Show Characters</a></li>
         </ul>
 
     </body>

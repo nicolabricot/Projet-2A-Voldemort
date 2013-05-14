@@ -13,9 +13,9 @@ import org.bson.types.ObjectId;
  *
  * @author bruno
  */
-public final class CharacterClass {
+public final class CharacterModel {
 
-    public static final String COLLECTION = "character_class";
+    public static final String COLLECTION = "character_model";
     
     private static final String ID = "_id";
     private static final String NAME = "name";
@@ -24,17 +24,13 @@ public final class CharacterClass {
     private ObjectId id;
     private String name, description;
     
-    public CharacterClass(ObjectId oid) {                
+    public CharacterModel(ObjectId oid) {                
         Ressources res = Ressources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid); 
         this.hydrate(ob);
     }
     
-    public CharacterClass(DBObject ob) {
-        this.hydrate((BasicDBObject) ob);
-    }
-    
-    public CharacterClass() {
+    public CharacterModel() {
     }
     
     private void hydrate(BasicDBObject ob) {
@@ -43,7 +39,7 @@ public final class CharacterClass {
         this.description = ob.getString(DESCRIPTION);
     }
     
-    public BasicDBObject toBasicDBObject() {
+    public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
         
         if (this.id != null) ob.append(ID, this.id);
@@ -54,7 +50,7 @@ public final class CharacterClass {
     }
 
     public void save() {
-        BasicDBObject ob = this.toBasicDBObject();
+        BasicDBObject ob = (BasicDBObject) this.toDBObject();
         Ressources.getInstance().getCollection(COLLECTION).insert(ob);
         this.id = ob.getObjectId(ID);
     }
