@@ -104,4 +104,74 @@ public final class Armor {
 
         return previous;
     }
+
+    /**
+     * Obtient le total d'attaque des différents éléments d'armure
+     * @return 
+     * Le total d'attaque des différents élements d'armure
+     */
+    public int getAttack() {
+        int attack = 0;
+        Iterator<Item> it = this.armor.values().iterator();
+        while (it.hasNext()) {
+            attack += it.next().getAttack();
+        }
+        return attack;
+    }
+
+    /**
+     * Obtient le total de défense des différents éléments d'armure
+     * @return 
+     * Le total de défense des différents éléments d'armure
+     */
+    public int getDefense() {
+        int defense = 0;
+        Iterator<Item> it = this.armor.values().iterator();
+        while (it.hasNext()) {
+            defense += it.next().getDefense();
+        }
+        return defense;
+    }
+
+    /**
+     * Obtient le total d'initiative des différents éléments d'armure
+     * @return 
+     * Le total d'initiative des différents éléments d'armure
+     */
+    public int getInitiative() {
+        int initiative = 0;
+        Iterator<Item> it = this.armor.values().iterator();
+        while (it.hasNext()) {
+            initiative += it.next().getInitiative();
+        }
+        return initiative;
+    }
+
+    /**
+     * Obtient le total de chance des différents éléments d'armure
+     * @return 
+     * Le total de chance des différents éléments d'armure
+     */
+    public int getLuck() {
+        int luck = 0;
+        Iterator<Item> it = this.armor.values().iterator();
+        while (it.hasNext()) {
+            luck += it.next().getLuck();
+        }
+        return luck;
+    }
+
+    /**
+     * Obtient le total de robustesse des différents éléments d'armure
+     * @return 
+     * Le total de robustesse des différents éléments d'armure
+     */
+    public int getRobustness() {
+        int robustness = 0;
+        Iterator<Item> it = this.armor.values().iterator();
+        while (it.hasNext()) {
+            robustness += it.next().getRobustness();
+        }
+        return robustness;
+    }
 }

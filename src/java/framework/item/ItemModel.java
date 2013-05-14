@@ -6,6 +6,7 @@ package framework.item;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import framework.Properties;
 import framework.ressource.Ressources;
 import org.bson.types.ObjectId;
 
@@ -13,53 +14,56 @@ import org.bson.types.ObjectId;
  *
  * @author bruno
  */
-public final class ItemModel {  
-        
+public final class ItemModel {
+
     public static final String COLLECTION = "item_model";
-    
     private static final String ID = "_id";
     private static final String TYPE = "type";
-    
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
-    
     private ObjectId id;
     private String name, description;
     private ItemType type;
-    
+    private Properties properties;
+
     public ItemModel(ObjectId oid) {
         Ressources res = Ressources.getInstance();
-        BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid); 
+        BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
         this.hydrate(ob);
     }
-    
+
     public ItemModel() {
+        this.properties = new Properties();
     }
-    
+
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
-        this.type = ItemType.fromString(ob.getString(TYPE));        
+        this.type = ItemType.fromString(ob.getString(TYPE));
         this.name = ob.getString(NAME);
         this.description = ob.getString(DESCRIPTION);
+        this.properties = new Properties((DBObject) ob.get(Properties.PROPERTIES));
     }
-    
+
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
-        
-        if (this.id != null) ob.append(ID, id);
+
+        if (this.id != null) {
+            ob.append(ID, id);
+        }
         ob.append(TYPE, type.toString());
         ob.append(NAME, name);
         ob.append(DESCRIPTION, description);
-        
+        ob.append(Properties.PROPERTIES, this.properties.toDBObject());
+
         return ob;
     }
-    
+
     public void save() {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
         Ressources.getInstance().getCollection(COLLECTION).insert(ob);
         this.id = ob.getObjectId(ID);
     }
-    
+
     public ObjectId getId() {
         return id;
     }
@@ -91,5 +95,20 @@ public final class ItemModel {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
+
+    /**
+     * Cette méthode ne doit pas être appelée directement pour le calcul des
+     * combats Les propriétées doivent être obtenues par les méthodes get de la
+     * classe <i>Item</i>
+     *
+     * @return
+     * @see Item
+     */
+    public Properties getProperties() {
+        return this.properties;
+    }
 }

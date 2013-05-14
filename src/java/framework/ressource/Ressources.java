@@ -6,6 +6,7 @@ package framework.ressource;
 
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
+import framework.Properties;
 import framework.character.CharacterModel;
 import framework.character.Character;
 import framework.item.Item;
@@ -77,18 +78,25 @@ public final class Ressources {
         ItemModel img = new ItemModel();
         img.setType(ItemType.GAUNTLET);
         img.setName("Gant de base");
+        img.getProperties().setDefense(2);
+        img.getProperties().setInitiative(1);
+        img.getProperties().setRobustness(1);
         img.setDescription("Gant parfait pour un noob.");
         img.save();
 
         ItemModel imc = new ItemModel();
         imc.setType(ItemType.CUIRASS);
         imc.setName("Cuirass de m***e");
-        imc.setDescription("Cette cuirasse n'a aucun effet possitif.");
+        imc.getProperties().setInitiative(-5);
+        imc.getProperties().setLuck(-10);
+        imc.setDescription("Cette cuirasse n'a aucun effet possitif. Mieux vaut ne pas s'en équiper.");
         imc.save();
 
         ItemModel ima = new ItemModel();
         ima.setType(ItemType.ARM);
         ima.setName("Epée rouillée");
+        ima.getProperties().setAttack(10);
+        ima.getProperties().setInitiative(3);
         ima.setDescription("D'aventages de risque de choper le tetanos que de tuer un adversaire en la manipulant.");
         ima.save();
 
@@ -100,6 +108,7 @@ public final class Ressources {
 
         ItemModel imr = new ItemModel();
         imr.setType(ItemType.RING);
+        imr.getProperties().setRobustness(10);
         imr.setName("Anneau de pouvoir");
         imr.setDescription("Perdu par une étrange créature dans un marais, il est écrit dessus \"Un anneau pour les gouverner tous. Un anneau pour les trouver tous, Un anneau pour les amener tous et dans les ténèbres les lier.\"");
         imr.save();
@@ -116,6 +125,12 @@ public final class Ressources {
         
         Character cgu = new Character(cmc);
         cgu.setName("Gurdil");
+        Properties p = cgu.getProperties();
+        p.setAttack(10);
+        p.setDefense(15);
+        p.setInitiative(30);
+        p.setLuck(5);
+        p.setRobustness(2);
         cgu.getEquipment().setItem(new Item(imc));
         cgu.getEquipment().setItem(new Item(img));
         cgu.getEquipment().setItem(new Item(ima));

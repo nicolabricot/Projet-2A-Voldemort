@@ -25,9 +25,15 @@ public class ItemView {
         str.append("<ul>");
         str.append("<li>Model :</li>");
         str.append(new ItemModelView(this.model.getModel()));
+        str.append("<li>Properties : (peuvent être différentes du modèle à cause de l'usure et de la customization d'item)</li>");
+        str.append("<ul>");
+        str.append("<li>Attack : ").append(this.model.getAttack()).append("</li>");
+        str.append("<li>Defense : ").append(this.model.getDefense()).append("</li>");
+        str.append("<li>Initiative : ").append(this.model.getInitiative()).append("</li>");
+        str.append("<li>Luck : ").append(this.model.getLuck()).append("</li>");
+        str.append("<li>Robustness : ").append(this.model.getRobustness()).append("</li>");
+        str.append("</ul>");
         
-        str.append("<li>Properties: </li>");
-        str.append(new PropertiesView(this.model.getProperties()));
         str.append("</ul>");
   
         return str.toString();
