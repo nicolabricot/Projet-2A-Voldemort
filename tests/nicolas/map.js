@@ -89,8 +89,22 @@ window.onload = function() {
     return result;
   }
 
-  var map = {};
-  
+  var map = new Array();
+  $.ajax({
+    type: "GET",
+    url: "file:///Users/nicolas/Documents/Programmation/github/Projet-2A-Voldemort/tests/nicolas/france.json",
+    dataType: "json",
+    success: function(data){
+      console.log(data);
+      console.log('ok');
+    },
+    error: function(result, state, error) {
+      alert('Oups !');
+      console.log('result: '+result);
+      console.log('state: '+state);
+      console.log('error: '+error);
+    }
+  });
 
   // set hover behaviour
   var current = null;
