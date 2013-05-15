@@ -4,9 +4,10 @@
 # Java #
 *.class
 
-target/
+
 
 *.jar
 *.war
 *.ear
 
+/target/
