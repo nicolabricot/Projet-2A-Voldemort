@@ -2,10 +2,7 @@
     Document   : country
     Created on : 15 mai 2013, 16:26:14
     Author     : bruno
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!doctype html>
+--%><%@page contentType="text/html" pageEncoding="UTF-8"%><!doctype html>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -39,7 +36,7 @@
   </div>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-  <script src="./raphael.js" charset="utf-8"></script>
-  <script src="./map.js" charset="utf-8"></script>
+  <script src="res/raphael.js" charset="utf-8"></script>
+  <script src="res/map.js" charset="utf-8"></script>
 </body>
 </html>

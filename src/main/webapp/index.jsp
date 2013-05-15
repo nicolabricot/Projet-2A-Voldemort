@@ -20,6 +20,9 @@
             <li><a href="itemmodels.jsp">Show Item Models</a></li>
             <li><a href="characters.jsp">Show Characters</a></li>
         </ul>
+        <ul>
+            <li><a href="map.jsp">Map</a></li>
+        </ul>
 
     </body>
 </html>
