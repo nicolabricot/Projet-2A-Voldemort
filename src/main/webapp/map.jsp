@@ -25,18 +25,25 @@
     display: none;
     visibility: hidden;
   }
+  #map-info {
+      text-align: center;
+  }
 </style>
 </head>
 <body>
   <header>
     <h1>Projet Voldemort</h1>
   </header>
-
-  <div id="map" data-country="france">
+  
+  <div id="map-info">
+      <p></p>
   </div>
-
+  <div id="map" data-map-load="france">
+  </div>
+    
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-  <script src="res/raphael.js" charset="utf-8"></script>
-  <script src="res/map.js" charset="utf-8"></script>
+  <script src="js/raphael.js" charset="utf-8"></script>
+  <script src="js/map.js" charset="utf-8"></script>
+
 </body>
 </html>

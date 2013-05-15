@@ -124,12 +124,17 @@ public class ServiceMap {
     @Path("/states/{id}")
     public Response getStates(@PathParam("id") String id) throws UnknownHostException {
         StringBuilder sb = new StringBuilder();
-        sb.append("[{\"class\":\"dep08\", \"type\":\"done\"},\n");
-        sb.append("{\"class\":\"dep10\", \"type\":\"opened\", \"link\":\"my-url\", \"title\":\"Il y a des magasins d'usines par ici...\"},\n");
-        sb.append("{\"class\":\"dep51\", \"type\":\"opened\", \"link\":\"champagne-is-good\", \"title\":\"Want to drink a cup of Champagne? You really should chose this quest!\"},\n");
-        sb.append("{\"class\":\"dep52\", \"type\":\"done\"},\n");
-        sb.append("{\"class\":\"dep67\", \"type\":\"done\"},\n");
-        sb.append("{\"class\":\"dep68\", \"type\":\"opened\", \"link\":\"we-are-the-best\", \"title\":\"Quest in the best department after Champagne\"}]\n");
+        sb.append("{");
+        sb.append("\"dep08\": [{\"type\": \"done\"}],");
+        sb.append("\"dep10\": [{\"type\": \"opened\", \"link\": \"troyes.fr\", \"title\": \"Il y a des magasins d'usines par ici...\"}],");
+        sb.append("\"dep51\": [{\"type\": \"opened\", \"link\": \"reims.fr\", \"title\": \"Want to drink a glass of Champagne? You should really choose this quest!\"}],");
+        sb.append("\"dep54\": [{\"type\": \"done\"}],");
+        sb.append("\"dep57\": [{\"type\": \"done\"}],");
+        sb.append("\"dep88\": [{\"type\": \"done\"}],");
+        sb.append("\"dep67\": [{\"type\": \"opened\", \"link\": \"alsace.com\", \"title\": \"Welcome in Alsace\"}],");
+        sb.append("\"dep68\": [{\"type\": \"opened\", \"link\": \"ensisa.fr\", \"title\": \"Lieu de création du projet Voldemort\"}]");
+        sb.append("}");
+
         return Response.status(200).entity(sb.toString()).build();
     }
 }

@@ -1,5 +1,8 @@
 window.onload = function() {
   var paper = new Raphael(document.getElementById('map'), 520, 560);
+  
+  var map_info = "Survolez une zone pour avoir plus d’informations";
+  
   var colorStroke = {
     "default": "#888",
     "opened": "#888",
@@ -18,9 +21,9 @@ window.onload = function() {
   };
 
   // set color and text
-  function addAttr(name) {
+  function addAttr(data) {
     var result = {};
-    switch ($(name).data("map-type")) {
+    switch (data.type) {
       // opened
       case "opened":
         result = {
@@ -28,8 +31,9 @@ window.onload = function() {
           stroke: colorStroke["opened"],
           "stroke-width": 1,
           "stroke-linejoin": "round",
-          href: "/map/" + $(name).data("map-link"),
-          "title": $(name).data("map-title")
+          href: "/map/" + data.link,
+          "title": data.title,
+          cursor: "pointer"
         };
         break;
 
@@ -41,7 +45,7 @@ window.onload = function() {
           "stroke-width": 1,
           "stroke-linejoin": "round",
           "title": "You have already done this region",
-          cursor: "help"
+          cursor: "not-allowed"
         };
         break;
 
@@ -56,19 +60,21 @@ window.onload = function() {
           cursor: "not-allowed"
         };
     }
+    $("#map-info p").html(map_info);
     return result;
   }
 
   // set color on hover
-  function hoverAttr(name) {
+  function hoverAttr(data) {
     var result = {};
-    switch ($(name).data("map-type")) {
+    switch (data.type) {
       // opened
       case "opened":
         result = {
           fill: colorFillHover["opened"],
           stroke: colorStroke["hover"]
         };
+        $("#map-info p").html(data.title);
         break;
 
       // done
@@ -77,6 +83,7 @@ window.onload = function() {
           fill: colorFillHover["done"],
           stroke: colorStroke["hover"] 
         };
+        $("#map-info p").html("You have already done this region");
         break;
 
       // closed
@@ -85,18 +92,29 @@ window.onload = function() {
           fill: colorFillHover["default"],
           stroke: colorStroke["hover"] 
         };
+        $("#map-info p").html("This region is closed. Finish first opened quests");
     }
     return result;
   }
-
+  
+  var map_load = $("#map").data("map-load");
   var map = new Array();
   $.ajax({
     type: "GET",
-    url: "rest/map/france",
+    url: "rest/map/" + map_load,
     dataType: "json",
     success: function(data){
-      console.log(data);
-      console.log('ok');
+      $.map(data, function(value, key){
+          map[key] = paper.path(value)
+                          .attr(addAttr({"type": null}))
+                          .hover(function() {
+                            hoverAttr({"type": null});
+                          })
+                          .mouseout(function(){
+                            $("#map-info p").html(map_info);
+                          });
+      });
+      ajaxMapDone();
     },
     error: function(result, state, error) {
       alert('Oups !');
@@ -105,21 +123,39 @@ window.onload = function() {
       console.log('error: '+error);
     }
   });
-
-  // set hover behaviour
-  var current = null;
-  for (var state in map) {
-    map[state].attr(addAttr("."+state.toString()));
-    (function (st, state) {
-      st[0].onmouseover = function() {
-        st.animate(hoverAttr("."+state.toString()), 300);
-        paper.safari();
-      };
-      st[0].onmouseout = function() {
-        st.animate(addAttr("."+state.toString()), 300);
-        paper.safari();
-      };
-    })(map[state], state);
+ 
+  function ajaxMapDone() {
+    $.ajax({
+      type: "GET",
+      url: "rest/map/states/" + map_load,
+      dataType: "json",
+      success: function(data){
+         ajaxStatesDone(data);
+      },
+      error: function(result, state, error) {
+         alert('Oups !');
+         console.log('result: '+result);
+         console.log('state: '+state);
+         console.log('error: '+error);
+       }
+    });
+  }
+  
+  function ajaxStatesDone(data) {
+    $.map(data, function(value, key){
+        map[key.toString()].attr(addAttr(value[0]));
+        (function (st, v) {
+            st[0].onmouseover = function() {
+                st.animate(hoverAttr(v), 300);
+                paper.safari();
+            };
+            st[0].onmouseout = function() {
+                st.animate(addAttr(v), 300);
+                paper.safari();
+            };
+        })(map[key], value[0]);
+    });
+    $("#map-info p").html(map_info);
   }
 
 }
