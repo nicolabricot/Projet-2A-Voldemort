@@ -10,6 +10,8 @@ import fr.uha.projetvoldemort.Properties;
 import fr.uha.projetvoldemort.ressource.RessourceNotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import org.bson.types.ObjectId;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -30,7 +32,9 @@ public final class ItemModel {
     public ItemModel(ObjectId oid) {
         Ressources res = Ressources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
-        if (ob==null) throw new RessourceNotFoundException();
+        if (ob == null) {
+            throw new RessourceNotFoundException();
+        }
         this.hydrate(ob);
     }
 
@@ -46,6 +50,11 @@ public final class ItemModel {
         this.properties = new Properties((DBObject) ob.get(Properties.PROPERTIES));
     }
 
+    /**
+     * Obtient un objet Mongo déstiné à être enregistré dans la base de données.
+     *
+     * @return l'objet Mongo
+     */
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
 
@@ -57,6 +66,20 @@ public final class ItemModel {
         ob.append(DESCRIPTION, description);
         ob.append(Properties.PROPERTIES, this.properties.toDBObject());
 
+        return ob;
+    }
+
+    /**
+     * Obtient un objet JSON déstiné à être envoyé par le sevice web.
+     *
+     * @return l'objet JSON
+     */
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject ob = new JSONObject();
+        ob.put("item_model_id", this.id.toString());
+        ob.put(NAME, this.name);
+        ob.put(TYPE, this.type.toString());
+        ob.put(DESCRIPTION, this.description);
         return ob;
     }
 

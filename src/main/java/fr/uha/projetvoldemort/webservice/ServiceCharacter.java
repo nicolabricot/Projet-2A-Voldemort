@@ -20,6 +20,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  *
@@ -31,26 +33,27 @@ public class ServiceCharacter {
     
     @GET
     @Path("/all")
-    public Response getAll() throws UnknownHostException {
+    public Response getAll() throws UnknownHostException, JSONException {
         Ressources res = Ressources.getInstance();
         res.connect();
         DBCollection coll = res.getCollection(Character.COLLECTION);
         DBCursor cursor = coll.find();
-        BasicDBList l = new BasicDBList();
+        JSONArray a = new JSONArray();
         while (cursor.hasNext()) {
-            l.add(cursor.next());
+            ObjectId id = (ObjectId) cursor.next().get("_id");
+            a.put(new Character(id).toJSONObject());
         }
         res.close();
-        return Response.status(HttpStatus.OK).entity(l.toString()).build();
+        return Response.status(HttpStatus.OK).entity(a.toString()).build();
     }
     
     @GET
     @Path("/{id}")
-    public Response get(@PathParam("id") String id) throws UnknownHostException {
+    public Response get(@PathParam("id") String id) throws UnknownHostException, JSONException {
        try {
             Ressources.getInstance().connect();
             Character c = new Character(new ObjectId(id));
-            return Response.status(HttpStatus.OK).entity(c.toDBObject().toString()).build();
+            return Response.status(HttpStatus.OK).entity(c.toJSONObject().toString()).build();
         }
         catch (RessourceNotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
@@ -61,11 +64,11 @@ public class ServiceCharacter {
     
     @GET
     @Path("/{id}/equipment")
-    public Response getEquipment(@PathParam("id") String id) throws UnknownHostException {
+    public Response getEquipment(@PathParam("id") String id) throws UnknownHostException, JSONException {
         try {
             Ressources.getInstance().connect();
             Equipment e = new Character(new ObjectId(id)).getEquipment();
-            return Response.status(HttpStatus.OK).entity(e.toDBObject().toString()).build();
+            return Response.status(HttpStatus.OK).entity(e.toJSONObject().toString()).build();
         }
         catch (RessourceNotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
@@ -76,11 +79,11 @@ public class ServiceCharacter {
     
     @GET
     @Path("/{id}/inventory")
-    public Response getInventory(@PathParam("id") String id) throws UnknownHostException {
+    public Response getInventory(@PathParam("id") String id) throws UnknownHostException, JSONException {
         try {
             Ressources.getInstance().connect();
             Inventory i = new Character(new ObjectId(id)).getInventory();
-            return Response.status(HttpStatus.OK).entity(i.toDBObject().toString()).build();
+            return Response.status(HttpStatus.OK).entity(i.toJSONArray().toString()).build();
         }
         catch (RessourceNotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();

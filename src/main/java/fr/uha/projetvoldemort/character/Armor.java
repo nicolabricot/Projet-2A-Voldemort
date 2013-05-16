@@ -12,6 +12,8 @@ import fr.uha.projetvoldemort.item.UnexpectedItemException;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -31,9 +33,6 @@ public final class Armor {
         this.armor = new EnumMap<ItemType, Item>(ItemType.class);
     }
 
-    /**
-     * Construit l'objet à partir d'un objet JSON
-     */
     private void hydrate(BasicDBObject ob) {
         Iterator<Entry<String, Object>> it = ob.entrySet().iterator();
         while (it.hasNext()) {
@@ -43,9 +42,9 @@ public final class Armor {
     }
 
     /**
-     * Génère l'objet sous forme d'un objet JSON
+     * Obtient un objet Mongo déstiné à être enregistré dans la base de données.
      *
-     * @return Objet JSON
+     * @return l'objet Mongo
      */
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
@@ -55,6 +54,25 @@ public final class Armor {
             Entry<ItemType, Item> e = it.next();
             if (e.getValue() != null) {
                 ob.append(e.getKey().toString(), e.getValue().toDBObject());
+            }
+        }
+
+        return ob;
+    }
+
+    /**
+     * Obtient un objet JSON déstiné à être envoyé par le sevice web.
+     *
+     * @return l'objet JSON
+     */
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject ob = new JSONObject();
+
+        Iterator<Entry<ItemType, Item>> it = this.armor.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<ItemType, Item> e = it.next();
+            if (e.getValue() != null) {
+                ob.put(e.getKey().toString(), e.getValue().toJSONObject());
             }
         }
 
@@ -107,8 +125,8 @@ public final class Armor {
 
     /**
      * Obtient le total d'attaque des différents éléments d'armure
-     * @return 
-     * Le total d'attaque des différents élements d'armure
+     *
+     * @return Le total d'attaque des différents élements d'armure
      */
     public int getAttack() {
         int attack = 0;
@@ -121,8 +139,8 @@ public final class Armor {
 
     /**
      * Obtient le total de défense des différents éléments d'armure
-     * @return 
-     * Le total de défense des différents éléments d'armure
+     *
+     * @return Le total de défense des différents éléments d'armure
      */
     public int getDefense() {
         int defense = 0;
@@ -135,8 +153,8 @@ public final class Armor {
 
     /**
      * Obtient le total d'initiative des différents éléments d'armure
-     * @return 
-     * Le total d'initiative des différents éléments d'armure
+     *
+     * @return Le total d'initiative des différents éléments d'armure
      */
     public int getInitiative() {
         int initiative = 0;
@@ -149,8 +167,8 @@ public final class Armor {
 
     /**
      * Obtient le total de chance des différents éléments d'armure
-     * @return 
-     * Le total de chance des différents éléments d'armure
+     *
+     * @return Le total de chance des différents éléments d'armure
      */
     public int getLuck() {
         int luck = 0;
@@ -163,8 +181,8 @@ public final class Armor {
 
     /**
      * Obtient le total de robustesse des différents éléments d'armure
-     * @return 
-     * Le total de robustesse des différents éléments d'armure
+     *
+     * @return Le total de robustesse des différents éléments d'armure
      */
     public int getRobustness() {
         int robustness = 0;

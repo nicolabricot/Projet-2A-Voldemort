@@ -9,6 +9,8 @@ import com.mongodb.DBObject;
 import fr.uha.projetvoldemort.ressource.RessourceNotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import org.bson.types.ObjectId;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -17,37 +19,57 @@ import org.bson.types.ObjectId;
 public final class CharacterModel {
 
     public static final String COLLECTION = "character_model";
-    
     private static final String ID = "_id";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
- 
     private ObjectId id;
     private String name, description;
-    
-    public CharacterModel(ObjectId oid) {                
+
+    public CharacterModel(ObjectId oid) {
         Ressources res = Ressources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
-        if (ob==null) throw new RessourceNotFoundException();
+        if (ob == null) {
+            throw new RessourceNotFoundException();
+        }
         this.hydrate(ob);
     }
-    
+
     public CharacterModel() {
     }
-    
+
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
         this.name = ob.getString(NAME);
         this.description = ob.getString(DESCRIPTION);
     }
-    
+
+    /**
+     * Obtient un objet Mongo déstiné à être enregistré dans la base de données.
+     *
+     * @return l'objet Mongo
+     */
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
-        
-        if (this.id != null) ob.append(ID, this.id);
+
+        if (this.id != null) {
+            ob.append(ID, this.id);
+        }
         ob.append(NAME, this.name);
         ob.append(DESCRIPTION, this.description);
-        
+
+        return ob;
+    }
+
+    /**
+     * Obtient un objet JSON déstiné à être envoyé par le sevice web.
+     *
+     * @return l'objet JSON
+     */
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject ob = new JSONObject();
+        ob.put("class_id", this.id.toString());
+        ob.put("class", this.name);
+        ob.put(DESCRIPTION, this.description);
         return ob;
     }
 
@@ -56,7 +78,7 @@ public final class CharacterModel {
         Ressources.getInstance().getCollection(COLLECTION).insert(ob);
         this.id = ob.getObjectId(ID);
     }
-    
+
     public ObjectId getId() {
         return id;
     }

@@ -2,36 +2,35 @@ package fr.uha.projetvoldemort;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author bruno
  */
 public final class Properties {
-    
+
     public static final String PROPERTIES = "properties";
-    
-    private static final String LIFE = "life";
-    private static final String ATTACK = "attack";
-    private static final String DEFENSE = "defense";
-    private static final String INITIATIVE = "initiative";
-    private static final String LUCK = "luck";
-    private static final String ROBUSTNESS = "robustness";
-    
+    public static final String LIFE = "life";
+    public static final String ATTACK = "attack";
+    public static final String DEFENSE = "defense";
+    public static final String INITIATIVE = "initiative";
+    public static final String LUCK = "luck";
+    public static final String ROBUSTNESS = "robustness";
     private int life, attack, defense, initiative, luck, robustness;
-    
+
     public Properties(DBObject ob) {
         this.hydrate((BasicDBObject) ob);
     }
-    
-    public Properties() {  
+
+    public Properties() {
     }
-    
+
     private void hydrate(BasicDBObject ob) {
         this.life = ob.getInt(LIFE);
         this.attack = ob.getInt(ATTACK);
@@ -40,7 +39,12 @@ public final class Properties {
         this.luck = ob.getInt(LUCK);
         this.robustness = ob.getInt(ROBUSTNESS);
     }
-    
+
+    /**
+     * Obtient un objet Mongo déstiné à être enregistré dans la base de données.
+     *
+     * @return l'objet Mongo
+     */
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
         ob.append(LIFE, this.life);
@@ -49,6 +53,22 @@ public final class Properties {
         ob.append(INITIATIVE, this.initiative);
         ob.append(LUCK, this.luck);
         ob.append(ROBUSTNESS, this.robustness);
+        return ob;
+    }
+
+    /**
+     * Obtient un objet JSON déstiné à être envoyé par le sevice web.
+     *
+     * @return l'objet JSON
+     */
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject ob = new JSONObject();
+        ob.put(LIFE, this.life);
+        ob.put(ATTACK, this.attack);
+        ob.put(DEFENSE, this.defense);
+        ob.put(INITIATIVE, this.initiative);
+        ob.put(LUCK, this.luck);
+        ob.put(ROBUSTNESS, this.robustness);
         return ob;
     }
 
@@ -91,7 +111,7 @@ public final class Properties {
     public void setRobustness(int robustness) {
         this.robustness = robustness;
     }
-    
+
     public int getAttack() {
         return attack;
     }
@@ -99,5 +119,4 @@ public final class Properties {
     public void setAttack(int attack) {
         this.attack = attack;
     }
-
 }

@@ -10,6 +10,8 @@ import fr.uha.projetvoldemort.Properties;
 import fr.uha.projetvoldemort.ressource.RessourceNotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import org.bson.types.ObjectId;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -31,7 +33,9 @@ public final class Character {
     public Character(ObjectId oid) {
         Ressources res = Ressources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
-        if (ob==null) throw new RessourceNotFoundException();
+        if (ob == null) {
+            throw new RessourceNotFoundException();
+        }
         this.hydrate(ob);
     }
 
@@ -52,6 +56,11 @@ public final class Character {
         this.inventory = new Inventory((DBObject) ob.get(Inventory.INVENTORY));
     }
 
+    /**
+     * Obtient un objet Mongo déstiné à être enregistré dans la base de données.
+     *
+     * @return l'objet Mongo
+     */
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
 
@@ -64,6 +73,26 @@ public final class Character {
         ob.append(Equipment.EQUIPMENT, this.equipment.toDBObject());
         ob.append(Inventory.INVENTORY, this.inventory.toDBObject());
 
+        return ob;
+    }
+
+    /**
+     * Obtient un objet JSON déstiné à être envoyé par le sevice web.
+     *
+     * @return l'objet JSON
+     */
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject ob = this.model.toJSONObject();
+        ob.put("character_id", this.id.toString());
+        ob.put(NAME, this.name);
+        ob.put(Properties.ATTACK, this.getAttack());
+        ob.put(Properties.DEFENSE, this.getDefense());
+        ob.put(Properties.INITIATIVE, this.getInitiative());
+        ob.put(Properties.LIFE, this.getLife());
+        ob.put(Properties.LUCK, this.getLuck());
+        ob.put(Properties.ROBUSTNESS, this.getRobustness());
+        ob.put(Equipment.EQUIPMENT, this.equipment.toJSONObject());
+        ob.put(Inventory.INVENTORY, this.inventory.toJSONArray());
         return ob;
     }
 
@@ -102,7 +131,7 @@ public final class Character {
     public void setId(ObjectId id) {
         this.id = id;
     }
-
+    
     public String getName() {
         return name;
     }
@@ -118,19 +147,23 @@ public final class Character {
     public Equipment getEquipment() {
         return this.equipment;
     }
-    
+
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
-    
+
     public Inventory getInventory() {
         return this.inventory;
     }
 
+    public int getLife() {
+        return this.properties.getLife();
+    }
+    
     /**
      * Obtient le total d'attaque.
-     * @return 
-     * Le total d'attaque.
+     *
+     * @return Le total d'attaque.
      */
     public int getAttack() {
         int attack = 0;
@@ -141,8 +174,8 @@ public final class Character {
 
     /**
      * Obtient le total de défense.
-     * @return
-     * Le total de défense.
+     *
+     * @return Le total de défense.
      */
     public int getDefense() {
         int defense = 0;
@@ -153,8 +186,8 @@ public final class Character {
 
     /**
      * Obtient le total d'initiative.
-     * @return
-     * Le total d'initiative.
+     *
+     * @return Le total d'initiative.
      */
     public int getInitiative() {
         int initiative = 0;
@@ -165,8 +198,8 @@ public final class Character {
 
     /**
      * Obtient le total de chance.
-     * @return 
-     * Le total de chance.
+     *
+     * @return Le total de chance.
      */
     public int getLuck() {
         int luck = 0;
@@ -177,8 +210,8 @@ public final class Character {
 
     /**
      * Obtient le total de robustesse.
-     * @return
-     * Le total de robustesse.
+     *
+     * @return Le total de robustesse.
      */
     public int getRobustness() {
         int robustness = 0;

@@ -37,6 +37,5 @@
             <li>Get character model by id : /rest/charactermodel/{id}</li>
             <li>Get a map by id : /rest/map/{id}</li>
         </ul>
-        <p>Rq: Pour l'instant c'est seulement du brut de database</p>
     </body>
 </html>

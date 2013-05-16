@@ -6,6 +6,9 @@ package fr.uha.projetvoldemort.item;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import fr.uha.projetvoldemort.Properties;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -30,11 +33,31 @@ public final class Item {
         this.model = new ItemModel(ob.getObjectId(MODEL_ID));
     }
 
+    /**
+     * Obtient un objet Mongo déstiné à être enregistré dans la base de données.
+     *
+     * @return l'objet Mongo
+     */
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
 
         ob.append(MODEL_ID, this.model.getId());
 
+        return ob;
+    }
+
+    /**
+     * Obtient un objet JSON déstiné à être envoyé par le sevice web.
+     *
+     * @return l'objet JSON
+     */
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject ob = this.model.toJSONObject();
+        ob.put(Properties.ATTACK, this.getAttack());
+        ob.put(Properties.DEFENSE, this.getDefense());
+        ob.put(Properties.INITIATIVE, this.getInitiative());
+        ob.put(Properties.LUCK, this.getLuck());
+        ob.put(Properties.ROBUSTNESS, this.getRobustness());
         return ob;
     }
 
