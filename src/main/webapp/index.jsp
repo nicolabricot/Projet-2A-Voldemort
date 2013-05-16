@@ -13,16 +13,30 @@
     </head>
     <body>
         <h1>Index</h1>
-
-        <ul>
-            <li><a href="fill.jsp">Fill database</a></li>
-            <li><a href="charactermodels.jsp">Show Character Models</a></li>
-            <li><a href="itemmodels.jsp">Show Item Models</a></li>
-            <li><a href="characters.jsp">Show Characters</a></li>
-        </ul>
+        <h2>Pages web</h2>
         <ul>
             <li><a href="map.jsp">Map</a></li>
         </ul>
-
+        <h2>Service web</h2>
+        <ul>
+            <li><a href="rest/ressources/fill">Fill database</a></li>
+            <li><a href="rest/itemmodel/all">Get all item models</a></li>
+            <li><a href="rest/charactermodel/all">Get all character models</a></li>
+            <li><a href="rest/character/all">Get all characters</a></li>
+        </ul>
+        <p>Exemple d'utilisation du web service :</p>
+        <ul>
+            <li>Get all characters : /rest/character/all</li>
+            <li>Get character by id : /rest/character/{id}</li>
+            <li>Get his inventory : /rest/character/{id}/inventory</li>
+            <li>Get his equipment : /rest/character/{id}/equipment</li>
+            <li>Get his stats : /rest/character/{id}/stats</li>
+            <li>Get all item models : /rest/itemmodel/all</li>
+            <li>Get item by id : /rest/itemmodel/{id}</li>
+            <li>Get all character models : /rest/charactermodel/all</li>
+            <li>Get character model by id : /rest/charactermodel/{id}</li>
+            <li>Get a map by id : /rest/map/{id}</li>
+        </ul>
+        <p>Rq: Pour l'instant c'est seulement du brut de database</p>
     </body>
 </html>

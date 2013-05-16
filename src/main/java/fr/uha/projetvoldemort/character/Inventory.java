@@ -17,7 +17,7 @@ import java.util.Iterator;
  */
 public final class Inventory {
     
-    public static final String INVENTORY = "invotory";
+    public static final String INVENTORY = "inventory";
     
     private ArrayList<Item> items;
 
