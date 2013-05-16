@@ -6,6 +6,7 @@ package fr.uha.projetvoldemort.character;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import fr.uha.projetvoldemort.ressource.RessourceNotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import org.bson.types.ObjectId;
 
@@ -26,7 +27,8 @@ public final class CharacterModel {
     
     public CharacterModel(ObjectId oid) {                
         Ressources res = Ressources.getInstance();
-        BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid); 
+        BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
+        if (ob==null) throw new RessourceNotFoundException();
         this.hydrate(ob);
     }
     
