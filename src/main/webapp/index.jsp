@@ -2,10 +2,7 @@
     Document   : index
     Created on : 6 mai 2013, 20:24:40
     Author     : bruno
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+--%><%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -36,6 +33,7 @@
             <li>Get all character models : /rest/charactermodel/all</li>
             <li>Get character model by id : /rest/charactermodel/{id}</li>
             <li>Get a map by id : /rest/map/{id}</li>
+            <li>Get a state of a map by id : /rest/map/states/{id}</li>
         </ul>
     </body>
 </html>
