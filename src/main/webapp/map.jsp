@@ -11,32 +11,32 @@
     }  
 %><!doctype html>
 <html>
-<head>
-<meta charset="utf-8" />
-<title>Voldemort</title>
-<style type="text/css">
-  body {
-    width: 800px;
-    margin: auto;
-  }
-  header h1 {
-    text-align: center;
-  }
-  #map {
-    width: 520px;
-    height: 560px;
-    margin: auto;
-    border: 1px solid #aaa;
-  }
-  #map span {
-    display: none;
-    visibility: hidden;
-  }
-  #map-info {
-      text-align: center;
-  }
-</style>
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <title>Voldemort</title>
+        <style type="text/css">
+          body {
+            width: 800px;
+            margin: auto;
+          }
+          header h1 {
+            text-align: center;
+          }
+          #map {
+            width: 520px;
+            height: 560px;
+            margin: auto;
+            border: 1px solid #aaa;
+          }
+          #map span {
+            display: none;
+            visibility: hidden;
+          }
+          #map-info {
+              text-align: center;
+          }
+        </style>
+    </head>
 <body>
   <header>
     <h1>Projet Voldemort</h1>
