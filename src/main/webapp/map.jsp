@@ -37,20 +37,16 @@
           }
         </style>
     </head>
-<body>
-  <header>
-    <h1>Projet Voldemort</h1>
-  </header>
-  
-  <div id="map-info">
-      <p></p>
-  </div>
-  <div id="map" data-map-load="<%= map %>">
-  </div>
-    
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-  <script src="js/raphael.js" charset="utf-8"></script>
-  <script src="js/map.js" charset="utf-8"></script>
+    <body>
+        <header>
+            <h1>Projet Voldemort</h1>
+        </header>
 
-</body>
+        <div id="map-info"><p></p></div>
+        <div id="map" data-map-load="<%= map %>"></div>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+        <script src="js/raphael.js" charset="utf-8"></script>
+        <script src="js/map.js" charset="utf-8"></script>
+    </body>
 </html>
