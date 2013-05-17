@@ -31,7 +31,7 @@ window.onload = function() {
           stroke: colorStroke["opened"],
           "stroke-width": 1,
           "stroke-linejoin": "round",
-          href: "/map/" + data.link,
+          href: "./map.jsp?map=" + data.link,
           "title": data.title,
           cursor: "pointer"
         };
@@ -117,7 +117,7 @@ window.onload = function() {
       ajaxMapDone();
     },
     error: function(result, state, error) {
-      alert('Oups !');
+      alert('Error! Unable to load the map.');
       console.log('result: '+result);
       console.log('state: '+state);
       console.log('error: '+error);

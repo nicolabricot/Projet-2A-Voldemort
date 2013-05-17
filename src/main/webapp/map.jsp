@@ -2,7 +2,14 @@
     Document   : country
     Created on : 15 mai 2013, 16:26:14
     Author     : bruno
---%><%@page contentType="text/html" pageEncoding="UTF-8"%><!doctype html>
+--%><%@
+    page contentType="text/html" pageEncoding="UTF-8"
+%><%
+    String map = "france";
+    if(request.getParameter("map") != null && ! request.getParameter("map").isEmpty()){
+        map = request.getParameter("map");
+    }  
+%><!doctype html>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -38,7 +45,7 @@
   <div id="map-info">
       <p></p>
   </div>
-  <div id="map" data-map-load="france">
+  <div id="map" data-map-load="<%= map %>">
   </div>
     
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
