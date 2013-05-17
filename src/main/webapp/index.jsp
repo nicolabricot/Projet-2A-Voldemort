@@ -13,6 +13,7 @@
         <h2>Pages web</h2>
         <ul>
             <li><a href="map.jsp">Map</a></li>
+            <li><a href="panoplie.jsp">Personnage</a></li>
         </ul>
         <h2>Service web</h2>
         <ul>
