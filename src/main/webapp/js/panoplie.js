@@ -1,9 +1,12 @@
-window.onload = function() {
+$(document).ready(function() {
     $("#tabs ul").tabify();
+    
+    $("li.reception a").click(function() {
+       return false; 
+    });
     
     $("#tabs ul li").draggable({
         axis: "x",
-        //containment: "body",
         revert: "invalid",
         stack: "#tabs",
         drag: function(event, ui) {
@@ -14,15 +17,18 @@ window.onload = function() {
         }
     });
     
-    $("#tabs ul").droppable({
+    $("li.reception").droppable({
         accept: "#tabs ul li",
         activeClass: "receptione",
         hoverClass: "accept",
         drop: function(event, ui) {
-            //alert("droped");
-            console.log(ui);
-            console.log(event);
+            var tab = ui.helper.children().attr("href").replace("-tab", "");
+            console.log(tab);
+            var current = $(this).children().attr("href").replace("tab", "column");
+            console.log(current);
+            $(current).append($(tab));
+            $(this).before(ui.helper.css("left", 0));
         }              
     });
     
-};
+});

@@ -1,4 +1,4 @@
-window.onload = function() {
+$(document).ready(function() {
     var paper = new Raphael(document.getElementById('map'), 520, 560);
 
     var colorStroke = {
@@ -158,4 +158,4 @@ window.onload = function() {
         $("#map-info p").html(map_info);
     }
 
-};
+});
