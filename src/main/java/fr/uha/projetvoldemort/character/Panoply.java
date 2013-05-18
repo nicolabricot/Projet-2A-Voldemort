@@ -9,6 +9,9 @@ import com.mongodb.DBObject;
 import fr.uha.projetvoldemort.item.Item;
 import fr.uha.projetvoldemort.item.ItemType;
 import fr.uha.projetvoldemort.item.UnexpectedItemException;
+import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.ressource.Ressources;
+import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,39 +19,52 @@ import org.json.JSONObject;
  *
  * @author bruno
  */
-public final class Equipment {
+public final class Panoply {
 
-    public static final String EQUIPMENT = "equipment";
+    public static final String COLLECTION = "panoply";
+    
+    private static final String ID = "_id";
     private static final String ARM = "arm";
+    
+    private ObjectId id;
     private Armor armor;
     private Item arm;
+    private Inventory inventory;
 
-    protected Equipment(DBObject ob) {
-        hydrate((BasicDBObject) ob);
+    protected Panoply(Inventory inventory, ObjectId oid) {
+        this.inventory = inventory;
+        Ressources res = Ressources.getInstance();
+        BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
+        if (ob == null) {
+            throw new NotFoundException();
+        }
+        this.hydrate(ob);
     }
 
-    protected Equipment() {
-        this.armor = new Armor();
+    protected Panoply(Inventory inventory) {
+        this.inventory = inventory;
+        this.armor = new Armor(this.inventory);
     }
 
     private void hydrate(BasicDBObject ob) {
-        this.armor = new Armor((BasicDBObject) ob.get(Armor.ARMOR));
+        this.id = ob.getObjectId(ID);
+        this.armor = new Armor(this.inventory, (BasicDBObject) ob.get(Armor.ARMOR));
         if (ob.containsField(ARM)) {
-            this.arm = new Item((DBObject) ob.get(ARM));
+            this.arm = this.inventory.getItem((ObjectId) ob.get(ARM));
         }
     }
 
     /**
      * Obtient un objet Mongo déstiné à être enregistré dans la base de données.
      *
-     * @return l'objet Mongo
+     * @return l'objet Mongo.
      */
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
 
         ob.append(Armor.ARMOR, this.armor.toDBObject());
         if (this.arm != null) {
-            ob.append(ARM, this.arm.toDBObject());
+            ob.append(ARM, this.arm.getId());
         }
 
         return ob;
@@ -57,7 +73,7 @@ public final class Equipment {
     /**
      * Obtient un objet JSON déstiné à être envoyé par le sevice web.
      *
-     * @return l'objet JSON
+     * @return l'objet JSON.
      */
     public JSONObject toJSONObject() throws JSONException {
         JSONObject ob = new JSONObject();
@@ -69,6 +85,17 @@ public final class Equipment {
 
         return ob;
     }
+    
+    protected void save() {
+        BasicDBObject ob = (BasicDBObject) this.toDBObject();
+        Ressources.getInstance().getCollection(COLLECTION).insert(ob);
+        this.id = ob.getObjectId(ID);
+        System.out.println("Panoply.save: " + ob);
+    }
+    
+    public ObjectId getId() {
+        return this.id;
+    }
 
     /**
      * S'équiper d'un item.
@@ -78,6 +105,10 @@ public final class Equipment {
      * @throws UnexpectedItemException Si l'item ne peut pas être équipé.
      */
     public Item setItem(Item item) throws UnexpectedItemException {
+         if (!this.inventory.contains(item)) {
+            throw new RuntimeException("Item doesn't belong to the character.");
+        }
+        
         Item previous = null;
 
         if (item.getModel().getType().isArmor()) {
@@ -125,15 +156,6 @@ public final class Equipment {
     }
 
     /**
-     * Définit l'armure.
-     *
-     * @param armor l'armure.
-     */
-    public void setArmor(Armor armor) {
-        this.armor = armor;
-    }
-
-    /**
      * Obtient l'arme
      *
      * @return l'arme.
@@ -150,6 +172,10 @@ public final class Equipment {
      * @throws UnexpectedItemException Si l'arme ne peut pas être équipée.
      */
     public Item setArm(Item arm) throws UnexpectedItemException {
+        if (!this.inventory.contains(arm)) {
+            throw new RuntimeException("Item doesn't belong to the character.");
+        }
+        
         Item previous = null;
 
         if (arm.getModel().getType().isArm()) {

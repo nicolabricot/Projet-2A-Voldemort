@@ -6,7 +6,7 @@ package fr.uha.projetvoldemort.map;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.ressource.RessourceNotFoundException;
+import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +33,7 @@ public class Map {
         Ressources res = Ressources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
         if (ob == null) {
-            throw new RessourceNotFoundException();
+            throw new NotFoundException();
         }
         this.hydrate(ob);
     }

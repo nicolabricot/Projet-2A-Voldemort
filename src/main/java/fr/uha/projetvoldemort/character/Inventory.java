@@ -6,9 +6,11 @@ package fr.uha.projetvoldemort.character;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
+import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.item.Item;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -19,35 +21,44 @@ import org.json.JSONException;
 public final class Inventory {
 
     public static final String INVENTORY = "inventory";
-    private ArrayList<Item> items;
+    public static final String ID = "_id";
+    
+    private HashMap<ObjectId, Item> items;
 
     Inventory(DBObject ob) {
-        this.items = new ArrayList<Item>();
+        this.items = new HashMap<ObjectId, Item>();
         this.hydrate((BasicDBList) ob);
     }
 
     Inventory() {
-        this.items = new ArrayList<Item>();
+        this.items = new HashMap<ObjectId, Item>();
     }
 
     public void hydrate(BasicDBList obl) {
         Iterator<Object> it = obl.iterator();
         while (it.hasNext()) {
-            this.items.add(new Item((DBObject) it.next()));
+            ObjectId id = (ObjectId) it.next();
+            this.items.put(id, new Item(id));
         }
+    }
+    
+    protected void save() {
+        Iterator<Item> it = this.items.values().iterator();
+        while (it.hasNext())
+            it.next().save();
     }
 
     /**
      * Obtient un objet Mongo déstiné à être enregistré dans la base de données.
      *
-     * @return l'objet Mongo
+     * @return l'objet Mongo.
      */
     public DBObject toDBObject() {
         BasicDBList obl = new BasicDBList();
 
-        Iterator<Item> it = this.items.iterator();
+        Iterator<Item> it = this.items.values().iterator();
         while (it.hasNext()) {
-            obl.add(it.next().toDBObject());
+            obl.add(it.next().getId());
         }
 
         return obl;
@@ -56,53 +67,34 @@ public final class Inventory {
     /**
      * Obtient un objet JSON déstiné à être envoyé par le sevice web.
      *
-     * @return l'objet JSON
+     * @return l'objet JSON.
      */
     public JSONArray toJSONArray() throws JSONException {
         JSONArray ob = new JSONArray();
 
-        Iterator<Item> it = this.items.iterator();
+        Iterator<Item> it = this.items.values().iterator();
         while (it.hasNext()) {
             ob.put(it.next().toJSONObject());
         }
 
         return ob;
     }
-
-    /**
-     * Obtient la liste des items qui composent l'inventaire.
-     *
-     * @return L'ArrayList des items.
-     */
-    public ArrayList<Item> getItems() {
-        return items;
+    
+    public Item getItem(ObjectId id) {
+        if (!this.items.containsKey(id)) throw new NotFoundException("Item not found in inventory.");
+        
+        return this.items.get(id);
     }
-
-    /**
-     * Definit la liste des items qui composent l'inventaire.
-     *
-     * @param items L'ArrayList des items.
-     */
-    public void setItems(ArrayList<Item> items) {
-        this.items = items;
-    }
-
-    /**
-     * Obtient un iterator sur la liste d'item.
-     *
-     * @return Iterator sur la liste d'item.
-     */
-    public Iterator<Item> iterator() {
-        return this.items.iterator();
-    }
-
+    
     /**
      * Ajoute un item à l'inventaire.
      *
      * @param item L'item à ajouter.
      */
     public void add(Item item) {
-        this.items.add(item);
+        if (item.getId() == null)
+            item.save();
+        this.items.put(item.getId(), item);
     }
 
     /**
@@ -111,6 +103,15 @@ public final class Inventory {
      * @param item L'item à retirer.
      */
     public void remove(Item item) {
-        this.items.remove(item);
+        if (!this.items.containsValue(item)) {
+            throw new RuntimeException("Item doesn't belong to the character.");
+        }
+        
+        // TODO, supprimer de la BDD
+        this.items.remove(item.getId());
+    }
+    
+    public boolean contains(Item item) {
+        return this.items.containsValue(item);
     }
 }

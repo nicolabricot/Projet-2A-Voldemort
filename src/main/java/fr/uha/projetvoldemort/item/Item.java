@@ -7,6 +7,9 @@ package fr.uha.projetvoldemort.item;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import fr.uha.projetvoldemort.Properties;
+import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.ressource.Ressources;
+import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,13 +19,22 @@ import org.json.JSONObject;
  */
 public final class Item {
 
+    public static final String COLLECTION = "item";
+    
+    private static final String ID = "_id";
     private static final String MODEL_ID = "model_id";
     private ItemModel model;
+    private ObjectId id;
     // TODO : usure
     // TODO : custimzation d'item
 
-    public Item(DBObject ob) {
-        this.hydrate((BasicDBObject) ob);
+    public Item(ObjectId id) {
+        Ressources res = Ressources.getInstance();
+        BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(id);
+        if (ob == null) {
+            throw new NotFoundException();
+        }
+        this.hydrate(ob);
     }
 
     public Item(ItemModel model) {
@@ -30,6 +42,7 @@ public final class Item {
     }
 
     private void hydrate(BasicDBObject ob) {
+        this.id = ob.getObjectId(ID);
         this.model = new ItemModel(ob.getObjectId(MODEL_ID));
     }
 
@@ -41,6 +54,7 @@ public final class Item {
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
 
+        if (this.id != null) ob.append(ID, this.id);
         ob.append(MODEL_ID, this.model.getId());
 
         return ob;
@@ -52,7 +66,9 @@ public final class Item {
      * @return l'objet JSON
      */
     public JSONObject toJSONObject() throws JSONException {
-        JSONObject ob = this.model.toJSONObject();
+        JSONObject ob = new JSONObject();
+        ob.put("model", this.model.toJSONObject());
+        ob.put("id", this.id.toString());
         ob.put(Properties.ATTACK, this.getAttack());
         ob.put(Properties.DEFENSE, this.getDefense());
         ob.put(Properties.INITIATIVE, this.getInitiative());
@@ -60,9 +76,16 @@ public final class Item {
         ob.put(Properties.ROBUSTNESS, this.getRobustness());
         return ob;
     }
-
-    public void setModel(ItemModel model) {
-        this.model = model;
+    
+    public void save() {
+        BasicDBObject ob = (BasicDBObject) this.toDBObject();
+        Ressources.getInstance().getCollection(COLLECTION).insert(ob);
+        this.id = ob.getObjectId(ID);
+        System.out.println("Item.save: " + ob);
+    }
+    
+    public ObjectId getId() {
+        return this.id;
     }
 
     public ItemModel getModel() {

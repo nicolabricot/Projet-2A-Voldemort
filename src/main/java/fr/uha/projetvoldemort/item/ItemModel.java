@@ -7,7 +7,7 @@ package fr.uha.projetvoldemort.item;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import fr.uha.projetvoldemort.Properties;
-import fr.uha.projetvoldemort.ressource.RessourceNotFoundException;
+import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import org.bson.types.ObjectId;
 import org.json.JSONException;
@@ -33,12 +33,13 @@ public final class ItemModel {
         Ressources res = Ressources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
         if (ob == null) {
-            throw new RessourceNotFoundException();
+            throw new NotFoundException();
         }
         this.hydrate(ob);
     }
 
-    public ItemModel() {
+    public ItemModel(ItemType type) {
+        this.type = type;
         this.properties = new Properties();
     }
 
@@ -76,7 +77,7 @@ public final class ItemModel {
      */
     public JSONObject toJSONObject() throws JSONException {
         JSONObject ob = new JSONObject();
-        ob.put("item_model_id", this.id.toString());
+        ob.put("id", this.id.toString());
         ob.put(NAME, this.name);
         ob.put(TYPE, this.type.toString());
         ob.put(DESCRIPTION, this.description);
@@ -87,22 +88,15 @@ public final class ItemModel {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
         Ressources.getInstance().getCollection(COLLECTION).insert(ob);
         this.id = ob.getObjectId(ID);
+        System.out.println("ItemModel.save: " + ob);
     }
 
     public ObjectId getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
     public ItemType getType() {
         return type;
-    }
-
-    public void setType(ItemType type) {
-        this.type = type;
     }
 
     public String getName() {

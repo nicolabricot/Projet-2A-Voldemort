@@ -6,7 +6,7 @@ package fr.uha.projetvoldemort.character;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.ressource.RessourceNotFoundException;
+import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import org.bson.types.ObjectId;
 import org.json.JSONException;
@@ -29,7 +29,7 @@ public final class CharacterModel {
         Ressources res = Ressources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
         if (ob == null) {
-            throw new RessourceNotFoundException();
+            throw new NotFoundException();
         }
         this.hydrate(ob);
     }
@@ -46,7 +46,7 @@ public final class CharacterModel {
     /**
      * Obtient un objet Mongo déstiné à être enregistré dans la base de données.
      *
-     * @return l'objet Mongo
+     * @return l'objet Mongo.
      */
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
@@ -63,12 +63,12 @@ public final class CharacterModel {
     /**
      * Obtient un objet JSON déstiné à être envoyé par le sevice web.
      *
-     * @return l'objet JSON
+     * @return l'objet JSON.
      */
     public JSONObject toJSONObject() throws JSONException {
         JSONObject ob = new JSONObject();
-        ob.put("class_id", this.id.toString());
-        ob.put("class", this.name);
+        ob.put("id", this.id.toString());
+        ob.put(NAME, this.name);
         ob.put(DESCRIPTION, this.description);
         return ob;
     }
@@ -77,16 +77,13 @@ public final class CharacterModel {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
         Ressources.getInstance().getCollection(COLLECTION).insert(ob);
         this.id = ob.getObjectId(ID);
+        System.out.println("CharacterModel.save: " + ob);
     }
 
     public ObjectId getId() {
         return id;
     }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
+    
     public String getName() {
         return name;
     }

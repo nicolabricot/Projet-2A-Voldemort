@@ -8,9 +8,9 @@ import com.mongodb.BasicDBList;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.character.Character;
-import fr.uha.projetvoldemort.character.Equipment;
+import fr.uha.projetvoldemort.character.Panoply;
 import fr.uha.projetvoldemort.character.Inventory;
-import fr.uha.projetvoldemort.ressource.RessourceNotFoundException;
+import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import java.net.UnknownHostException;
 import javax.ws.rs.GET;
@@ -34,6 +34,7 @@ public class ServiceCharacter {
     @GET
     @Path("/all")
     public Response getAll() throws UnknownHostException, JSONException {
+
         Ressources res = Ressources.getInstance();
         res.connect();
         DBCollection coll = res.getCollection(Character.COLLECTION);
@@ -45,6 +46,7 @@ public class ServiceCharacter {
         }
         res.close();
         return Response.status(HttpStatus.OK).entity(a.toString()).build();
+
     }
     
     @GET
@@ -55,7 +57,7 @@ public class ServiceCharacter {
             Character c = new Character(new ObjectId(id));
             return Response.status(HttpStatus.OK).entity(c.toJSONObject().toString()).build();
         }
-        catch (RessourceNotFoundException e) {
+        catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
             Ressources.getInstance().close();
@@ -65,16 +67,18 @@ public class ServiceCharacter {
     @GET
     @Path("/{id}/equipment")
     public Response getEquipment(@PathParam("id") String id) throws UnknownHostException, JSONException {
+        return Response.status(HttpStatus.NOT_IMPLEMENTED).build();
+        /*
         try {
             Ressources.getInstance().connect();
-            Equipment e = new Character(new ObjectId(id)).getEquipment();
+            Panoply e = new Character(new ObjectId(id)).getEquipment();
             return Response.status(HttpStatus.OK).entity(e.toJSONObject().toString()).build();
         }
         catch (RessourceNotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
             Ressources.getInstance().close();
-        }
+        }*/
     }
     
     @GET
@@ -85,7 +89,7 @@ public class ServiceCharacter {
             Inventory i = new Character(new ObjectId(id)).getInventory();
             return Response.status(HttpStatus.OK).entity(i.toJSONArray().toString()).build();
         }
-        catch (RessourceNotFoundException e) {
+        catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
             Ressources.getInstance().close();

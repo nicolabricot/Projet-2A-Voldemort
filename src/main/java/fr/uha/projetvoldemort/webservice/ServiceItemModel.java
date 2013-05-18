@@ -8,7 +8,7 @@ import com.mongodb.BasicDBList;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.item.ItemModel;
-import fr.uha.projetvoldemort.ressource.RessourceNotFoundException;
+import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import java.net.UnknownHostException;
 import javax.ws.rs.GET;
@@ -52,7 +52,7 @@ public class ServiceItemModel {
             Ressources.getInstance().connect();
             ItemModel im = new ItemModel(new ObjectId(id));
             return Response.status(HttpStatus.OK).entity(im.toJSONObject().toString()).build();
-        } catch (RessourceNotFoundException e) {
+        } catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
             Ressources.getInstance().close();
