@@ -4,11 +4,9 @@
  */
 package fr.uha.projetvoldemort.webservice;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.character.Character;
-import fr.uha.projetvoldemort.character.Panoply;
 import fr.uha.projetvoldemort.character.Inventory;
 import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
