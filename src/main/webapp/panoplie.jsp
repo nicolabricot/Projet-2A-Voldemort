@@ -17,7 +17,7 @@
             }
             #tabs li {
                 display: inline-block;
-                margin-bottom: -5px;
+                margin-bottom: -4px;
             }
             #tabs a {
                 float: left;

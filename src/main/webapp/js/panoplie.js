@@ -2,7 +2,7 @@ window.onload = function() {
     $("#tabs ul").tabify();
     
     $("#tabs ul li").draggable({
-        //axis: "x",
+        axis: "x",
         //containment: "body",
         revert: "invalid",
         stack: "#tabs",
@@ -19,10 +19,10 @@ window.onload = function() {
         activeClass: "receptione",
         hoverClass: "accept",
         drop: function(event, ui) {
-            alert("droped");
+            //alert("droped");
             console.log(ui);
+            console.log(event);
         }              
     });
-    
     
 };
