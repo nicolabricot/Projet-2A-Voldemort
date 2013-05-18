@@ -6,7 +6,7 @@ package fr.uha.projetvoldemort.item;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.Properties;
+import fr.uha.projetvoldemort.Attributes;
 import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import org.bson.types.ObjectId;
@@ -27,7 +27,7 @@ public final class ItemModel {
     private ObjectId id;
     private String name, description;
     private ItemType type;
-    private Properties properties;
+    private Attributes attributes;
 
     public ItemModel(ObjectId oid) {
         Ressources res = Ressources.getInstance();
@@ -40,7 +40,7 @@ public final class ItemModel {
 
     public ItemModel(ItemType type) {
         this.type = type;
-        this.properties = new Properties();
+        this.attributes = new Attributes();
     }
 
     private void hydrate(BasicDBObject ob) {
@@ -48,7 +48,7 @@ public final class ItemModel {
         this.type = ItemType.fromString(ob.getString(TYPE));
         this.name = ob.getString(NAME);
         this.description = ob.getString(DESCRIPTION);
-        this.properties = new Properties((DBObject) ob.get(Properties.PROPERTIES));
+        this.attributes = new Attributes((DBObject) ob.get(Attributes.ATTRIBUTES));
     }
 
     /**
@@ -65,7 +65,7 @@ public final class ItemModel {
         ob.append(TYPE, type.toString());
         ob.append(NAME, name);
         ob.append(DESCRIPTION, description);
-        ob.append(Properties.PROPERTIES, this.properties.toDBObject());
+        ob.append(Attributes.ATTRIBUTES, this.attributes.toDBObject());
 
         return ob;
     }
@@ -115,19 +115,19 @@ public final class ItemModel {
         this.description = description;
     }
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
     }
 
     /**
      * Cette méthode ne doit pas être appelée directement pour le calcul des
      * combats Les propriétées doivent être obtenues par les méthodes get de la
-     * classe <i>Item</i>
+     * classe <code>Item</code>
      *
      * @return
      * @see Item
      */
-    public Properties getProperties() {
-        return this.properties;
+    public Attributes getAttributes() {
+        return this.attributes;
     }
 }

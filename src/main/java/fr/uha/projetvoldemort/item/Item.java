@@ -6,7 +6,7 @@ package fr.uha.projetvoldemort.item;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.Properties;
+import fr.uha.projetvoldemort.Attributes;
 import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import org.bson.types.ObjectId;
@@ -20,13 +20,12 @@ import org.json.JSONObject;
 public final class Item {
 
     public static final String COLLECTION = "item";
-    
     private static final String ID = "_id";
     private static final String MODEL_ID = "model_id";
+    private static final String USAGE = "usage";
     private ItemModel model;
     private ObjectId id;
-    // TODO : usure
-    // TODO : custimzation d'item
+    private ItemUsage usage;
 
     public Item(ObjectId id) {
         Ressources res = Ressources.getInstance();
@@ -44,6 +43,9 @@ public final class Item {
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
         this.model = new ItemModel(ob.getObjectId(MODEL_ID));
+        if (ob.containsField(USAGE)) {
+            this.usage = ItemUsage.fromString(ob.getString(USAGE));
+        }
     }
 
     /**
@@ -54,8 +56,14 @@ public final class Item {
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
 
-        if (this.id != null) ob.append(ID, this.id);
+        if (this.id != null) {
+            ob.append(ID, this.id);
+        }
         ob.append(MODEL_ID, this.model.getId());
+
+        if (usage != null) {
+            ob.put(USAGE, this.usage.toString());
+        }
 
         return ob;
     }
@@ -69,23 +77,40 @@ public final class Item {
         JSONObject ob = new JSONObject();
         ob.put("model", this.model.toJSONObject());
         ob.put("id", this.id.toString());
-        ob.put(Properties.ATTACK, this.getAttack());
-        ob.put(Properties.DEFENSE, this.getDefense());
-        ob.put(Properties.INITIATIVE, this.getInitiative());
-        ob.put(Properties.LUCK, this.getLuck());
-        ob.put(Properties.ROBUSTNESS, this.getRobustness());
+        ob.put(Attributes.ATTACK, this.getAttack());
+        ob.put(Attributes.DEFENSE, this.getDefense());
+        ob.put(Attributes.INITIATIVE, this.getInitiative());
+        ob.put(Attributes.LUCK, this.getLuck());
+        ob.put(Attributes.STRENGTH, this.getStrength());
+        ob.put(Attributes.INTELLIGENCE, this.getIntelligence());
+        ob.put(Attributes.AGILITY, this.getAgility());
+        ob.put(Attributes.STEALTH, this.getStealth());
+        ob.put(Attributes.ABILITY, this.getAbility());
+
+        if (usage != null) {
+            ob.put(USAGE, this.usage.toString());
+        }
+
         return ob;
     }
-    
+
     public void save() {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
         Ressources.getInstance().getCollection(COLLECTION).insert(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("Item.save: " + ob);
     }
-    
+
     public ObjectId getId() {
         return this.id;
+    }
+
+    public void setUsage(ItemUsage usage) {
+        this.usage = usage;
+    }
+
+    public ItemUsage getUsage() {
+        return this.usage;
     }
 
     public ItemModel getModel() {
@@ -99,7 +124,7 @@ public final class Item {
      * @return Le total d'attaque
      */
     public int getAttack() {
-        return this.model.getProperties().getAttack();
+        return this.model.getAttributes().getAttack();
     }
 
     /**
@@ -109,7 +134,7 @@ public final class Item {
      * @return Le total de défense
      */
     public int getDefense() {
-        return this.model.getProperties().getDefense();
+        return this.model.getAttributes().getDefense();
     }
 
     /**
@@ -119,7 +144,7 @@ public final class Item {
      * @return Le total d'initiative
      */
     public int getInitiative() {
-        return this.model.getProperties().getInitiative();
+        return this.model.getAttributes().getInitiative();
     }
 
     /**
@@ -129,16 +154,26 @@ public final class Item {
      * @return Le total de chance
      */
     public int getLuck() {
-        return this.model.getProperties().getLuck();
+        return this.model.getAttributes().getLuck();
     }
 
-    /**
-     * Obtient le total de robustesse de l'item (en fonction de l'usure et des
-     * items pouvant ou non le constituer)
-     *
-     * @return Le total de robustesse
-     */
-    public int getRobustness() {
-        return this.model.getProperties().getRobustness();
+    public int getStrength() {
+        return this.model.getAttributes().getStrength();
+    }
+
+    public int getIntelligence() {
+        return this.model.getAttributes().getIntelligence();
+    }
+
+    public int getAbility() {
+        return this.model.getAttributes().getAbility();
+    }
+
+    public int getStealth() {
+        return this.model.getAttributes().getStealth();
+    }
+
+    public int getAgility() {
+        return this.model.getAttributes().getAgility();
     }
 }

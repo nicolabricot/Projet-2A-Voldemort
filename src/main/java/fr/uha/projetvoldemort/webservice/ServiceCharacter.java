@@ -9,8 +9,11 @@ import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.character.Character;
 import fr.uha.projetvoldemort.character.Inventory;
 import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.item.Item;
+import fr.uha.projetvoldemort.item.ItemUsage;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import java.net.UnknownHostException;
+import java.util.Iterator;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -41,6 +44,24 @@ public class ServiceCharacter {
         while (cursor.hasNext()) {
             ObjectId id = (ObjectId) cursor.next().get("_id");
             a.put(new Character(id).toJSONObject());
+        }
+        res.close();
+        return Response.status(HttpStatus.OK).entity(a.toString()).build();
+
+    }
+    
+    @GET
+    @Path("/ids")
+    public Response getIds() throws UnknownHostException, JSONException {
+
+        Ressources res = Ressources.getInstance();
+        res.connect();
+        DBCollection coll = res.getCollection(Character.COLLECTION);
+        DBCursor cursor = coll.find();
+        JSONArray a = new JSONArray();
+        while (cursor.hasNext()) {
+            ObjectId id = (ObjectId) cursor.next().get("_id");
+            a.put(id.toString());
         }
         res.close();
         return Response.status(HttpStatus.OK).entity(a.toString()).build();
@@ -86,6 +107,66 @@ public class ServiceCharacter {
             Ressources.getInstance().connect();
             Inventory i = new Character(new ObjectId(id)).getInventory();
             return Response.status(HttpStatus.OK).entity(i.toJSONArray().toString()).build();
+        }
+        catch (NotFoundException e) {
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } finally {
+            Ressources.getInstance().close();
+        }   
+    }
+    
+    @GET
+    @Path("/{id}/sustainables")
+    public Response getSustainables(@PathParam("id") String id) throws UnknownHostException, JSONException {
+        try {
+            Ressources.getInstance().connect();
+            JSONArray a = new JSONArray();
+            
+            Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemUsage.SUSTAINABLE).iterator();
+            while (it.hasNext())
+                a.put(it.next().toJSONObject());
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        }
+        catch (NotFoundException e) {
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } finally {
+            Ressources.getInstance().close();
+        }   
+    }
+    
+    @GET
+    @Path("/{id}/consumables")
+    public Response getConsumables(@PathParam("id") String id) throws UnknownHostException, JSONException {
+        try {
+            Ressources.getInstance().connect();
+            JSONArray a = new JSONArray();
+            
+            Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemUsage.CONSUMABLE).iterator();
+            while (it.hasNext())
+                a.put(it.next().toJSONObject());
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        }
+        catch (NotFoundException e) {
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } finally {
+            Ressources.getInstance().close();
+        }   
+    }
+    
+    @GET
+    @Path("/{id}/degradables")
+    public Response getDegradables(@PathParam("id") String id) throws UnknownHostException, JSONException {
+        try {
+            Ressources.getInstance().connect();
+            JSONArray a = new JSONArray();
+            
+            Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemUsage.DEGRADABLE).iterator();
+            while (it.hasNext())
+                a.put(it.next().toJSONObject());
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
         }
         catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();

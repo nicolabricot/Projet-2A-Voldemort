@@ -13,22 +13,26 @@ import org.json.JSONObject;
  *
  * @author bruno
  */
-public final class Properties {
+public final class Attributes {
 
-    public static final String PROPERTIES = "properties";
+    public static final String ATTRIBUTES = "attributes";
     public static final String LIFE = "life";
     public static final String ATTACK = "attack";
     public static final String DEFENSE = "defense";
     public static final String INITIATIVE = "initiative";
     public static final String LUCK = "luck";
-    public static final String ROBUSTNESS = "robustness";
-    private int life, attack, defense, initiative, luck, robustness;
+    public static final String STRENGTH = "strength";
+    public static final String INTELLIGENCE = "intelligence";
+    public static final String AGILITY = "agility";
+    public static final String STEALTH = "stealth";
+    public static final String ABILITY = "ability";
+    private int life, attack, defense, initiative, luck, strength, intelligence, agility, stealth, ability;
 
-    public Properties(DBObject ob) {
+    public Attributes(DBObject ob) {
         this.hydrate((BasicDBObject) ob);
     }
-
-    public Properties() {
+    
+    public Attributes() {
     }
 
     private void hydrate(BasicDBObject ob) {
@@ -37,7 +41,7 @@ public final class Properties {
         this.defense = ob.getInt(DEFENSE);
         this.initiative = ob.getInt(INITIATIVE);
         this.luck = ob.getInt(LUCK);
-        this.robustness = ob.getInt(ROBUSTNESS);
+        
     }
 
     /**
@@ -52,7 +56,11 @@ public final class Properties {
         ob.append(DEFENSE, this.defense);
         ob.append(INITIATIVE, this.initiative);
         ob.append(LUCK, this.luck);
-        ob.append(ROBUSTNESS, this.robustness);
+        ob.append(STRENGTH, this.strength);
+        ob.append(INTELLIGENCE, this.intelligence);
+        ob.append(AGILITY, this.agility);
+        ob.append(STEALTH, this.stealth);
+        ob.append(ABILITY, this.ability);
         return ob;
     }
 
@@ -68,7 +76,11 @@ public final class Properties {
         ob.put(DEFENSE, this.defense);
         ob.put(INITIATIVE, this.initiative);
         ob.put(LUCK, this.luck);
-        ob.put(ROBUSTNESS, this.robustness);
+        ob.put(STRENGTH, this.strength);
+        ob.put(INTELLIGENCE, this.intelligence);
+        ob.put(AGILITY, this.agility);
+        ob.put(STEALTH, this.stealth);
+        ob.put(ABILITY, this.ability);
         return ob;
     }
 
@@ -104,14 +116,6 @@ public final class Properties {
         this.luck = luck;
     }
 
-    public int getRobustness() {
-        return robustness;
-    }
-
-    public void setRobustness(int robustness) {
-        this.robustness = robustness;
-    }
-
     public int getAttack() {
         return attack;
     }
@@ -119,4 +123,45 @@ public final class Properties {
     public void setAttack(int attack) {
         this.attack = attack;
     }
+    
+        public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
+
+    public int getAgility() {
+        return agility;
+    }
+
+    public void setAgility(int agility) {
+        this.agility = agility;
+    }
+
+    public int getStealth() {
+        return stealth;
+    }
+
+    public void setStealth(int stealth) {
+        this.stealth = stealth;
+    }
+
+    public int getAbility() {
+        return ability;
+    }
+
+    public void setAbility(int ability) {
+        this.ability = ability;
+    }
+    
 }

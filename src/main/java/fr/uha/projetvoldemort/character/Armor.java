@@ -56,7 +56,7 @@ public final class Armor {
         Iterator<Entry<ItemType, Item>> it = this.armor.entrySet().iterator();
         while (it.hasNext()) {
             Entry<ItemType, Item> e = it.next();
-                ob.append(e.getKey().toString(), e.getValue().getId());
+            ob.append(e.getKey().toString(), e.getValue().getId());
         }
 
         return ob;
@@ -73,7 +73,7 @@ public final class Armor {
         Iterator<Entry<ItemType, Item>> it = this.armor.entrySet().iterator();
         while (it.hasNext()) {
             Entry<ItemType, Item> e = it.next();
-                ob.put(e.getKey().toString(), e.getValue().toJSONObject());
+            ob.put(e.getKey().toString(), e.getValue().toJSONObject());
         }
 
         return ob;
@@ -106,7 +106,7 @@ public final class Armor {
         if (!this.inventory.contains(item)) {
             throw new RuntimeException("Item doesn't belong to the character.");
         }
-        
+
         ItemType type = item.getModel().getType();
 
         Item previous = null;
@@ -132,12 +132,12 @@ public final class Armor {
      * @return Le total d'attaque des différents élements d'armure.
      */
     public int getAttack() {
-        int attack = 0;
+        int val = 0;
         Iterator<Item> it = this.armor.values().iterator();
         while (it.hasNext()) {
-            attack += it.next().getAttack();
+            val += it.next().getAttack();
         }
-        return attack;
+        return val;
     }
 
     /**
@@ -146,12 +146,12 @@ public final class Armor {
      * @return Le total de défense des différents éléments d'armure.
      */
     public int getDefense() {
-        int defense = 0;
+        int val = 0;
         Iterator<Item> it = this.armor.values().iterator();
         while (it.hasNext()) {
-            defense += it.next().getDefense();
+            val += it.next().getDefense();
         }
-        return defense;
+        return val;
     }
 
     /**
@@ -160,12 +160,12 @@ public final class Armor {
      * @return Le total d'initiative des différents éléments d'armure.
      */
     public int getInitiative() {
-        int initiative = 0;
+        int val = 0;
         Iterator<Item> it = this.armor.values().iterator();
         while (it.hasNext()) {
-            initiative += it.next().getInitiative();
+            val += it.next().getInitiative();
         }
-        return initiative;
+        return val;
     }
 
     /**
@@ -182,17 +182,48 @@ public final class Armor {
         return luck;
     }
 
-    /**
-     * Obtient le total de robustesse des différents éléments d'armure.
-     *
-     * @return Le total de robustesse des différents éléments d'armure.
-     */
-    public int getRobustness() {
-        int robustness = 0;
+    public int getStrength() {
+        int val = 0;
         Iterator<Item> it = this.armor.values().iterator();
         while (it.hasNext()) {
-            robustness += it.next().getRobustness();
+            val += it.next().getStrength();
         }
-        return robustness;
+        return val;
+    }
+
+    public int getIntelligence() {
+        int val = 0;
+        Iterator<Item> it = this.armor.values().iterator();
+        while (it.hasNext()) {
+            val += it.next().getIntelligence();
+        }
+        return val;
+    }
+
+    public int getAbility() {
+        int val = 0;
+        Iterator<Item> it = this.armor.values().iterator();
+        while (it.hasNext()) {
+            val += it.next().getAbility();
+        }
+        return val;
+    }
+
+    public int getStealth() {
+        int val = 0;
+        Iterator<Item> it = this.armor.values().iterator();
+        while (it.hasNext()) {
+            val += it.next().getAbility();
+        }
+        return val;
+    }
+
+    public int getAgility() {
+        int val = 0;
+        Iterator<Item> it = this.armor.values().iterator();
+        while (it.hasNext()) {
+            val += it.next().getAbility();
+        }
+        return val;
     }
 }

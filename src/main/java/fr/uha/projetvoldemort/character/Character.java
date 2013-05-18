@@ -7,7 +7,7 @@ package fr.uha.projetvoldemort.character;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.Properties;
+import fr.uha.projetvoldemort.Attributes;
 import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.ressource.Ressources;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public final class Character {
     private static final String ACTIVE_PANOPLY = "active_panoply";
     private ObjectId id;
     private CharacterModel model;
-    private Properties properties;
+    private Attributes attributes;
     private String name;
     private HashMap<ObjectId, Panoply> panoplies;
     private Panoply activePanoply;
@@ -49,7 +49,7 @@ public final class Character {
 
     public Character(CharacterModel model) {
         this.model = model;
-        this.properties = new Properties();
+        this.attributes = new Attributes();
         this.inventory = new Inventory();
         this.panoplies = new HashMap<ObjectId, Panoply>();
     }
@@ -58,7 +58,7 @@ public final class Character {
         this.id = ob.getObjectId(ID);
         this.model = new CharacterModel(ob.getObjectId(MODEL_ID));
         this.name = ob.getString(NAME);
-        this.properties = new Properties((DBObject) ob.get(Properties.PROPERTIES));
+        this.attributes = new Attributes((DBObject) ob.get(Attributes.ATTRIBUTES));
         this.inventory = new Inventory((DBObject) ob.get(Inventory.INVENTORY));
         BasicDBList list = (BasicDBList) ob.get(PANOPLIES);
         Iterator<Object> it = list.iterator();
@@ -89,7 +89,7 @@ public final class Character {
         
         ob.append(MODEL_ID, this.model.getId());
         ob.append(NAME, this.name);
-        ob.append(Properties.PROPERTIES, this.properties.toDBObject());
+        ob.append(Attributes.ATTRIBUTES, this.attributes.toDBObject());
         ob.append(Inventory.INVENTORY, this.inventory.toDBObject());
 
         BasicDBList list = new BasicDBList();
@@ -129,12 +129,16 @@ public final class Character {
         JSONObject ob = new JSONObject();
         ob.put("id", this.id.toString());
         ob.put(NAME, this.name);
-        ob.put(Properties.ATTACK, this.getAttack());
-        ob.put(Properties.DEFENSE, this.getDefense());
-        ob.put(Properties.INITIATIVE, this.getInitiative());
-        ob.put(Properties.LIFE, this.getLife());
-        ob.put(Properties.LUCK, this.getLuck());
-        ob.put(Properties.ROBUSTNESS, this.getRobustness());
+        ob.put(Attributes.ATTACK, this.getAttack());
+        ob.put(Attributes.DEFENSE, this.getDefense());
+        ob.put(Attributes.INITIATIVE, this.getInitiative());
+        ob.put(Attributes.LIFE, this.getLife());
+        ob.put(Attributes.LUCK, this.getLuck());
+        ob.put(Attributes.STRENGTH, this.getStrength());
+        ob.put(Attributes.INTELLIGENCE, this.getIntelligence());
+        ob.put(Attributes.AGILITY, this.getAgility());
+        ob.put(Attributes.STEALTH, this.getStealth());
+        ob.put(Attributes.ABILITY, this.getAbility());
         ob.put(Inventory.INVENTORY, this.inventory.toJSONArray());
         ob.put(ACTIVE_PANOPLY, this.activePanoply.toJSONObject());
         
@@ -169,8 +173,8 @@ public final class Character {
      *
      * @return
      */
-    public Properties getProperties() {
-        return this.properties;
+    public Attributes getAttributes() {
+        return this.attributes;
     }
 
     public CharacterModel getModel() {
@@ -194,7 +198,7 @@ public final class Character {
     }
 
     public int getLife() {
-        return this.properties.getLife();
+        return this.attributes.getLife();
     }
 
     /**
@@ -203,10 +207,10 @@ public final class Character {
      * @return Le total d'attaque.
      */
     public int getAttack() {
-        int attack = 0;
-        attack += this.properties.getAttack();
-        attack += this.activePanoply.getAttack();
-        return attack;
+        int val = 0;
+        val += this.attributes.getAttack();
+        val += this.activePanoply.getAttack();
+        return val;
     }
 
     /**
@@ -215,10 +219,10 @@ public final class Character {
      * @return Le total de défense.
      */
     public int getDefense() {
-        int defense = 0;
-        defense += this.properties.getDefense();
-        defense += this.activePanoply.getDefense();
-        return defense;
+        int val = 0;
+        val += this.attributes.getDefense();
+        val += this.activePanoply.getDefense();
+        return val;
     }
 
     /**
@@ -227,10 +231,10 @@ public final class Character {
      * @return Le total d'initiative.
      */
     public int getInitiative() {
-        int initiative = 0;
-        initiative += this.properties.getInitiative();
-        initiative += this.activePanoply.getInitiative();
-        return initiative;
+        int val = 0;
+        val += this.attributes.getInitiative();
+        val += this.activePanoply.getInitiative();
+        return val;
     }
 
     /**
@@ -239,21 +243,44 @@ public final class Character {
      * @return Le total de chance.
      */
     public int getLuck() {
-        int luck = 0;
-        luck += this.properties.getLuck();
-        luck += this.activePanoply.getLuck();
-        return luck;
+        int val = 0;
+        val += this.attributes.getLuck();
+        val += this.activePanoply.getLuck();
+        return val;
     }
 
-    /**
-     * Obtient le total de robustesse.
-     *
-     * @return Le total de robustesse.
-     */
-    public int getRobustness() {
-        int robustness = 0;
-        robustness += this.properties.getRobustness();
-        robustness += this.activePanoply.getRobustness();
-        return robustness;
+   public int getStrength() {
+        int val = 0;
+        val += this.attributes.getStrength();
+        val += this.activePanoply.getStrength();
+        return val;
+    }
+
+    public int getIntelligence() {
+        int val = 0;
+        val += this.attributes.getIntelligence();
+        val += this.activePanoply.getIntelligence();
+        return val;
+    }
+
+    public int getAbility() {
+        int val = 0;
+        val += this.attributes.getAbility();
+        val += this.activePanoply.getAbility();
+        return val;
+    }
+
+    public int getStealth() {
+        int val = 0;
+        val += this.attributes.getStealth();
+        val += this.activePanoply.getStealth();
+        return val;
+    }
+
+    public int getAgility() {
+        int val = 0;
+        val += this.attributes.getAgility();
+        val += this.activePanoply.getAgility();
+        return val;
     }
 }

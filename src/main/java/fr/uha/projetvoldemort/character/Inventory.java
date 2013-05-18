@@ -8,6 +8,8 @@ import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.item.Item;
+import fr.uha.projetvoldemort.item.ItemUsage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.bson.types.ObjectId;
@@ -22,7 +24,6 @@ public final class Inventory {
 
     public static final String INVENTORY = "inventory";
     public static final String ID = "_id";
-    
     private HashMap<ObjectId, Item> items;
 
     Inventory(DBObject ob) {
@@ -41,11 +42,12 @@ public final class Inventory {
             this.items.put(id, new Item(id));
         }
     }
-    
+
     protected void save() {
         Iterator<Item> it = this.items.values().iterator();
-        while (it.hasNext())
+        while (it.hasNext()) {
             it.next().save();
+        }
     }
 
     /**
@@ -79,21 +81,38 @@ public final class Inventory {
 
         return ob;
     }
-    
+
+    public ArrayList<Item> getItems(ItemUsage usage) {
+        ArrayList<Item> items = new ArrayList<Item>();
+
+        Iterator<Item> it = this.items.values().iterator();
+        while (it.hasNext()) {
+            Item item = it.next();
+            if (item.getUsage() != null && item.getUsage().equals(usage)) {
+                items.add(item);
+            }
+        }
+
+        return items;
+    }
+
     public Item getItem(ObjectId id) {
-        if (!this.items.containsKey(id)) throw new NotFoundException("Item not found in inventory.");
-        
+        if (!this.items.containsKey(id)) {
+            throw new NotFoundException("Item not found in inventory.");
+        }
+
         return this.items.get(id);
     }
-    
+
     /**
      * Ajoute un item à l'inventaire.
      *
      * @param item L'item à ajouter.
      */
     public void add(Item item) {
-        if (item.getId() == null)
+        if (item.getId() == null) {
             item.save();
+        }
         this.items.put(item.getId(), item);
     }
 
@@ -106,11 +125,11 @@ public final class Inventory {
         if (!this.items.containsValue(item)) {
             throw new RuntimeException("Item doesn't belong to the character.");
         }
-        
+
         // TODO, supprimer de la BDD
         this.items.remove(item.getId());
     }
-    
+
     public boolean contains(Item item) {
         return this.items.containsValue(item);
     }

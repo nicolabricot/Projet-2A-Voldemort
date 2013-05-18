@@ -200,12 +200,12 @@ public final class Panoply {
      * @return Le total d'attaque des différents équipements
      */
     public int getAttack() {
-        int attack = 0;
-        attack += this.armor.getAttack();
+        int val = 0;
+        val += this.armor.getAttack();
         if (this.arm != null) {
-            attack += this.arm.getAttack();
+            val += this.arm.getAttack();
         }
-        return attack;
+        return val;
     }
 
     /**
@@ -214,12 +214,12 @@ public final class Panoply {
      * @return Le total de défense des différents équipements
      */
     public int getDefense() {
-        int defense = 0;
-        defense += this.armor.getDefense();
+        int val = 0;
+        val += this.armor.getDefense();
         if (this.arm != null) {
-            defense += this.arm.getDefense();
+            val += this.arm.getDefense();
         }
-        return defense;
+        return val;
     }
 
     /**
@@ -228,12 +228,12 @@ public final class Panoply {
      * @return Le total d'initiative des différents équipements
      */
     public int getInitiative() {
-        int initiative = 0;
-        initiative += this.armor.getInitiative();
+        int val = 0;
+        val += this.armor.getInitiative();
         if (this.arm != null) {
-            initiative += this.arm.getInitiative();
+            val += this.arm.getInitiative();
         }
-        return initiative;
+        return val;
     }
 
     /**
@@ -242,25 +242,56 @@ public final class Panoply {
      * @return Le total de chance des différents équipements
      */
     public int getLuck() {
-        int luck = 0;
-        luck += this.armor.getLuck();
+        int val = 0;
+        val += this.armor.getLuck();
         if (this.arm != null) {
-            luck += this.arm.getLuck();
+            val += this.arm.getLuck();
         }
-        return luck;
+        return val;
     }
 
-    /**
-     * Obtient le total de robustesse des différents équipements
-     *
-     * @return Le total de robustesse des différents équipements
-     */
-    public int getRobustness() {
-        int robustness = 0;
-        robustness += this.armor.getAttack();
+   public int getStrength() {
+        int val = 0;
+        val += this.armor.getStrength();
         if (this.arm != null) {
-            robustness += this.arm.getRobustness();
+            val += this.arm.getStrength();
         }
-        return robustness;
+        return val;
+    }
+
+    public int getIntelligence() {
+        int val = 0;
+        val += this.armor.getIntelligence();
+        if (this.arm != null) {
+            val += this.arm.getIntelligence();
+        }
+        return val;
+    }
+
+    public int getAbility() {
+        int val = 0;
+        val += this.armor.getAbility();
+        if (this.arm != null) {
+            val += this.arm.getAbility();
+        }
+        return val;
+    }
+
+    public int getStealth() {
+        int val = 0;
+        val += this.armor.getStealth();
+        if (this.arm != null) {
+            val += this.arm.getStealth();
+        }
+        return val;
+    }
+
+    public int getAgility() {
+        int val = 0;
+        val += this.armor.getAgility();
+        if (this.arm != null) {
+            val += this.arm.getAgility();
+        }
+        return val;
     }
 }

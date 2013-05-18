@@ -2,7 +2,8 @@
     Document   : perso
     Created on : 17 mai 2013, 14:05:32
     Author     : Nicolas Devenet <nicolas@devenet.info>
---%><%@
+--%><%@page import="fr.uha.projetvoldemort.ressource.Ressources"%>
+<%@
     page contentType="text/html" pageEncoding="UTF-8"
 %><!DOCTYPE html>
 <html>
@@ -61,8 +62,8 @@
     </head>
     <body>
         <h1>Voldemort</h1>
-        
-        <div id="tabs">
+                
+        <div id="tabs" data-character-id="<%= Ressources.getInstance().getFirstCharacterId() %>">
             <div class="column">
                 <ul id="first-tab">
                     <li class="active"><a href="#p">P</a></li><!--
