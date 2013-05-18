@@ -1,2 +1,6 @@
-Tooltip (amélioration du servol de zone dans la map)
-• http://calebjacob.com/tooltipster/
+• Tooltip (amélioration du servol de zone dans la map)
+http://calebjacob.com/tooltipster/
+
+
+• Drag and Drop
+http://blog.evolya.fr/index.php?post/14/10/2009/%5BjQuery-UI%5D-Draggable/Droppable-%3A-comment-obtenir-les-elements-drag-et-drop
