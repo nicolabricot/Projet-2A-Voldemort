@@ -47,6 +47,10 @@
             .column + .column + .column {
                 margin-right: 0;
             }
+            #tabs li.reception a {
+                cursor: default;
+                background-color: #fff;
+            }
             .receptione {
                 border: 1px solid red;
             }
@@ -61,25 +65,28 @@
         <div id="tabs">
             <div class="column">
                 <ul id="first-tab">
-                    <li class="active"><a href="#p">P</a></li>
-                    <li><a href="#c">C</a></li>
-                    <li><a href="#d">D</a></li>
+                    <li class="active"><a href="#p">P</a></li><!--
+                    --><li><a href="#c">C</a></li><!--
+                    --><li><a href="#d">D</a></li><!--
+                    --><li class="reception"><a href="#first">&nbsp;</a></li>
                 </ul>
             </div>
             <div class="column">
                 <ul id="second-tab">
-                    <li class="active"><a href="#i">I</a></li>
+                    <li class="active"><a href="#i">I</a></li><!--
+                    --><li class="reception"><a href="#second">&nbsp;</a></li>
                 </ul>
             </div>
             <div class="column">
                 <ul id="third-tab">
-                    <li class="active"><a href="#s">S</a></li>
+                    <li class="active"><a href="#s">S</a></li><!--
+                    --><li class="reception"><a href="#third">&nbsp;</a></li>
                 </ul>
             </div>
         </div>
         
         <div id="columns">
-            <div class="column">
+            <div id="first-column" class="column">
                 <div id="p" class="tab">
                     <h2>Équipements pérennes</h2>
                     <p>This is the content of my first tab</p>
@@ -96,14 +103,14 @@
                 </div>
             </div>
             
-            <div class="column">
+            <div id="second-column" class="column">
                 <div id="i" class="tab">
                     <h2>Inventaire</h2>
                     <p>This is the content of my fourth tab</p>
                 </div>   
             </div>
             
-            <div class="column">
+            <div id="third-column" class="column">
                 <div id="s" class="tab">
                     <h2>Statistiques</h2>
                     <p>This is the content of my fifth tab</p>
