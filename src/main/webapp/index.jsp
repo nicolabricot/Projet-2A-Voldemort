@@ -36,5 +36,9 @@
             <li>Get a map by id : /rest/map/{id}</li>
             <li>Get a state of a map by id : /rest/map/states/{id}</li>
         </ul>
+        
+        <h2>BDD</h2>
+        <pre>cd /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/bin</pre>
+        <pre>./mongod --dbpath /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/data</pre>
     </body>
 </html>
