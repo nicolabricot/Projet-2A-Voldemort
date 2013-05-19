@@ -2,9 +2,10 @@
     Document   : perso
     Created on : 17 mai 2013, 14:05:32
     Author     : Nicolas Devenet <nicolas@devenet.info>
---%><%@page import="fr.uha.projetvoldemort.ressource.Ressources"%>
-<%@
-    page contentType="text/html" pageEncoding="UTF-8"
+--%><%@ page
+    import="fr.uha.projetvoldemort.ressource.Ressources"
+    contentType="text/html"
+    pageEncoding="UTF-8"
 %><!DOCTYPE html>
 <html>
     <head>
@@ -53,10 +54,13 @@
                 background-color: #fff;
             }
             .receptione {
-                border: 1px solid red;
+                border: 1px solid blue;
             }
             .accept {
                 border: 1px solid green;
+            }
+            .accept a {
+                background-color: green !important;
             }
         </style>
     </head>
@@ -66,7 +70,7 @@
         <div id="tabs" data-character-id="<%= Ressources.getInstance().getFirstCharacterId() %>">
             <div class="column">
                 <ul id="first-tab">
-                    <li class="active"><a href="#p">P</a></li><!--
+                    <li><a href="#p">P</a></li><!--
                     --><li><a href="#c">C</a></li><!--
                     --><li><a href="#d">D</a></li><!--
                     --><li class="reception"><a href="#first">&nbsp;</a></li>
@@ -74,13 +78,13 @@
             </div>
             <div class="column">
                 <ul id="second-tab">
-                    <li class="active"><a href="#i">I</a></li><!--
+                    <li><a href="#i">I</a></li><!--
                     --><li class="reception"><a href="#second">&nbsp;</a></li>
                 </ul>
             </div>
             <div class="column">
                 <ul id="third-tab">
-                    <li class="active"><a href="#s">S</a></li><!--
+                    <li><a href="#s">S</a></li><!--
                     --><li class="reception"><a href="#third">&nbsp;</a></li>
                 </ul>
             </div>
@@ -119,7 +123,7 @@
             </div>
         </div>
         
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
         <script src="js/tabify.js" charset="utf-8"></script>
         <script src="js/panoplie.js" charset="utf-8"></script>

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $("#tabs ul li:first-child").addClass("active");
     $("#tabs ul").tabify();
     
     $("li.reception a").click(function() {
@@ -17,18 +18,20 @@ $(document).ready(function() {
         }
     });
     
+    
     $("li.reception").droppable({
         accept: "#tabs ul li",
         activeClass: "receptione",
         hoverClass: "accept",
         drop: function(event, ui) {
             var tab = ui.helper.children().attr("href").replace("-tab", "");
-            console.log(tab);
             var current = $(this).children().attr("href").replace("tab", "column");
-            console.log(current);
+            if (ui.helper.hasClass("active")) {
+                console.log($(tab).parent().attr("id"));
+            }
             $(current).append($(tab));
             $(this).before(ui.helper.css("left", 0));
-        }              
+        }
     });
     
 });
