@@ -9,7 +9,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.item.ItemModel;
 import fr.uha.projetvoldemort.NotFoundException;
-import fr.uha.projetvoldemort.ressource.Ressources;
+import fr.uha.projetvoldemort.resource.Resources;
 import java.net.UnknownHostException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -31,8 +31,8 @@ public class ServiceItemModel {
 
     @GET
     @Path("/all")
-    public Response getAll() throws UnknownHostException, JSONException {
-        Ressources res = Ressources.getInstance();
+    public Response getAll() throws JSONException {
+        Resources res = Resources.getInstance();
         res.connect();
         DBCollection coll = res.getCollection(ItemModel.COLLECTION);
         DBCursor cursor = coll.find();
@@ -49,13 +49,13 @@ public class ServiceItemModel {
     @Path("/{id}")
     public Response get(@PathParam("id") String id) throws UnknownHostException, JSONException {
         try {
-            Ressources.getInstance().connect();
+            Resources.getInstance().connect();
             ItemModel im = new ItemModel(new ObjectId(id));
             return Response.status(HttpStatus.OK).entity(im.toJSONObject().toString()).build();
         } catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
-            Ressources.getInstance().close();
+            Resources.getInstance().close();
         }
     }
 }

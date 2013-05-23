@@ -9,7 +9,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import fr.uha.projetvoldemort.Attributes;
 import fr.uha.projetvoldemort.NotFoundException;
-import fr.uha.projetvoldemort.ressource.Ressources;
+import fr.uha.projetvoldemort.resource.Resources;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.bson.types.ObjectId;
@@ -39,7 +39,7 @@ public final class Character {
 
     public Character(ObjectId oid) {
         this.panoplies = new HashMap<ObjectId, Panoply>();
-        Ressources res = Ressources.getInstance();
+        Resources res = Resources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
         if (ob == null) {
             throw new NotFoundException();
@@ -162,7 +162,7 @@ public final class Character {
             it.next().save();
         
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
-        Ressources.getInstance().getCollection(COLLECTION).insert(ob);
+        Resources.getInstance().getCollection(COLLECTION).insert(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("Character.save: " + ob);
     }

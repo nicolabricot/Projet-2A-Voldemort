@@ -10,7 +10,7 @@ import fr.uha.projetvoldemort.item.Item;
 import fr.uha.projetvoldemort.item.ItemType;
 import fr.uha.projetvoldemort.item.UnexpectedItemException;
 import fr.uha.projetvoldemort.NotFoundException;
-import fr.uha.projetvoldemort.ressource.Ressources;
+import fr.uha.projetvoldemort.resource.Resources;
 import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +33,7 @@ public final class Panoply {
 
     protected Panoply(Inventory inventory, ObjectId oid) {
         this.inventory = inventory;
-        Ressources res = Ressources.getInstance();
+        Resources res = Resources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
         if (ob == null) {
             throw new NotFoundException();
@@ -88,7 +88,7 @@ public final class Panoply {
     
     protected void save() {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
-        Ressources.getInstance().getCollection(COLLECTION).insert(ob);
+        Resources.getInstance().getCollection(COLLECTION).insert(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("Panoply.save: " + ob);
     }

@@ -11,7 +11,7 @@ import fr.uha.projetvoldemort.character.Inventory;
 import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.item.Item;
 import fr.uha.projetvoldemort.item.ItemUsage;
-import fr.uha.projetvoldemort.ressource.Ressources;
+import fr.uha.projetvoldemort.resource.Resources;
 import java.net.UnknownHostException;
 import java.util.Iterator;
 import javax.ws.rs.GET;
@@ -36,7 +36,7 @@ public class ServiceCharacter {
     @Path("/all")
     public Response getAll() throws UnknownHostException, JSONException {
 
-        Ressources res = Ressources.getInstance();
+        Resources res = Resources.getInstance();
         res.connect();
         DBCollection coll = res.getCollection(Character.COLLECTION);
         DBCursor cursor = coll.find();
@@ -54,7 +54,7 @@ public class ServiceCharacter {
     @Path("/ids")
     public Response getIds() throws UnknownHostException, JSONException {
 
-        Ressources res = Ressources.getInstance();
+        Resources res = Resources.getInstance();
         res.connect();
         DBCollection coll = res.getCollection(Character.COLLECTION);
         DBCursor cursor = coll.find();
@@ -72,14 +72,14 @@ public class ServiceCharacter {
     @Path("/{id}")
     public Response get(@PathParam("id") String id) throws UnknownHostException, JSONException {
        try {
-            Ressources.getInstance().connect();
+            Resources.getInstance().connect();
             Character c = new Character(new ObjectId(id));
             return Response.status(HttpStatus.OK).entity(c.toJSONObject().toString()).build();
         }
         catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
-            Ressources.getInstance().close();
+            Resources.getInstance().close();
         }
     }
     
@@ -104,14 +104,14 @@ public class ServiceCharacter {
     @Path("/{id}/inventory")
     public Response getInventory(@PathParam("id") String id) throws UnknownHostException, JSONException {
         try {
-            Ressources.getInstance().connect();
+            Resources.getInstance().connect();
             Inventory i = new Character(new ObjectId(id)).getInventory();
             return Response.status(HttpStatus.OK).entity(i.toJSONArray().toString()).build();
         }
         catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
-            Ressources.getInstance().close();
+            Resources.getInstance().close();
         }   
     }
     
@@ -119,7 +119,7 @@ public class ServiceCharacter {
     @Path("/{id}/sustainables")
     public Response getSustainables(@PathParam("id") String id) throws UnknownHostException, JSONException {
         try {
-            Ressources.getInstance().connect();
+            Resources.getInstance().connect();
             JSONArray a = new JSONArray();
             
             Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemUsage.SUSTAINABLE).iterator();
@@ -131,7 +131,7 @@ public class ServiceCharacter {
         catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
-            Ressources.getInstance().close();
+            Resources.getInstance().close();
         }   
     }
     
@@ -139,7 +139,7 @@ public class ServiceCharacter {
     @Path("/{id}/consumables")
     public Response getConsumables(@PathParam("id") String id) throws UnknownHostException, JSONException {
         try {
-            Ressources.getInstance().connect();
+            Resources.getInstance().connect();
             JSONArray a = new JSONArray();
             
             Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemUsage.CONSUMABLE).iterator();
@@ -151,7 +151,7 @@ public class ServiceCharacter {
         catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
-            Ressources.getInstance().close();
+            Resources.getInstance().close();
         }   
     }
     
@@ -159,7 +159,7 @@ public class ServiceCharacter {
     @Path("/{id}/degradables")
     public Response getDegradables(@PathParam("id") String id) throws UnknownHostException, JSONException {
         try {
-            Ressources.getInstance().connect();
+            Resources.getInstance().connect();
             JSONArray a = new JSONArray();
             
             Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemUsage.DEGRADABLE).iterator();
@@ -171,7 +171,7 @@ public class ServiceCharacter {
         catch (NotFoundException e) {
             return Response.status(HttpStatus.NOT_FOUND).build();
         } finally {
-            Ressources.getInstance().close();
+            Resources.getInstance().close();
         }   
     }
     

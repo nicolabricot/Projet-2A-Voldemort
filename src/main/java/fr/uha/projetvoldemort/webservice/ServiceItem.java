@@ -7,7 +7,7 @@ package fr.uha.projetvoldemort.webservice;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.item.Item;
-import fr.uha.projetvoldemort.ressource.Ressources;
+import fr.uha.projetvoldemort.resource.Resources;
 import java.net.UnknownHostException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -29,7 +29,7 @@ public class ServiceItem {
     @GET
     @Path("/all")
     public Response getAll() throws UnknownHostException, JSONException {
-        Ressources res = Ressources.getInstance();
+        Resources res = Resources.getInstance();
         res.connect();
         DBCollection coll = res.getCollection(Item.COLLECTION);
         DBCursor cursor = coll.find();
