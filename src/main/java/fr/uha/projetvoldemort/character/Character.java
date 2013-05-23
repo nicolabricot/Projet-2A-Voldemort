@@ -143,7 +143,7 @@ public final class Character {
         ob.put(ACTIVE_PANOPLY, this.activePanoply.toJSONObject());
         
         ob.put("model", this.model.toJSONObject());
-        
+
         JSONArray a = new JSONArray();
         Iterator<Panoply> it = this.panoplies.values().iterator();
         while (it.hasNext()) {

@@ -5,8 +5,9 @@
 package fr.uha.projetvoldemort.webservice;
 
 import fr.uha.projetvoldemort.item.UnexpectedItemException;
-import fr.uha.projetvoldemort.ressource.Ressources;
-import java.net.UnknownHostException;
+import fr.uha.projetvoldemort.resource.Resources;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,21 +20,22 @@ import javax.ws.rs.core.Response;
  */
 @Path("/ressources/")
 @Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
-public class ServiceRessources {
+public class ServiceResources {
     
     @GET
     @Path("/fill")
-    public Response fill() throws UnknownHostException {
+    public Response fill() {
         try {
-            Ressources res = Ressources.getInstance();
+            Resources res = Resources.getInstance();
             res.connect();
             res.fill();
             return Response.status(HttpStatus.CREATED).build();
             
-        } catch (UnexpectedItemException e) {
+        } catch (UnexpectedItemException ex) {
+            Logger.getLogger(ServiceResources.class.getName()).log(Level.SEVERE, null, ex);
             return Response.status(HttpStatus.METHOD_NOT_ALLOWED).build();
         } finally {
-            Ressources.getInstance().close();
+            Resources.getInstance().close();
         }
     }
     

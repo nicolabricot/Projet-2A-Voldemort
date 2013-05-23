@@ -4,7 +4,6 @@
  */
 package fr.uha.projetvoldemort.webservice;
 
-import java.net.UnknownHostException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -141,7 +140,7 @@ public class ServiceMap {
 
     @GET
     @Path("/states/{id}")
-    public Response getStates(@PathParam("id") String id) throws UnknownHostException {
+    public Response getStates(@PathParam("id") String id) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
 
