@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Panoply</title>
         <style>
+            /* links */
             #links {
                 list-style: none;
                 padding: 0;
@@ -25,12 +26,14 @@
                 margin-bottom: 0;
             }
             #links li.ready a {
-                background-color: #ccc;
+                background-color: #eee;
+                cursor: move;
             }
             #links li.disable a {
-                background-color: #eee;
-                cursor: default;
+                background-color: #ccc;
+                cursor: n-resize;
             }
+            /* view */
             #view {
             }
             .tab {
@@ -46,20 +49,42 @@
             .tab.accept {
                 background-color: green;
             }
+            /* item */
+            .item {
+                display: inline-block;
+                width: 75px;
+                height: 75px;
+                margin: 10px 0 10px 10px;
+                overflow: hidden;
+                line-height: 75px;
+                text-align: center;
+                border: 1px solid grey;
+            }
+           .item img {
+                width: 60px;
+                height: 60px;
+                vertical-align: middle;
+            }
+            .item.active {
+                border: 1px solid green;
+            }
+            .item.accept {
+                background-color: green;
+            }
         </style>
     </head>
     <body>
         <h1>Panoply</h1>
         
         <ul id="links">
-            <li><a href="#p">P</a></li>
+            <li><a href="#permanent">Permanent equipment</a></li>
+            <li><a href="#inventory">Inventory</a></li>
             <li><a href="#c">C</a></li>
             <li><a href="#d">D</a></li>
-            <li><a href="#i">I</a></li>
             <li><a href="#s">S</a></li>
         </ul>
         
-        <div id="view">
+        <div id="view" data-character-id="519ce8b7c02662c571349537">
             <div id="first-tab" class="tab">
                 
             </div>
@@ -72,9 +97,15 @@
         </div>
         
         <div style="display:none;">
-            <div id="p">
-                <p>This is the p table</p>
-                <p>Here we can some details about this or that...</p>
+            <div id="permanent">
+                <div class="permanent equipment">
+                    <div class="item weapon">
+                        weapon
+                    </div>
+                    <div class="item helmet">
+                        helmet
+                    </div>
+                </div>
             </div>
             <div id="c">
                 this is the c table
@@ -82,8 +113,24 @@
             <div id="d">
                 this is the d table
             </div>
-            <div id="i">
-                this is the i table
+            <div id="inventory">
+                <div class="inventory">
+                    <div class="item weapon">
+                        <img src="static/img/arc-1.png" alt="arc-1" />
+                    </div>
+                    <div class="item weapon">
+                        <img src="static/img/arc-2.png" alt="arc-2" />
+                    </div>
+                    <div class="item helmet">
+                        <img src="static/img/casque-1.png" alt="casque-1" />
+                    </div>
+                    <div class="item weapon">
+                        <img src="static/img/couteau-1.png" alt="couteau-1" />
+                    </div>
+                    <div class="item weapon">
+                        <img src="static/img/couteau-2.png" alt="couteau-1" />
+                    </div>
+                </div>
             </div>
             <div id="s">
                 this is the s table
