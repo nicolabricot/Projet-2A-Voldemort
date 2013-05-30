@@ -96,7 +96,7 @@
             </div>
         </div>
         
-        <div style="display:none;">
+        <div style="display:none; clear:both;">
             <div id="permanent">
                 <div class="permanent equipment">
                     <div class="item weapon">

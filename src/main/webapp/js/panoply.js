@@ -41,6 +41,8 @@ $(document).ready(function() {
                 $("#links li a[href=" + link + "]").parent().removeClass("disable").addClass("ready");
                 $(tab).html("");
             });
+            // weapon
+            weapon();
         }
     });
 
@@ -49,6 +51,24 @@ $(document).ready(function() {
      * INVENTORY
      */
     // weapons draggable
-    
+    function weapon() {
+        $(".inventory .item").draggable({
+            revert: "invalid",
+            helper: "clone",
+            cursor: "move"
+        });
+
+        $(".permanent .item.weapon").droppable({
+            accept: ".inventory .item.weapon",
+            activeClass: "active",
+            hoverClass: "accept",
+            drop: function(event, ui) {
+                var img = ui.helper.children();
+                var perm = $(this);
+                console.log(img);
+                console.log(perm);
+            }
+        });
+    }
 
 });
