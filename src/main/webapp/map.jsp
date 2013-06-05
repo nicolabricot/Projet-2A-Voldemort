@@ -7,7 +7,9 @@
 --%><!DOCTYPE html>
 <html lang="fr">
     <head>
-        <jsp:include page="/WEB-INF/jsp/head.jsp" />
+        <jsp:include page="/WEB-INF/jsp/head.jsp">
+            <jsp:param name="title" value="Map" />
+        </jsp:include>
     </head>
 
     <body class="page-map">
