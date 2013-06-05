@@ -1,131 +1,144 @@
 <%-- 
-    Document   : perso
-    Created on : 17 mai 2013, 14:05:32
+    Document   : panoply
+    Created on : 22 mai 2013, 11:30:20
     Author     : Nicolas Devenet <nicolas@devenet.info>
---%><%@ page
-    import="fr.uha.projetvoldemort.ressource.Ressources"
-    contentType="text/html"
-    pageEncoding="UTF-8"
-%><!DOCTYPE html>
+--%><%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Panoply</title>  
-        <style type="text/css">
-            #tabs ul {
+        <title>Panoply</title>
+        <style>
+            /* links */
+            #links {
                 list-style: none;
                 padding: 0;
-                margin: 0;
+                margin: 20px 0;
             }
-            #tabs li {
+            #links li {
                 display: inline-block;
-                margin-bottom: -4px;
             }
-            #tabs a {
+            #links a {
                 float: left;
                 padding: 10px 15px;
                 text-decoration: none;
-                background-color: #ccc;
+                /*background-color: #ccc;*/
                 color: #000;
                 margin-bottom: 0;
             }
-            #tabs li.active a {
+            #links li.ready a {
                 background-color: #eee;
+                cursor: move;
+            }
+            #links li.disable a {
+                background-color: #ccc;
+                cursor: n-resize;
+            }
+            /* view */
+            #view {
             }
             .tab {
-                margin-top: 0;
-                padding: 10px;
-                background-color: #eee;
-                overflow: hidden;
-            }
-            .tab h2 {
-                margin-top: 15px;
-            }
-            .column {
+                border: 1px solid grey;
                 width: 32%;
+                margin-right: 5px;
                 float: left;
-                margin-right: 1%;
+                min-height: 400px;
             }
-            .column + .column + .column {
-                margin-right: 0;
+            .tab.active {
+                border-color: green;
             }
-            #tabs li.reception a {
-                cursor: default;
-                background-color: #fff;
+            .tab.accept {
+                background-color: green;
             }
-            .receptione {
-                border: 1px solid blue;
+            /* item */
+            .item {
+                display: inline-block;
+                width: 75px;
+                height: 75px;
+                margin: 10px 0 10px 10px;
+                overflow: hidden;
+                line-height: 75px;
+                text-align: center;
+                border: 1px solid grey;
             }
-            .accept {
+           .item img {
+                width: 60px;
+                height: 60px;
+                vertical-align: middle;
+            }
+            .item.active {
                 border: 1px solid green;
             }
-            .accept a {
-                background-color: green !important;
+            .item.accept {
+                background-color: green;
             }
         </style>
     </head>
     <body>
-        <h1>Voldemort</h1>
+        <h1>Panoply</h1>
+        
+        <ul id="links">
+            <li><a href="#permanent">Permanent equipment</a></li>
+            <li><a href="#inventory">Inventory</a></li>
+            <li><a href="#c">C</a></li>
+            <li><a href="#d">D</a></li>
+            <li><a href="#s">S</a></li>
+        </ul>
+        
+        <div id="view" data-character-id="519ce8b7c02662c571349537">
+            <div id="first-tab" class="tab">
                 
-        <div id="tabs" data-character-id="<%= Ressources.getInstance().getFirstCharacterId() %>">
-            <div class="column">
-                <ul id="first-tab">
-                    <li><a href="#p">P</a></li><!--
-                    --><li><a href="#c">C</a></li><!--
-                    --><li><a href="#d">D</a></li><!--
-                    --><li class="reception"><a href="#first">&nbsp;</a></li>
-                </ul>
             </div>
-            <div class="column">
-                <ul id="second-tab">
-                    <li><a href="#i">I</a></li><!--
-                    --><li class="reception"><a href="#second">&nbsp;</a></li>
-                </ul>
+            <div id="second-tab" class="tab">
+                
             </div>
-            <div class="column">
-                <ul id="third-tab">
-                    <li><a href="#s">S</a></li><!--
-                    --><li class="reception"><a href="#third">&nbsp;</a></li>
-                </ul>
+            <div id="third-tab" class="tab">
+                
             </div>
         </div>
         
-        <div id="columns">
-            <div id="first-column" class="column">
-                <div id="p" class="tab">
-                    <h2>Équipements pérennes</h2>
-                    <p>This is the content of my first tab</p>
-                </div>
-
-                <div id="c" class="tab">
-                    <h2>Équipements consommables</h2>
-                    <p>This is the content of my second tab</p>
-                </div>
-
-                <div id="d" class="tab">
-                    <h2>Équipements dégradables</h2>
-                    <p>This is the content of my third tab</p>
+        <div style="display:none; clear:both;">
+            <div id="permanent">
+                <div class="permanent equipment">
+                    <div class="item weapon">
+                        weapon
+                    </div>
+                    <div class="item helmet">
+                        helmet
+                    </div>
                 </div>
             </div>
-            
-            <div id="second-column" class="column">
-                <div id="i" class="tab">
-                    <h2>Inventaire</h2>
-                    <p>This is the content of my fourth tab</p>
-                </div>   
+            <div id="c">
+                this is the c table
             </div>
-            
-            <div id="third-column" class="column">
-                <div id="s" class="tab">
-                    <h2>Statistiques</h2>
-                    <p>This is the content of my fifth tab</p>
+            <div id="d">
+                this is the d table
+            </div>
+            <div id="inventory">
+                <div class="inventory">
+                    <div class="item weapon">
+                        <img src="static/img/arc-1.png" alt="arc-1" />
+                    </div>
+                    <div class="item weapon">
+                        <img src="static/img/arc-2.png" alt="arc-2" />
+                    </div>
+                    <div class="item helmet">
+                        <img src="static/img/casque-1.png" alt="casque-1" />
+                    </div>
+                    <div class="item weapon">
+                        <img src="static/img/couteau-1.png" alt="couteau-1" />
+                    </div>
+                    <div class="item weapon">
+                        <img src="static/img/couteau-2.png" alt="couteau-1" />
+                    </div>
                 </div>
+            </div>
+            <div id="s">
+                this is the s table
             </div>
         </div>
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-        <script src="js/tabify.js" charset="utf-8"></script>
         <script src="js/old-panoply.js" charset="utf-8"></script>
     </body>
 </html>
