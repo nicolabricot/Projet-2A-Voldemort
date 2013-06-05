@@ -1,44 +1,53 @@
 <%-- 
     Document   : index
-    Created on : 6 mai 2013, 20:24:40
-    Author     : bruno
---%><%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
-<html>
+    Created on : 5 juin 2013, 01:28:38
+    Author     : Nicolas Devenet <nicolas@devenet.info>
+--%><%
+
+    request.setAttribute("page", "home");
+
+%><%@page contentType="text/html" pageEncoding="UTF-8" %><%--
+--%><!DOCTYPE html>
+<html lang="fr">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Projet Voldemort</title>
+        <meta charset="UTF-8" />
+        <title>Projet Voldemort &middot; MMOHTML5</title>
+        <meta name="description" content="" />
+        <meta name="keywords" content=""/>
+        <meta name="author" content="Nicolas Devenet & Bruno Muller" />
+        <meta name="robots" content="noindex, noarchive" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon"    type="image/x-icon" href="./static/img/favicon.ico" />
+        <link rel="icon"             type="image/png"    href="./static/img/favicon.ico" />
+        <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <link rel="stylesheet" href="./static/css/bootstrap.min.css" media="screen" />
+        <link rel="stylesheet" href="./static/css/bootstrap-responsive.min.css" media="screen" />
+        <link rel="stylesheet" href="./static/css/voldemort.css" media="screen" />
     </head>
+
     <body>
-        <h1>Index</h1>
-        <h2>Pages web</h2>
-        <ul>
-            <li><a href="map.jsp">Map</a></li>
-            <li><a href="panoply.jsp">Personnage</a> (<a href="old-panoply.jsp">archive</a>)</li>
-        </ul>
-        <h2>Service web</h2>
-        <ul>
-            <li><a href="rest/ressources/fill">Fill database</a></li>
-            <li><a href="rest/itemmodel/all">Get all item models</a></li>
-            <li><a href="rest/charactermodel/all">Get all character models</a></li>
-            <li><a href="rest/character/all">Get all characters</a></li>
-        </ul>
-        <p>Exemple d'utilisation du web service :</p>
-        <ul>
-            <li>Get all characters : /rest/character/all</li>
-            <li>Get character by id : /rest/character/{id}</li>
-            <li>Get his inventory : /rest/character/{id}/inventory</li>
-            <li>Get his equipment : /rest/character/{id}/equipment</li>
-            <li>Get his stats : /rest/character/{id}/stats</li>
-            <li>Get all item models : /rest/itemmodel/all</li>
-            <li>Get item by id : /rest/itemmodel/{id}</li>
-            <li>Get all character models : /rest/charactermodel/all</li>
-            <li>Get character model by id : /rest/charactermodel/{id}</li>
-            <li>Get a map by id : /rest/map/{id}</li>
-            <li>Get a state of a map by id : /rest/map/states/{id}</li>
-        </ul>
-        
-        <h2>BDD</h2>
-        <pre>cd /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/bin</pre>
-        <pre>./mongod --dbpath /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/data</pre>
+        <%-- menu --%>
+        <jsp:include page="/WEB-INF/jsp/menu.jsp">
+            <jsp:param name="page" value="${ page }" />
+        </jsp:include>
+
+        <!-- content -->
+        <div id="content">
+            <div class="container">
+                <p class="center">
+                    <img src="./static/img/loader.gif" alt="..." />
+                    <br />work in progress
+                </p>
+            </div>
+        </div>
+        <!-- /content -->
+
+        <!-- footer -->
+        <!-- /footer -->
+
+        <script src="//code.jquery.com/jquery-latest.js"></script>
+        <script src="./static/js/bootstrap.min.js"></script>
+        <script src="./static/js/voldemort.js"></script>
+
     </body>
 </html>

@@ -1,0 +1,19 @@
+/* 
+    Document   : voldemort
+    Created on : 5 juin 2013, 02:11:09
+    Author     : Nicolas Devenet <nicolas@devenet.info>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    padding-top: 50px;
+}
+
+.center {
+    text-align: center;
+}
+
+#content {
+    margin-top: 100px;
+}
