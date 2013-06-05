@@ -9,6 +9,8 @@
                         <li><a href="./panoply.jsp">Panoply</a></li>
                     </ul>
                     <ul class="nav pull-right">
+                        <li><a href="./test.jsp">Test</a></li>
+                        <li class="divider-vertical"</li>
                         <li><a href="./dev.jsp" rel="external">Dev <i class="icon-share-alt"></i></a></li>
                     </ul>
                 </div>

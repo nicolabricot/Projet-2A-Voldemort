@@ -3,8 +3,13 @@
     Created on : 5 juin 2013, 12:11:20
     Author     : Nicolas Devenet <nicolas@devenet.info>
 --%><%@page contentType="text/html" pageEncoding="UTF-8"%>
-        <meta charset="UTF-8" />
-        <title>Projet Voldemort &middot; MMOHTML5</title>
+<%
+  String title = "Projet Voldemort &middot; MMOHTML5";
+  if (request.getParameter("title") != null)
+      title = request.getParameter("title") + " &middot; " + title;
+  
+%>        <meta charset="UTF-8" />
+        <title><%= title %></title>
         <meta name="description" content="" />
         <meta name="keywords" content=""/>
         <meta name="author" content="Nicolas Devenet & Bruno Muller" />
