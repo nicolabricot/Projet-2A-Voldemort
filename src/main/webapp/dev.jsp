@@ -40,5 +40,11 @@
         <h2>BDD</h2>
         <pre>cd /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/bin</pre>
         <pre>./mongod --dbpath /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/data</pre>
+        
+        <h2>Images</h2>
+        <div>
+            <img src="./static/media/items.png" alt="items"/>
+        </div>
+        
     </body>
 </html>
