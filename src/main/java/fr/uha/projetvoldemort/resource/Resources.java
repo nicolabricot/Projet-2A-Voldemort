@@ -133,7 +133,7 @@ public final class Resources {
         img.save();
 
         ItemModel imc = new ItemModel(ItemType.CUIRASS);
-        imc.setName("Cuirass de m***e");
+        imc.setName("Cuirasse de m***e");
         imc.getAttributes().setInitiative(-5);
         imc.getAttributes().setLuck(-10);
         imc.setDescription("Cette cuirasse n'a aucun effet possitif. Mieux vaut ne pas s'en équiper.");
