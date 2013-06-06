@@ -130,6 +130,7 @@ public final class Resources {
         img.getAttributes().setInitiative(1);
         img.getAttributes().setIntelligence(10);
         img.setDescription("Gant parfait pour un noob.");
+        img.setImage("gauntlet");
         img.save();
 
         ItemModel imc = new ItemModel(ItemType.CUIRASS);
@@ -137,6 +138,7 @@ public final class Resources {
         imc.getAttributes().setInitiative(-5);
         imc.getAttributes().setLuck(-10);
         imc.setDescription("Cette cuirasse n'a aucun effet possitif. Mieux vaut ne pas s'en équiper.");
+        imc.setImage("cuirass");
         imc.save();
 
         ItemModel ima = new ItemModel(ItemType.ARM);
@@ -144,17 +146,20 @@ public final class Resources {
         ima.getAttributes().setAttack(10);
         ima.getAttributes().setInitiative(3);
         ima.setDescription("D'aventages de risque de choper le tetanos que de tuer un adversaire en la manipulant.");
+        ima.setImage("rusty-sword");
         ima.save();
 
         ItemModel imb = new ItemModel(ItemType.BAG);
         imb.setName("Sacoche 6 emplacements");
         imb.setDescription("Augmente votre inventaire de 6 cases.");
+        imb.setImage("bag");
         imb.save();
 
         ItemModel imr = new ItemModel(ItemType.RING);
         imr.getAttributes().setIntelligence(10);
         imr.setName("Anneau de pouvoir");
         imr.setDescription("Perdu par une étrange créature dans un marais, il est écrit dessus \"Un anneau pour les gouverner tous. Un anneau pour les trouver tous, Un anneau pour les amener tous et dans les ténèbres les lier.\"");
+        imr.setImage("ring");
         imr.save();
 
         /*
