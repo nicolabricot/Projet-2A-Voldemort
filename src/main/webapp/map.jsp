@@ -14,7 +14,9 @@
 
     <body class="page-map">
         <%-- menu --%>
-        <jsp:include page="/WEB-INF/jsp/menu.jsp" />
+        <jsp:include page="/WEB-INF/jsp/menu.jsp">
+            <jsp:param name="page" value="map" />
+        </jsp:include>
 
         <!-- content -->
         <div id="content">

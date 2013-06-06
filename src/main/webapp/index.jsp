@@ -7,7 +7,9 @@
 
     <body class="page-home">
         <%-- menu --%>
-        <jsp:include page="/WEB-INF/jsp/menu.jsp" />
+        <jsp:include page="/WEB-INF/jsp/menu.jsp">
+            <jsp:param name="page" value="home" />
+        </jsp:include>
 
         <!-- content -->
         <div id="content">
