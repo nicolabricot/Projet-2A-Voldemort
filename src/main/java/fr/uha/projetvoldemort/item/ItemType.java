@@ -17,7 +17,7 @@ public enum ItemType {
     PAULDRON("pauldron"),
     SOLLERET("solleret"),
     VAMBRACE("vambrace"),
-    ARM("arm"),
+    ARM("weapon"),
     RING("ring"),
     BAG("bag"),
     OHTER("other");
