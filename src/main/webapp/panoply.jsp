@@ -43,7 +43,7 @@
 
         <!-- deviendra de l'ajax -->
         <div style="display:none; clear:both;">
-            <div id="permanent" class="equipment">
+            <div id="sustainables" class="equipment">
                 <div class="permanent equipment">
                     <div class="item weapon">weapon</div>
                     <div class="item cuirass">cuirass</div>

@@ -4,7 +4,7 @@ $(document).ready(function() {
      * CHARACTER
      */
     var id = $("#view").data("character-id");
-    //console.log(id);
+    console.log(id);
 
     /*
      * LINKS AND TABS
