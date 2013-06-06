@@ -41,6 +41,7 @@ public final class ItemModel {
 
     public ItemModel(ItemType type) {
         this.type = type;
+        this.image = "default";
         this.attributes = new Attributes();
     }
 
