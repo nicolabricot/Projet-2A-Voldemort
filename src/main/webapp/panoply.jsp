@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %><%--
+<%@page import="fr.uha.projetvoldemort.resource.Resources" contentType="text/html" pageEncoding="UTF-8"%><%--
 --%><!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -7,63 +7,35 @@
         </jsp:include>
         <link rel="stylesheet" href="./static/css/items.css" media="screen" />
         <style>
-            /* view */
-            #view {
-            }
-            .tab {
-                border: 1px solid grey;
-                width: 32%;
-                margin-right: 5px;
-                float: left;
-                min-height: 400px;
-            }
-            .tab.active {
-                border-color: green;
-            }
-            .tab.accept {
-                background-color: green;
-            }
-            /* inventory */
-            .item {
-                display: inline-block;
-                width: 40px;
-                height: 40px;
-                margin: 10px 0 10px 10px;
-                overflow: hidden;
-                line-height: 40px;
-                border: 1px solid grey;
-                vertical-align: middle;
-            }
-            .item.active {
-                border: 1px solid green;
-            }
-            .item.accept {
-                background-color: green;
-            }
+
         </style>
     </head>
 
     <body class="page-panoply">
         <%-- menu --%>
-        <jsp:include page="/WEB-INF/jsp/menu.jsp" />
+        <jsp:include page="/WEB-INF/jsp/menu.jsp">
+            <jsp:param name="page" value="panoply" />
+        </jsp:include>
 
         <!-- content -->
         <div id="content">
 
-            <div id="links"> 
+            <div id="links" class="container"> 
                 <div class="btn-group">
-                    <a href="#permanent" class="btn">Permanent<br />equipment</a>
-                    <a href="#consumable" class="btn">Consumable<br />equipment</a>
-                    <a href="#degradable" class="btn">Degradable<br />equipment</a>
+                    <a href="#sustainables" class="btn">Permanent</a>
+                    <a href="#consumables" class="btn">Consumable</a>
+                    <a href="#degradables" class="btn">Degradable</a>
                 </div>
-                <a href="#inventory" class="btn">My<br />inventory</a>
-                <a href="#stats" class="btn">My<br />statistics</a>
+                <a href="#inventory" class="btn">Inventory</a>
+                <a href="#stats" class="btn">Statistics</a>
             </div>
 
-            <div id="view" data-character-id="519ce8b7c02662c571349537">
-                <div id="first-tab" class="tab"></div>
-                <div id="second-tab" class="tab"></div>
-                <div id="third-tab" class="tab"></div>
+            <div id="view" data-character-id="<% out.print(Resources.getInstance().getFirstCharacterId()); %>">
+                <div class="row-fluid">
+                    <div id="first-tab" class="tab span4"></div>
+                    <div id="second-tab" class="tab span4"></div>
+                    <div id="third-tab" class="tab span4"></div>
+                </div>
             </div>
         </div>
         <!-- /content -->
@@ -71,14 +43,12 @@
 
         <!-- deviendra de l'ajax -->
         <div style="display:none; clear:both;">
-            <div id="permanent">
+            <div id="permanent" class="equipment">
                 <div class="permanent equipment">
-                    <div class="item weapon">
-                        weapon
-                    </div>
-                    <div class="item helmet">
-                        helmet
-                    </div>
+                    <div class="item weapon">weapon</div>
+                    <div class="item cuirass">cuirass</div>
+                    <div class="item gauntlet">gauntlet</div>
+                    <div class="item ring">ring</div>
                 </div>
             </div>
             <div id="consumable">
@@ -87,31 +57,8 @@
             <div id="degradable">
                 this is the d table
             </div>
-            <div id="inventory">
-                <div class="inventory">
-                    <div class="item gauntlet">
-                                <div class="image-items item-gauntlet"></div>
-                    </div>
-                    <div class="item defense">
-                                <div class="image-items item-cuirass"></div>
-        
-                        
-                    </div>
-                    <div class="item weapon">
-                        <div class="image-items item-rusty-sword"></div>
-        
-                    </div>
-                    <div class="item bag">
-                        <div class="image-items item-bag"></div>
-        
-                    </div>
-                    <div class="item ring">
-                        <div class="image-items item-ring"></div>
-                    </div>
-                </div>
-            </div>
             <div id="stats">
-                this is the s table
+                Player statistiques
             </div>
         </div>
 

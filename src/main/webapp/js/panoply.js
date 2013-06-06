@@ -1,9 +1,14 @@
 $(document).ready(function() {
 
     /*
+     * CHARACTER
+     */
+    var id = $("#view").data("character-id");
+    //console.log(id);
+
+    /*
      * LINKS AND TABS
      */
-    
     // remove click on link tabs
     $("#links a").click(function() {
         return false;
@@ -13,7 +18,8 @@ $(document).ready(function() {
     $("#links a.ready").draggable({
         revert: "invalid",
         helper: "clone",
-        addClasses: false
+        addClasses: false,
+        cursor: "move"
     });
 
     // define comportment for droppable tabs
@@ -26,8 +32,8 @@ $(document).ready(function() {
             var link = ui.helper.attr("href");
             var tab = "#" + $(this).attr("id");
             var old_link = $(tab).data("actual-link");
-            
-            console.log(link, tab, old_link);
+
+            //console.log("link:" + link, "tab:" + tab, old_link);
 
             // s'il y a deja une view, on la récupère pour l'enlever et on réactive le lien
             if (old_link !== undefined) {
@@ -38,39 +44,120 @@ $(document).ready(function() {
             $("#links a[href=" + link + "]").addClass("disabled").removeClass("ready");
             $("#view .tab").removeClass("active");
             $(tab).data("actual-link", link);
-            $(tab).append($(link).html());
+
+            // il va falloir faire une requete pour récupérer le contenu, on fait patienter
+            //$(tab).append($(link).html());
+            $(tab).append("<p class=\"center loading\"><img src=\"./static/img/loader-length.gif\" alt=\"...\" /></p>");
+
             ui.helper.remove();
             // add remove tab on click
             $("#links a[href=" + link + "]").click(function() {
                 $("#links a[href=" + link + "]").removeClass("disabled").addClass("ready");
                 $(tab).html("");
             });
-            // weapon
-            weapon();
+
+
+            // update drag and drop
+            switch (link.replace("#", "")) {
+                case "inventory":
+                case "sustainables":
+                case "consumables":
+                case "degradables":
+                    // download content, then design and add it
+                    $.ajax({
+                        type: "GET",
+                        url: "rest/character/" + id + "/" + link.replace("#", ""),
+                        dataType: "json",
+                        success: function(data) {
+                            var result = "";
+                            for (i = 0; i < data.length; i++)
+                                result += '<div class="item ' + data[i].model.type + '"><div class="image-items item-' + data[i].model.image + '"></div></div>';
+                            $(tab).html('<div class="' + link.replace("#", "") + '">' + result + '</div>');
+                            drag_drop();
+                        },
+                        error: function(result, state, error) {
+                            alert('Ajax failed: ' + error);
+                            console.log('result: ' + result);
+                            console.log('state: ' + state);
+                            console.log('error: ' + error);
+                        }
+                    });
+                    break;
+
+                default:
+                    $(tab).html("").append($(link).html());
+                    drag_drop();
+            }
         }
     });
+
+    /*
+     * CHECK ALL DRAG AND DROP
+     */
+    function drag_drop() {
+        inventory();
+    }
 
 
     /*
      * INVENTORY
      */
-    // weapons draggable
-    function weapon() {
+    function inventory_drop(event, ui, parent) {
+        // get the item
+        var item = ui.helper.children();
+        // add the item to equipment
+        $(parent).html(item);
+    }
+
+    function inventory() {
         $(".inventory .item").draggable({
             revert: "invalid",
             helper: "clone",
+            addClasses: false,
             cursor: "move"
         });
 
+        // weapon droppable
         $(".permanent .item.weapon").droppable({
             accept: ".inventory .item.weapon",
             activeClass: "active",
             hoverClass: "accept",
+            addClasses: false,
             drop: function(event, ui) {
-                var img = ui.helper.children();
-                var perm = $(this);
-                console.log(img);
-                console.log(perm);
+                inventory_drop(event, ui, this);
+            }
+        });
+
+        // gauntlet droppable
+        $(".permanent .item.gauntlet").droppable({
+            accept: ".inventory .item.gauntlet",
+            activeClass: "active",
+            hoverClass: "accept",
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+
+        // ring droppable
+        $(".permanent .item.ring").droppable({
+            accept: ".inventory .item.ring",
+            activeClass: "active",
+            hoverClass: "accept",
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+
+        // cuirass droppable
+        $(".permanent .item.cuirass").droppable({
+            accept: ".inventory .item.cuirass",
+            activeClass: "active",
+            hoverClass: "accept",
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
             }
         });
     }
