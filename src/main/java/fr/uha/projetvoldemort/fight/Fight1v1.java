@@ -7,6 +7,7 @@ package fr.uha.projetvoldemort.fight;
 import fr.uha.projetvoldemort.fightreport.FightReport1v1;
 import fr.uha.projetvoldemort.character.Character;
 import fr.uha.projetvoldemort.character.CharacterAttribute;
+import fr.uha.projetvoldemort.faction.FactionAttribute;
 import fr.uha.projetvoldemort.item.Item;
 import fr.uha.projetvoldemort.item.ItemAttribute;
 import fr.uha.projetvoldemort.item.ItemCategory;
@@ -22,7 +23,7 @@ import org.json.JSONArray;
 public class Fight1v1 extends Fight {
 
     private Character attacker, defenser;
-    private FightReport1v1 report;  
+    private FightReport1v1 report;
 
     public Fight1v1(long seed, Character attacker, Character defenser) {
         super(seed);
@@ -123,10 +124,10 @@ public class Fight1v1 extends Fight {
             while (itSustainables.hasNext()) {
                 Item item = itSustainables.next();
                 damage += item.getAttribute(ItemAttribute.CLASS)
-                        * (100 + item.getAmelioration().getAttribute(ItemAttribute.CLASS)/100);
+                        * (100 + item.getAmelioration().getAttribute(ItemAttribute.CLASS) / 100);
             }
-            
-            
+
+
             // Dégats *= joueur.projectile.attribut[classe]	
             damage *= player.getActivePanoply().getItem(ItemType.PROJECTILE).getAttribute(ItemAttribute.CLASS);
 
@@ -137,7 +138,7 @@ public class Fight1v1 extends Fight {
             if (fate < player.getAttribute(CharacterAttribute.LUCK)) {
                 // Dégats *= ( 2 + (projectile.multCC+∑( joueur.stimulant.multCC)/100))
                 damage *= (2 + player.getActivePanoply().getItem(ItemType.PROJECTILE).getAttribute(ItemAttribute.CRITICAL_HIT_MODIFIER)
-                        + super.sum(player.getActivePanoply().getItems(ItemType.STIMULANT), ItemAttribute.CRITICAL_HIT_MODIFIER)/100);
+                        + super.sum(player.getActivePanoply().getItems(ItemType.STIMULANT), ItemAttribute.CRITICAL_HIT_MODIFIER) / 100);
             }
 
             // normaliser en fonction de la classe du joueur
@@ -169,13 +170,13 @@ public class Fight1v1 extends Fight {
             while (itSustainables.hasNext()) {
                 Item item = itSustainables.next();
                 damage += item.getAttribute(ItemAttribute.CLASS)
-                        * (100 + item.getAmelioration().getAttribute(ItemAttribute.CLASS)/100);
+                        * (100 + item.getAmelioration().getAttribute(ItemAttribute.CLASS) / 100);
             }
 
             // normaliser en fonction de la classe du joueur
             // Dégats *= ( 100 - joueur.défense + ∑( joueur.stimulant.défense)) / 100
             damage *= (100 - player.getAttribute(CharacterAttribute.DEFENSE)
-                    + super.sum(player.getActivePanoply().getItems(ItemType.STIMULANT), ItemAttribute.DEFENSE))/100;
+                    + super.sum(player.getActivePanoply().getItems(ItemType.STIMULANT), ItemAttribute.DEFENSE)) / 100;
 
             return damage;
 
@@ -204,9 +205,11 @@ public class Fight1v1 extends Fight {
         }
     }
 
-    private void phaseFaction(Character player, int attackDamage, int defenseDamage) {
+    private void phaseFaction(Character player, Character second, int attackDamage, int defenseDamage) {
         // Joueur.faction.coup++
-        // TODO
+        int hit = player.getFaction().getAttribute(FactionAttribute.HIT);
+        hit++;
+        player.getFaction().setAttribute(FactionAttribute.HIT, hit);
         // Si (dégât_attaque == 0) alors
         if (attackDamage == 0) {
             // rien
@@ -220,12 +223,50 @@ public class Fight1v1 extends Fight {
             // Aléa = random( 100)
             int fate = super.nextRandom(100);
             // Si (aléa < joueur.faction.chance) alors
-            // TODO
+            if (fate < player.getFaction().getAttribute(FactionAttribute.LUCK)) {
+                // on va appliquer les calculs
+                // Selon la faction est
+                switch (player.getFaction().getType()) {
+                    // Lycantrope :
+                    case WEREWOLF:
+                        // Delta = dégât_attaque * faction.pouvoir/100
+                        int delta = attackDamage * player.getFaction().getAttribute(FactionAttribute.POWER) / 100;
+                        // Second.vie -= delta
+                        int life = second.getAttribute(CharacterAttribute.LIFE);
+                        life -= delta;
+                        second.setAttribute(CharacterAttribute.LIFE, life);
+                        // Animation d'un lycantrope
+                        break;
+                    // Vampire :
+                    case VAMPIRE:
+                        // Delta = dégât_attaque * faction.pouvoir/100
+                        delta = attackDamage * player.getFaction().getAttribute(FactionAttribute.POWER)/100;
+                        // Second.vie -= delta/2
+                        life = second.getAttribute(CharacterAttribute.LIFE);
+                        life -= delta/2;
+                        second.setAttribute(CharacterAttribute.LIFE, life);
+                        // Premier.vie +=delta/2
+                        life = player.getAttribute(CharacterAttribute.LIFE);
+                        life += delta / 2;
+                        player.setAttribute(CharacterAttribute.LIFE, life);
+                        // Animation d'un vampire
+                        break;
+                    // Momie
+                    case MUMMY:
+                        // Delta = dégât_attaque * faction.pouvoir/100
+                        delta = attackDamage * player.getFaction().getAttribute(FactionAttribute.POWER)/100;
+                        // Premier.vie += delta
+                        life = player.getAttribute(CharacterAttribute.LIFE);
+                        life += delta;
+                        player.setAttribute(CharacterAttribute.LIFE, life);
+                        // Animation d'une mommie
+                        break;
+                }
+            }
 
 
         }
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   }
 
     private void phaseOffensiveThrowing(Character player, Character opponent) {
         // Aléa = random(100)
@@ -284,9 +325,9 @@ public class Fight1v1 extends Fight {
     private void phaseCare(Character player) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         // Si soins[tranche].nombre > 0 alors
-        
-            // Retire un élément dans la tranche
-            // Vie *= (100 + soins[tranche].quota)/100
+
+        // Retire un élément dans la tranche
+        // Vie *= (100 + soins[tranche].quota)/100
         // fin si
     }
 
@@ -311,7 +352,7 @@ public class Fight1v1 extends Fight {
             // Phase dégats (premier, second, DégatsAttaque, DégatsDéfense)
             this.phaseDamage(first, second, attackDamage, defenseDamage);
             // Phase faction (premier, second, DégatsAttaque, DégatsDéfense)
-            this.phaseFaction(first, attackDamage, defenseDamage);
+            this.phaseFaction(first, second, attackDamage, defenseDamage);
             // Phase jets combats (premier)
             this.phaseOffensiveThrowing(first, second);
             // Phase jets défenses (premier)
@@ -331,9 +372,9 @@ public class Fight1v1 extends Fight {
             return this.defenser;
         }
     }
-    
+
     @Override
     public JSONArray getReport() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.        
-    }   
+    }
 }

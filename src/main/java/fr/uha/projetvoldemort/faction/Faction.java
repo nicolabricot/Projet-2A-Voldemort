@@ -138,7 +138,13 @@ public class Faction {
     }
     
     public int getAttribute(FactionAttribute attribute) {
+        if (!this.attributes.keySet().contains(attribute))
+            return 0;
         return this.attributes.get(attribute);
+    }
+    
+    public FactionType getType() {
+        return this.type;
     }
     
 }

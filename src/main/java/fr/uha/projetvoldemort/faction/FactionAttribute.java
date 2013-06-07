@@ -10,7 +10,9 @@ package fr.uha.projetvoldemort.faction;
  */
 public enum FactionAttribute {
     
-    LIFE("life");
+    HIT("hit"),
+    LUCK("luck"),
+    POWER("power");
     
     private final String json;
     
