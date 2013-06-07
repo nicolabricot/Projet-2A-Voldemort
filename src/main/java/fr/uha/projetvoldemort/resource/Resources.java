@@ -192,6 +192,7 @@ public final class Resources {
         cgu.getInventory().add(ig);
         cgu.getInventory().add(ia);
         cgu.getInventory().add(ib);
+        cgu.getInventory().add(ir);
 
         // Créer une panoplie
         Panoply  p = cgu.createPanoply();
