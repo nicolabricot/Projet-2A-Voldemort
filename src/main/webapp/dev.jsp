@@ -45,7 +45,7 @@
             <li>Get a sustainable panoply : <a href="./rest/character/<%= id %>/panoply/active/sustainables">/rest/character/{id}/panoply/{id}/sustainables</a></li>
             <li>Get a consumable panoply : <a href="./rest/character/<%= id %>/panoply/active/consumables">/rest/character/{id}/panoply/{id}/consumables</a></li>
             <li>Get a degradable panoply : <a href="./rest/character/<%= id %>/panoply/active/degradables">/rest/character/{id}/panoply/{id}/degradables</a></li>
-             <li>Get active panoply : <a href="./rest/character/<%= id %>/panoply/active">/rest/character/{id}/panoply/{id}</a></li>
+             <li>Get active panoply : <a href="./rest/character/<%= id %>/panoply/active">/rest/character/{id}/panoply/active</a></li>
             <li>Get active sustainable panoply : <a href="./rest/character/<%= id %>/panoply/active/sustainables">/rest/character/{id}/panoply/active/sustainables</a></li>
             <li>Get active consumable panoply : <a href="./rest/character/<%= id %>/panoply/active/consumables">/rest/character/{id}/panoply/active/consumables</a></li>
             <li>Get active degradable panoply : <a href="./rest/character/<%= id %>/panoply/active/degradables">/rest/character/{id}/panoply/active/degradables</a></li>
