@@ -98,10 +98,14 @@ $(document).ready(function() {
     var map_info = "Survolez une zone pour avoir plus d’informations";
 
     var map_load = $("#map").data("map-load");
+    var character = $("#map").data("character-id");
+    var path_map = "rest/map/" + (map_load == "full" ? "" : map_load);
+    var path_state = "rest/map/" + (map_load == "full" ? "states" : "state") + "/" + character + "/" + (map_load == "full" ? "" : map_load);
+    
     var map = new Array();
     $.ajax({
         type: "GET",
-        url: "rest/map/" + map_load,
+        url: path_map,
         dataType: "json",
         success: function(data) {
             $.map(data, function(value, key) {
@@ -127,13 +131,14 @@ $(document).ready(function() {
     function ajaxMapDone() {
         $.ajax({
             type: "GET",
-            url: "rest/map/states/" + map_load,
+            url: path_state,
             dataType: "json",
             success: function(data) {
+                //console.log(data);
                 ajaxStatesDone(data);
             },
             error: function(result, state, error) {
-                alert('Oups !');
+                alert('Error! Unable to load states.');
                 console.log('result: ' + result);
                 console.log('state: ' + state);
                 console.log('error: ' + error);
@@ -144,6 +149,7 @@ $(document).ready(function() {
     function ajaxStatesDone(data) {
         $.map(data, function(value, key) {
             map[key.toString()].attr(addAttr(value[0]));
+            //console.log(value[0]);
             (function(st, v) {
                 st[0].onmouseover = function() {
                     st.animate(hoverAttr(v), 300);

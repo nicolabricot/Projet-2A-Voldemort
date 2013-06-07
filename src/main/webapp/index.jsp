@@ -1,8 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : 6 mai 2013, 20:24:40
-    Author     : bruno
---%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
 <html lang="fr">
     <head>
