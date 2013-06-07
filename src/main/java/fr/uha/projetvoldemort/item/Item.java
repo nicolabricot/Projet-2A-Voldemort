@@ -94,21 +94,21 @@ public final class Item {
         ob.put("model", this.model.toJSONObject());
         ob.put("id", this.id.toString());
 
-        JSONArray listAttributes = new JSONArray();
+        JSONObject obAttributes = new JSONObject();
         Iterator<Entry<ItemAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();
         while (itAttributes.hasNext()) {
             Entry<ItemAttribute, Integer> attribute = itAttributes.next();
-            JSONObject obAttribute = new JSONObject();
-            obAttribute.put(attribute.getKey().toString(), attribute.getValue());
+            obAttributes.put(attribute.getKey().toString(), attribute.getValue());
         }
-        ob.append(ATTRIBUTES, listAttributes);
+        ob.put(ATTRIBUTES, obAttributes);
 
         return ob;
     }
 
     public void save() {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
-        Resources.getInstance().getCollection(COLLECTION).insert(ob);
+        //Resources.getInstance().getCollection(COLLECTION).insert(ob);
+        Resources.getInstance().getCollection(COLLECTION).save(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("Item.save: " + ob);
     }
@@ -131,11 +131,11 @@ public final class Item {
     }
     
     public int getAttribute(ItemAttribute attribute) {  
-        return 0;
+        return this.attributes.get(attribute);
     }
     
     public void setAttribute(ItemAttribute attribute, int value) {
-        
+        this.attributes.put(attribute, value);
     }
     
     public Item getAmelioration() {

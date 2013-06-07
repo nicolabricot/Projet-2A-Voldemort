@@ -154,14 +154,13 @@ public final class Character {
         
         ob.put(NAME, this.name);
         
-        JSONArray listAttributes = new JSONArray();
+        JSONObject obAttributes = new JSONObject();
         Iterator<Entry<CharacterAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();
         while (itAttributes.hasNext()) {
             Entry<CharacterAttribute, Integer> attribute = itAttributes.next();
-            JSONObject obAttribute = new JSONObject();
-            obAttribute.put(attribute.getKey().toString(), attribute.getValue());
+            obAttributes.put(attribute.getKey().toString(), attribute.getValue());
         }
-        ob.append(ATTRIBUTES, listAttributes);
+        ob.put(ATTRIBUTES, obAttributes);
         
         ob.put(Inventory.INVENTORY, this.inventory.toJSONArray());
         
@@ -185,7 +184,8 @@ public final class Character {
             it.next().save();
         
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
-        Resources.getInstance().getCollection(COLLECTION).insert(ob);
+        //Resources.getInstance().getCollection(COLLECTION).insert(ob);
+        Resources.getInstance().getCollection(COLLECTION).save(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("Character.save: " + ob);
     }

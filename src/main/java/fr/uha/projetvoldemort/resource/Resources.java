@@ -12,6 +12,7 @@ import fr.uha.projetvoldemort.character.Character;
 import fr.uha.projetvoldemort.character.CharacterAttribute;
 import fr.uha.projetvoldemort.character.Panoply;
 import fr.uha.projetvoldemort.item.Item;
+import fr.uha.projetvoldemort.item.ItemAttribute;
 import fr.uha.projetvoldemort.item.ItemCategory;
 import fr.uha.projetvoldemort.item.ItemModel;
 import fr.uha.projetvoldemort.item.ItemType;
@@ -131,7 +132,7 @@ public final class Resources {
         img.save();
 
         ItemModel imc = new ItemModel(ItemCategory.DEGRADABLE, ItemType.CUIRASS);
-        imc.setName("Cuirass de m***e");
+        imc.setName("Cuirasse de m***e");
         imc.setDescription("Cette cuirasse n'a aucun effet possitif. Mieux vaut ne pas s'en équiper.");
         imc.setImage("cuirass");
         imc.save();
@@ -174,10 +175,18 @@ public final class Resources {
         
         // Crée les items du personnage
         Item ic = new Item(imc);
+        ic.setAttribute(ItemAttribute.CLASS, 10);
+        ic.setAttribute(ItemAttribute.DEFENSE, 30);
         Item ig = new Item(img);
+        ig.setAttribute(ItemAttribute.CLASS, 2);
+        ig.setAttribute(ItemAttribute.DEFENSE, 3);
         Item ia = new Item (ima);
+        ia.setAttribute(ItemAttribute.CLASS, 3);
+        ia.setAttribute(ItemAttribute.ATTACK, 2);
         Item ib = new Item (imb);
         Item ir = new Item (imr);
+        ir.setAttribute(ItemAttribute.CLASS, 3);
+        ir.setAttribute(ItemAttribute.LUCK, 5);
         
         // Ajoute les items à l'inventaire
         cgu.getInventory().add(ic);
@@ -193,6 +202,6 @@ public final class Resources {
         
         cgu.setActivePanoply(p);
         
-        cgu.save(); // TODO : régler le bug de l'update
+        cgu.save();
     }
 }

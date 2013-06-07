@@ -96,7 +96,8 @@ public final class ItemModel {
 
     public void save() {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
-        Resources.getInstance().getCollection(COLLECTION).insert(ob);
+        //Resources.getInstance().getCollection(COLLECTION).insert(ob);
+        Resources.getInstance().getCollection(COLLECTION).save(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("ItemModel.save: " + ob);
     }

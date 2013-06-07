@@ -51,12 +51,13 @@ public final class Panoply implements InventoryListener {
 
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
-
-        BasicDBList listItems = (BasicDBList) ob.get("items");
+        System.out.println(ob.toString());
+        BasicDBList listItems = (BasicDBList) ob.get(ITEMS);
         Iterator<Object> itItems = listItems.iterator();
+         if (listItems.isEmpty()) throw new RuntimeException("fuck");
         while (itItems.hasNext()) {
-            ObjectId id = (ObjectId) itItems.next();
-            this.items.add(this.inventory.getItem(id));
+            ObjectId oid = (ObjectId) itItems.next();
+            this.items.add(this.inventory.getItem(oid));
         }
     }
 
@@ -90,21 +91,22 @@ public final class Panoply implements InventoryListener {
     public JSONObject toJSONObject() throws JSONException {
         JSONObject ob = new JSONObject();
 
-        ob.append(ID, this.id.toString());
+        ob.put(ID, this.id.toString());
 
         JSONArray listItems = new JSONArray();
         Iterator<Item> it = this.items.iterator();
         while (it.hasNext()) {
             listItems.put(it.next().toJSONObject());
         }
-        ob.append(ITEMS, listItems);
+        ob.put(ITEMS, listItems);
 
         return ob;
     }
 
     protected void save() {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
-        Resources.getInstance().getCollection(COLLECTION).insert(ob);
+        //Resources.getInstance().getCollection(COLLECTION).insert(ob);
+        Resources.getInstance().getCollection(COLLECTION).save(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("Panoply.save: " + ob);
     }
