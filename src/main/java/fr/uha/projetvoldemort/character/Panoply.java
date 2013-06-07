@@ -8,10 +8,11 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import fr.uha.projetvoldemort.item.Item;
-import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.exception.NotFoundException;
 import fr.uha.projetvoldemort.item.ItemCategory;
 import fr.uha.projetvoldemort.item.ItemType;
 import fr.uha.projetvoldemort.resource.Resources;
+import fr.uha.projetvoldemort.exception.NotAllowedException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.bson.types.ObjectId;
@@ -51,10 +52,8 @@ public final class Panoply implements InventoryListener {
 
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
-        System.out.println(ob.toString());
         BasicDBList listItems = (BasicDBList) ob.get(ITEMS);
         Iterator<Object> itItems = listItems.iterator();
-         if (listItems.isEmpty()) throw new RuntimeException("fuck");
         while (itItems.hasNext()) {
             ObjectId oid = (ObjectId) itItems.next();
             this.items.add(this.inventory.getItem(oid));
@@ -103,7 +102,7 @@ public final class Panoply implements InventoryListener {
         return ob;
     }
 
-    protected void save() {
+    public void save() {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
         //Resources.getInstance().getCollection(COLLECTION).insert(ob);
         Resources.getInstance().getCollection(COLLECTION).save(ob);
@@ -117,7 +116,21 @@ public final class Panoply implements InventoryListener {
 
     public void setItem(Item item) {
         if (!this.inventory.contains(item)) {
-            throw new RuntimeException("Item doesn't belong to the character.");
+                        StringBuilder str = new StringBuilder();
+            str.append("Item ");
+            str.append(item.getId().toString());
+            str.append(" does not come from the inventory.");
+            throw new NotAllowedException(str.toString());
+        }
+        
+        if (this.items.contains(item)) {
+            StringBuilder str = new StringBuilder();
+            str.append("Item ");
+            str.append(item.getId().toString());
+            str.append(" is already in the panoply ");
+            str.append(this.getId().toString());
+            str.append(".");
+            throw new NotAllowedException(str.toString());
         }
 
         this.items.add(item);
@@ -185,9 +198,23 @@ public final class Panoply implements InventoryListener {
 
         return list;
     }
+    
+    public ArrayList<Item> getItems() {
+        return this.items;
+    }
 
     @Override
     public void remove(Item item) {
-        this.inventory.remove(item);
+        if (!this.items.contains(item)) {
+            StringBuilder str = new StringBuilder();
+            str.append("Item ");
+            str.append(item.getId().toString());
+            str.append(" is not ine the panoply ");
+            str.append(this.getId().toString());
+            str.append(".");
+            throw new NotFoundException(str.toString());
+        }
+    
+        this.items.remove(item);
     }
 }

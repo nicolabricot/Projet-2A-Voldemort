@@ -7,8 +7,9 @@ package fr.uha.projetvoldemort.character;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.exception.NotFoundException;
 import fr.uha.projetvoldemort.resource.Resources;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -224,5 +225,13 @@ public final class Character {
     
     public void setAttribute(CharacterAttribute attribute, int value) {
         this.attributes.put(attribute, value);
+    }
+    
+    public Collection<Panoply> getPanoplies() {
+        return this.panoplies.values();
+    }
+    
+    public Panoply getPanoply(ObjectId id) {
+        return this.panoplies.get(id);
     }
 }

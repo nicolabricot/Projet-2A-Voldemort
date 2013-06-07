@@ -16,7 +16,6 @@ import fr.uha.projetvoldemort.item.ItemAttribute;
 import fr.uha.projetvoldemort.item.ItemCategory;
 import fr.uha.projetvoldemort.item.ItemModel;
 import fr.uha.projetvoldemort.item.ItemType;
-import fr.uha.projetvoldemort.item.UnexpectedItemException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -90,7 +89,7 @@ public final class Resources {
         this.mongo = null;
     }
     
-    public String getFirstCharacterId() throws UnexpectedItemException {
+    public String getFirstCharacterId() {
         Resources.getInstance().connect();
         Resources.getInstance().fill();
         BasicDBObject ob = (BasicDBObject) Resources.getInstance().getCollection(Character.COLLECTION).findOne();
@@ -99,7 +98,7 @@ public final class Resources {
         return id.toString();
     }
 
-    public void fill() throws UnexpectedItemException {
+    public void fill() {
         
         // Supprimer les collections
         this.getCollection(CharacterModel.COLLECTION).drop();

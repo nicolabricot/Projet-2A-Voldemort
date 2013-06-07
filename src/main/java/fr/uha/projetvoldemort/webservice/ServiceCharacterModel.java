@@ -7,7 +7,7 @@ package fr.uha.projetvoldemort.webservice;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.character.CharacterModel;
-import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.exception.NotFoundException;
 import fr.uha.projetvoldemort.resource.Resources;
 import java.util.logging.Level;
 import java.util.logging.Logger;

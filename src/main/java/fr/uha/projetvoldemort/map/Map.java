@@ -6,7 +6,7 @@ package fr.uha.projetvoldemort.map;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.exception.NotFoundException;
 import fr.uha.projetvoldemort.resource.Resources;
 import java.util.HashMap;
 import java.util.Iterator;

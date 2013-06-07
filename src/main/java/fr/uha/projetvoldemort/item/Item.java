@@ -6,7 +6,7 @@ package fr.uha.projetvoldemort.item;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.exception.NotFoundException;
 import fr.uha.projetvoldemort.resource.Resources;
 import java.util.EnumMap;
 import java.util.Iterator;

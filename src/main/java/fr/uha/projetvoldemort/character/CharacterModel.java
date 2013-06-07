@@ -6,7 +6,7 @@ package fr.uha.projetvoldemort.character;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.exception.NotFoundException;
 import fr.uha.projetvoldemort.resource.Resources;
 import org.bson.types.ObjectId;
 import org.json.JSONException;

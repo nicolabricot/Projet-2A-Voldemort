@@ -4,11 +4,13 @@
  */
 package fr.uha.projetvoldemort.webservice;
 
+import fr.uha.projetvoldemort.exception.NotAllowedException;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.character.Character;
 import fr.uha.projetvoldemort.character.Inventory;
-import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.exception.NotFoundException;
+import fr.uha.projetvoldemort.character.Panoply;
 import fr.uha.projetvoldemort.item.Item;
 import fr.uha.projetvoldemort.item.ItemCategory;
 import fr.uha.projetvoldemort.resource.Resources;
@@ -35,34 +37,7 @@ public class ServiceCharacter {
 
     @GET
     @Path("/all")
-    public Response getAll() {
-
-        try {
-            Resources res = Resources.getInstance();
-            res.connect();
-            DBCollection coll = res.getCollection(Character.COLLECTION);
-            DBCursor cursor = coll.find();
-            JSONArray a = new JSONArray();
-            while (cursor.hasNext()) {
-                ObjectId id = (ObjectId) cursor.next().get("_id");
-                a.put(new Character(id).toJSONObject());
-            }
-            return Response.status(HttpStatus.OK).entity(a.toString()).build();
-            
-        } catch (JSONException ex) {
-            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
-            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        } finally {
-            Resources.getInstance().close();
-        }
-
-
-    }
-
-    @GET
-    @Path("/ids")
-    public Response getIds() {
-
+    public Response getCharacters() {
         Resources res = Resources.getInstance();
         res.connect();
         DBCollection coll = res.getCollection(Character.COLLECTION);
@@ -74,7 +49,6 @@ public class ServiceCharacter {
         }
         res.close();
         return Response.status(HttpStatus.OK).entity(a.toString()).build();
-
     }
 
     @GET
@@ -96,23 +70,6 @@ public class ServiceCharacter {
     }
 
     @GET
-    @Path("/{id}/equipment")
-    public Response getEquipment(@PathParam("id") String id) {
-        return Response.status(HttpStatus.NOT_IMPLEMENTED).build();
-        /*
-         try {
-         Ressources.getInstance().connect();
-         Panoply e = new Character(new ObjectId(id)).getEquipment();
-         return Response.status(HttpStatus.OK).entity(e.toJSONObject().toString()).build();
-         }
-         catch (RessourceNotFoundException e) {
-         return Response.status(HttpStatus.NOT_FOUND).build();
-         } finally {
-         Ressources.getInstance().close();
-         }*/
-    }
-
-    @GET
     @Path("/{id}/inventory")
     public Response getInventory(@PathParam("id") String id) {
         try {
@@ -131,8 +88,8 @@ public class ServiceCharacter {
     }
 
     @GET
-    @Path("/{id}/sustainables")
-    public Response getSustainables(@PathParam("id") String id) {
+    @Path("/{id}/inventory/sustainables")
+    public Response getInventorySustainables(@PathParam("id") String id) {
         try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
@@ -155,7 +112,7 @@ public class ServiceCharacter {
     }
 
     @GET
-    @Path("/{id}/consumables")
+    @Path("/{id}/inventory/consumables")
     public Response getConsumables(@PathParam("id") String id) {
         try {
             Resources.getInstance().connect();
@@ -179,7 +136,7 @@ public class ServiceCharacter {
     }
 
     @GET
-    @Path("/{id}/degradables")
+    @Path("/{id}/inventory/degradables")
     public Response getDegradables(@PathParam("id") String id) {
         try {
             Resources.getInstance().connect();
@@ -201,10 +158,318 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-
+    
     @GET
-    @Path("/{id}/stats")
+    @Path("/{id}/panoply/all")
+    public Response getPanoplies(@PathParam("id") String id) {
+         try {
+            Resources.getInstance().connect();
+            JSONArray a = new JSONArray();
+
+            Iterator<Panoply> it = new Character(new ObjectId(id)).getPanoplies().iterator();
+            while (it.hasNext()) {
+                a.put(it.next().getId().toString());
+            }
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Path("/{idC}/panoply/{idP}")
+    public Response getPanoplyItems(@PathParam("idC") String idC, @PathParam("idP") String idP) {
+         try {
+            Resources.getInstance().connect();
+            JSONArray a = new JSONArray();
+
+            Iterator<Item> it = new Character(new ObjectId(idC)).getPanoply(new ObjectId(idP)).getItems().iterator();
+            while (it.hasNext()) {
+                a.put(it.next().toJSONObject());
+            }
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } catch (JSONException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Path("/{idC}/panoply/{idP}/sustainables")
+    public Response getPanoplySustainables(@PathParam("idC") String idC, @PathParam("idP") String idP) {
+         try {
+            Resources.getInstance().connect();
+            JSONArray a = new JSONArray();
+
+            Iterator<Item> it = new Character(new ObjectId(idC)).getPanoply(new ObjectId(idP)).getItems(ItemCategory.SUSTAINABLE).iterator();
+            while (it.hasNext()) {
+                a.put(it.next().toJSONObject());
+            }
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } catch (JSONException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Path("/{idC}/panoply/{idP}/consumables")
+    public Response getPanoplyConsumables(@PathParam("idC") String idC, @PathParam("idP") String idP) {
+         try {
+            Resources.getInstance().connect();
+            JSONArray a = new JSONArray();
+
+            Iterator<Item> it = new Character(new ObjectId(idC)).getPanoply(new ObjectId(idP)).getItems(ItemCategory.CONSUMABLE).iterator();
+            while (it.hasNext()) {
+                a.put(it.next().toJSONObject());
+            }
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } catch (JSONException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Path("/{idC}/panoply/{idP}/degradables")
+    public Response getPanoplyDegradables(@PathParam("idC") String idC, @PathParam("idP") String idP) {
+                 try {
+            Resources.getInstance().connect();
+            JSONArray a = new JSONArray();
+
+            Iterator<Item> it = new Character(new ObjectId(idC)).getPanoply(new ObjectId(idP)).getItems(ItemCategory.DEGRADABLE).iterator();
+            while (it.hasNext()) {
+                a.put(it.next().toJSONObject());
+            }
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } catch (JSONException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Path("/{id}/panoply/active")
+    public Response getActivePanoplyItems(@PathParam("id") String id) {
+         try {
+            Resources.getInstance().connect();
+            JSONArray a = new JSONArray();
+
+            Iterator<Item> it = new Character(new ObjectId(id)).getActivePanoply().getItems().iterator();
+            while (it.hasNext()) {
+                a.put(it.next().toJSONObject());
+            }
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } catch (JSONException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Path("/{id}/panoply/active/sustainables")
+    public Response getActivePanoplySustainables(@PathParam("id") String id) {
+         try {
+            Resources.getInstance().connect();
+            JSONArray a = new JSONArray();
+
+            Iterator<Item> it = new Character(new ObjectId(id)).getActivePanoply().getItems(ItemCategory.SUSTAINABLE).iterator();
+            while (it.hasNext()) {
+                a.put(it.next().toJSONObject());
+            }
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } catch (JSONException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Path("/{id}/panoply/active/consumables")
+    public Response getActivePanoplyConsumables(@PathParam("id") String id) {
+         try {
+            Resources.getInstance().connect();
+            JSONArray a = new JSONArray();
+
+            Iterator<Item> it = new Character(new ObjectId(id)).getActivePanoply().getItems(ItemCategory.CONSUMABLE).iterator();
+            while (it.hasNext()) {
+                a.put(it.next().toJSONObject());
+            }
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } catch (JSONException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Path("/{id}/panoply/active/degradables")
+    public Response getActivePanoplyDegradables(@PathParam("id") String id) {
+                 try {
+            Resources.getInstance().connect();
+            JSONArray a = new JSONArray();
+
+            Iterator<Item> it = new Character(new ObjectId(id)).getActivePanoply().getItems(ItemCategory.DEGRADABLE).iterator();
+            while (it.hasNext()) {
+                a.put(it.next().toJSONObject());
+            }
+
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } catch (JSONException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Path("/{id}/statistics")
     public Response getStats(@PathParam("id") String id) {
         return Response.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
+    
+    @GET
+    @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
+    @Path("/{idC}/panoply/{idP}/remove/{idM}")
+    public Response removeFromPanoply(@PathParam("idC") String idC, @PathParam("idP") String idP, @PathParam("idM") String idM) {
+         try {
+            Resources.getInstance().connect();
+
+            Character c = new Character(new ObjectId(idC));
+            Item i = c.getInventory().getItem(new ObjectId(idM));
+            Panoply p = c.getPanoply(new ObjectId(idP));
+            p.remove(i);
+            p.save();
+ 
+            return Response.status(HttpStatus.OK).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
+    @Path("/{idC}/panoply/active/remove/{idM}")
+    public Response removeFromActivePanoply(@PathParam("idC") String idC, @PathParam("idM") String idM) {
+         try {
+            Resources.getInstance().connect();
+
+            Character c = new Character(new ObjectId(idC));
+            Item i = c.getInventory().getItem(new ObjectId(idM));
+            Panoply p = c.getActivePanoply();
+            p.remove(i);
+            p.save();
+ 
+            return Response.status(HttpStatus.OK).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
+    @Path("/{idC}/panoply/{idP}/add/{idM}")
+    public Response addToPanoply(@PathParam("idC") String idC, @PathParam("idP") String idP, @PathParam("idM") String idM) {
+         try {
+            Resources.getInstance().connect();
+
+            Character c = new Character(new ObjectId(idC));
+            Item i = c.getInventory().getItem(new ObjectId(idM));
+            Panoply p = c.getPanoply(new ObjectId(idP));
+            p.setItem(i);
+            p.save();
+ 
+            return Response.status(HttpStatus.OK).build();
+        } catch (NotAllowedException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
+    @Path("/{idC}/panoply/active/add/{idM}")
+    public Response addtoActivePanoply(@PathParam("idC") String idC, @PathParam("idM") String idM) {
+         try {
+            Resources.getInstance().connect();
+
+            Character c = new Character(new ObjectId(idC));
+            Item i = c.getInventory().getItem(new ObjectId(idM));
+            Panoply p = c.getActivePanoply();
+            p.setItem(i);
+            p.save();
+            
+            return Response.status(HttpStatus.OK).build();
+        } catch (NotAllowedException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
+        
 }
