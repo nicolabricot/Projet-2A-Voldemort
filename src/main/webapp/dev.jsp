@@ -1,25 +1,18 @@
-<<<<<<< HEAD
 <%-- 
     Document   : index
     Created on : 6 mai 2013, 20:24:40
     Author     : bruno
---%><%@page import="java.net.InetAddress"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
+--%><%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
 <html>
-=======
-<%@page contentType="text/html" pageEncoding="UTF-8" %><%--
---%><!DOCTYPE html>
-<html lang="fr">
->>>>>>> f457a963a935eaacde32703eaed623e46ea1ce90
     <head>
-        <jsp:include page="/WEB-INF/jsp/head.jsp" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Projet Voldemort</title>
     </head>
-<<<<<<< HEAD
     <body>
         <h1>Index</h1>
         <h2>Pages web</h2>
         <ul>
-            <li><a href="map.jsp">Map</a></li>
+            <li><a href="map.jsp">Map</a> (<a href="old-map.jsp">archive</a>)</li>
             <li><a href="panoply.jsp">Personnage</a> (<a href="old-panoply.jsp">archive</a>)</li>
         </ul>
         <h2>Service web</h2>
@@ -48,40 +41,10 @@
         <pre>cd /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/bin</pre>
         <pre>./mongod --dbpath /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/data</pre>
         
-        <h2>Server</h2>
-        <ul>
-            <li>Hostname : <%= InetAddress.getLocalHost().getHostName() %></li>
-            <li>IP : <%= InetAddress.getLocalHost().getHostAddress() %></li>
-            <li>App Server : <%=getServletConfig().getServletContext().getServerInfo()%></li>
-            <li>JVM : <%= System.getProperty("java.version")%> - <%=System.getProperty("java.vendor")%></li>
-            <li>Java home : <%= System.getProperty("java.home")%></li>
-            <li>OS : <%= System.getProperty("os.name")%> - <%= System.getProperty("os.version")%></li>
-            <li>Architecture : <%= System.getProperty("os.arch")%></li>
-        </ul>
-=======
-
-    <body class="page-home">
-        <%-- menu --%>
-        <jsp:include page="/WEB-INF/jsp/menu.jsp">
-            <jsp:param name="page" value="home" />
-        </jsp:include>
-
-        <!-- content -->
-        <div id="content">
-            <div class="container">
-                <p class="center">
-                    <img src="./static/img/loader.gif" alt="..." />
-                    <br />work in progress
-                </p>
-            </div>
+        <h2>Images</h2>
+        <div>
+            <img src="./static/media/items.png" alt="items"/>
         </div>
-        <!-- /content -->
-
-        <!-- footer -->
-        <!-- /footer -->
-
-        <%-- scripts --%>
-        <jsp:include page="/WEB-INF/jsp/script.jsp" />
->>>>>>> f457a963a935eaacde32703eaed623e46ea1ce90
+        
     </body>
 </html>

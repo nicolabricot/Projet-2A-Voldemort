@@ -127,26 +127,31 @@ public final class Resources {
         ItemModel img = new ItemModel(ItemCategory.CONSUMABLE, ItemType.GAUNTLET);
         img.setName("Gant de base");
         img.setDescription("Gant parfait pour un noob.");
+        img.setImage("gauntlet");
         img.save();
 
         ItemModel imc = new ItemModel(ItemCategory.DEGRADABLE, ItemType.CUIRASS);
         imc.setName("Cuirass de m***e");
         imc.setDescription("Cette cuirasse n'a aucun effet possitif. Mieux vaut ne pas s'en équiper.");
+        imc.setImage("cuirass");
         imc.save();
 
         ItemModel ima = new ItemModel(ItemCategory.SUSTAINABLE, ItemType.WEAPON);
         ima.setName("Epée rouillée");
         ima.setDescription("D'aventages de risque de choper le tetanos que de tuer un adversaire en la manipulant.");
+        ima.setImage("rusty-sword");
         ima.save();
 
         ItemModel imb = new ItemModel(ItemCategory.SUSTAINABLE, ItemType.BAG);
         imb.setName("Sacoche 6 emplacements");
         imb.setDescription("Augmente votre inventaire de 6 cases.");
+        imb.setImage("bag");
         imb.save();
 
         ItemModel imr = new ItemModel(ItemCategory.SUSTAINABLE, ItemType.RING);
         imr.setName("Anneau de pouvoir");
         imr.setDescription("Perdu par une étrange créature dans un marais, il est écrit dessus \"Un anneau pour les gouverner tous. Un anneau pour les trouver tous, Un anneau pour les amener tous et dans les ténèbres les lier.\"");
+        imr.setImage("ring");
         imr.save();
 
         /*

@@ -1,0 +1,36 @@
+/* 
+    Document   : items
+    Created on : 5 juin 2013, 17:40:10
+    Author     : Nicolas Devenet <nicolas@devenet.info>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+div.image-items {
+    text-align: center;
+    margin: auto;
+    height: 34px;
+    width: 34px;
+    background: url(../media/items.png) 34px 34px no-repeat;
+    /*border: 1px solid black;*/
+}
+
+.image-items.item-gauntlet {
+    background-position: -238px -476px;
+}
+
+.image-items.item-cuirass {
+    background-position: 0 -442px;
+}
+
+.image-items.item-rusty-sword {
+    background-position: -34px -170px;
+}
+
+.image-items.item-bag {
+    background-position: -238px -986px;
+}
+
+.image-items.item-ring {
+    background-position: -170px -646px;
+}

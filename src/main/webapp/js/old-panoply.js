@@ -1,37 +1,74 @@
 $(document).ready(function() {
-   $("#tabs ul li:first-child").addClass("active");
-   $("#tabs ul").tabify();
-   
-   $("li.reception a").click(function() {
-      return false; 
-   });
-   
-   $("#tabs ul li").draggable({
-       axis: "x",
-       revert: "invalid",
-       stack: "#tabs",
-       drag: function(event, ui) {
-           $(this).css("color", "red");
-       },
-       stop: function(event, ui) {
-           $(this).css("color", "blue");
-       }
-   });
-   
-   
-   $("li.reception").droppable({
-       accept: "#tabs ul li",
-       activeClass: "receptione",
-       hoverClass: "accept",
-       drop: function(event, ui) {
-           var tab = ui.helper.children().attr("href").replace("-tab", "");
-           var current = $(this).children().attr("href").replace("tab", "column");
-           if (ui.helper.hasClass("active")) {
-               console.log($(tab).parent().attr("id"));
-           }
-           $(current).append($(tab));
-           $(this).before(ui.helper.css("left", 0));
-       }
-   });
-   
+
+    /*
+     * LINKS AND TABS
+     */
+
+    // remove click on link tabs
+    $("#links li a").click(function() {
+        return false;
+    });
+    // set ready link to be draggeabled
+    $("#links li").addClass("ready");
+    $("#links li.ready").draggable({
+        revert: "invalid",
+        helper: "clone"
+    });
+
+    // define comportment for droppable tabs
+    $("#view .tab").droppable({
+        accept: "li.ready",
+        activeClass: "active",
+        hoverClass: "accept",
+        drop: function(event, ui) {
+            var link = ui.helper.children().attr("href");
+            var tab = "#" + $(this).attr("id");
+            var old_link = $(tab).data("actual-link");
+
+            // s'il y a deja une view, on la récupère pour l'enlever et on réactive le lien
+            if (old_link !== undefined) {
+                $("#links li a[href=" + old_link + "]").parent().removeClass("disable").addClass("ready");
+                $(tab).html("");
+            }
+            // maintenant on peut mettre la vue sélectionnée
+            $("#links li a[href=" + link + "]").parent().addClass("disable").removeClass("ready");
+            $("#view .tab").removeClass("active");
+            $(tab).data("actual-link", link);
+            $(tab).append($(link).html());
+            ui.helper.remove();
+            // add remove tab on click
+            $("#links li a[href=" + link + "]").click(function() {
+                $("#links li a[href=" + link + "]").parent().removeClass("disable").addClass("ready");
+                $(tab).html("");
+            });
+            // weapon
+            weapon();
+        }
+    });
+
+
+    /*
+     * INVENTORY
+     */
+    // weapons draggable
+    function weapon() {
+        $(".inventory .item").draggable({
+            revert: "invalid",
+            helper: "clone",
+            cursor: "move"
+        });
+
+        $(".permanent .item.weapon").droppable({
+            accept: ".inventory .item.weapon",
+            activeClass: "active",
+            hoverClass: "accept",
+            drop: function(event, ui) {
+                var img = ui.helper.children();
+                var perm = $(this);
+                console.log(img);
+                console.log(perm);
+            }
+        });
+    }
+
 });

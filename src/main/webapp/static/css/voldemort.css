@@ -1,0 +1,93 @@
+/* 
+    Document   : voldemort
+    Created on : 5 juin 2013, 02:11:09
+    Author     : Nicolas Devenet <nicolas@devenet.info>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    padding-top: 50px;
+}
+
+.center {
+    text-align: center;
+}
+
+#content {
+    margin: 20px 0;
+}
+
+/* page-home */
+.page-home #content {
+    margin-top: 100px;
+}
+
+/* page-map */
+.page-map #map {
+    width: 520px;
+    height: 560px;
+    margin: auto;
+    border: 1px solid #aaa;
+}
+.page-map #map span {
+    display: none;
+    visibility: hidden;
+}
+.page-map #map-info {
+    text-align: center;
+}
+
+/* page-panoply */
+.page-panoply #links {
+    margin: auto auto 20px;
+}
+
+.page-panoply #links a,
+.page-panoply #links a:hover {
+    cursor: move;
+}
+
+.page-panoply #links a.disabled,
+.page-panoply #links a.disabled:hover {
+    cursor: pointer;
+}
+
+.page-panoply #view {
+    margin: 30px 20px;
+}
+.page-panoply .tab {
+    border: 1px solid #ccc;
+    min-height: 300px;
+}
+
+.page-panoply .tab.active,
+.page-panoply .item.active {
+    border: 1px solid #4DD15E;
+}
+.page-panoply .tab.accept,
+.page-panoply .item.accept {
+    background-color: #CAFFC9;
+}
+
+.page-panoply p.loading {
+    line-height: 280px;
+}
+
+.page-panoply .item {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    margin: 10px 0 10px 10px;
+    padding: 4px;
+    overflow: hidden;
+    line-height: 34px;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 10px;
+}
+
+.page-panoply .inventory .item {
+    cursor: move;
+}

@@ -1,144 +1,75 @@
-<%-- 
-    Document   : panoply
-    Created on : 22 mai 2013, 11:30:20
-    Author     : Nicolas Devenet <nicolas@devenet.info>
---%><%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
-<html>
+<%@page import="fr.uha.projetvoldemort.resource.Resources" contentType="text/html" pageEncoding="UTF-8"%><%--
+--%><!DOCTYPE html>
+<html lang="fr">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Panoply</title>
+        <jsp:include page="/WEB-INF/jsp/head.jsp">
+            <jsp:param name="title" value="Panoply" />
+        </jsp:include>
+        <link rel="stylesheet" href="./static/css/items.css" media="screen" />
         <style>
-            /* links */
-            #links {
-                list-style: none;
-                padding: 0;
-                margin: 20px 0;
-            }
-            #links li {
-                display: inline-block;
-            }
-            #links a {
-                float: left;
-                padding: 10px 15px;
-                text-decoration: none;
-                /*background-color: #ccc;*/
-                color: #000;
-                margin-bottom: 0;
-            }
-            #links li.ready a {
-                background-color: #eee;
-                cursor: move;
-            }
-            #links li.disable a {
-                background-color: #ccc;
-                cursor: n-resize;
-            }
-            /* view */
-            #view {
-            }
-            .tab {
-                border: 1px solid grey;
-                width: 32%;
-                margin-right: 5px;
-                float: left;
-                min-height: 400px;
-            }
-            .tab.active {
-                border-color: green;
-            }
-            .tab.accept {
-                background-color: green;
-            }
-            /* item */
-            .item {
-                display: inline-block;
-                width: 75px;
-                height: 75px;
-                margin: 10px 0 10px 10px;
-                overflow: hidden;
-                line-height: 75px;
-                text-align: center;
-                border: 1px solid grey;
-            }
-           .item img {
-                width: 60px;
-                height: 60px;
-                vertical-align: middle;
-            }
-            .item.active {
-                border: 1px solid green;
-            }
-            .item.accept {
-                background-color: green;
-            }
+
         </style>
     </head>
-    <body>
-        <h1>Panoply</h1>
-        
-        <ul id="links">
-            <li><a href="#permanent">Permanent equipment</a></li>
-            <li><a href="#inventory">Inventory</a></li>
-            <li><a href="#c">C</a></li>
-            <li><a href="#d">D</a></li>
-            <li><a href="#s">S</a></li>
-        </ul>
-        
-        <div id="view" data-character-id="519ce8b7c02662c571349537">
-            <div id="first-tab" class="tab">
-                
+
+    <body class="page-panoply">
+        <%-- menu --%>
+        <jsp:include page="/WEB-INF/jsp/menu.jsp">
+            <jsp:param name="page" value="panoply" />
+        </jsp:include>
+
+        <!-- content -->
+        <div id="content">
+
+            <div id="links" class="container"> 
+                <div class="btn-group">
+                    <a href="#sustainables" class="btn">Permanent</a>
+                    <a href="#consumables" class="btn">Consumable</a>
+                    <a href="#degradables" class="btn">Degradable</a>
+                </div>
+                <a href="#inventory" class="btn">Inventory</a>
+                <a href="#stats" class="btn">Statistics</a>
             </div>
-            <div id="second-tab" class="tab">
-                
-            </div>
-            <div id="third-tab" class="tab">
-                
-            </div>
-        </div>
-        
-        <div style="display:none;">
-            <div id="permanent">
-                <div class="permanent equipment">
-                    <div class="item weapon">
-                        weapon
-                    </div>
-                    <div class="item helmet">
-                        helmet
-                    </div>
+
+            <div id="view" data-character-id="<% out.print(Resources.getInstance().getFirstCharacterId()); %>">
+                <div class="row-fluid">
+                    <div id="first-tab" class="tab span4"></div>
+                    <div id="second-tab" class="tab span4"></div>
+                    <div id="third-tab" class="tab span4"></div>
                 </div>
             </div>
-            <div id="c">
+        </div>
+        <!-- /content -->
+
+
+        <!-- deviendra de l'ajax -->
+        <div style="display:none; clear:both;">
+            <div id="sustainables" class="equipment">
+                <div class="permanent equipment">
+                    <div class="item weapon">weapon</div>
+                    <div class="item cuirass">cuirass</div>
+                    <div class="item gauntlet">gauntlet</div>
+                    <div class="item ring">ring</div>
+                </div>
+            </div>
+            <div id="consumable">
                 this is the c table
             </div>
-            <div id="d">
+            <div id="degradable">
                 this is the d table
             </div>
-            <div id="inventory">
-                <div class="inventory">
-                    <div class="item weapon">
-                        <img src="static/img/arc-1.png" alt="arc-1" />
-                    </div>
-                    <div class="item weapon">
-                        <img src="static/img/arc-2.png" alt="arc-2" />
-                    </div>
-                    <div class="item helmet">
-                        <img src="static/img/casque-1.png" alt="casque-1" />
-                    </div>
-                    <div class="item weapon">
-                        <img src="static/img/couteau-1.png" alt="couteau-1" />
-                    </div>
-                    <div class="item weapon">
-                        <img src="static/img/couteau-2.png" alt="couteau-1" />
-                    </div>
-                </div>
-            </div>
-            <div id="s">
-                this is the s table
+            <div id="stats">
+                Player statistiques
             </div>
         </div>
-        
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+
+
+        <!-- footer -->
+        <!-- /footer -->
+
+        <%-- scripts --%>
+        <jsp:include page="/WEB-INF/jsp/script.jsp" />
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-        <script src="js/panoply.js" charset="utf-8"></script>
+        <script src="./js/panoply.js" charset="utf-8"></script>
     </body>
 </html>
