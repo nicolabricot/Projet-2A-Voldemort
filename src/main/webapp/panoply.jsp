@@ -15,7 +15,9 @@
         </jsp:include>
         <link rel="stylesheet" href="./static/css/items.css" media="screen" />
         <style>
-
+            .statictics {
+                padding: 10px;
+            }
         </style>
     </head>
 
@@ -36,7 +38,7 @@
                         <a href="#degradables" class="btn">Degradable</a>
                     </div>
                     <a href="#inventory" class="btn btn-inverse">Inventory</a>
-                    <a href="#stats" class="btn btn-info">Statistics</a>
+                    <a href="#statistics" class="btn btn-info">Statistics</a>
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success disabled"><i class="icon-ok icon-white"></i> enabled</a>
@@ -72,8 +74,13 @@
                     <div class="item cuirass">cuirass</div>
                 </div>
             </div>
-            <div id="stats">
-                
+            <div id="statistics">
+                <div class="statictics">
+                    <div class="alert">
+                        <!--<button type="button" class="close" data-dismiss="alert">&times;</button>-->
+                        <strong>Warning!</strong> Not yet implemented.
+                    </div>
+                </div>
             </div>
         </div>
 
