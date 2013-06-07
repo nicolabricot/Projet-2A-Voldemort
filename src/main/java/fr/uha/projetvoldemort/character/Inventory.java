@@ -6,9 +6,8 @@ package fr.uha.projetvoldemort.character;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.item.Item;
-import fr.uha.projetvoldemort.item.ItemUsage;
+import fr.uha.projetvoldemort.item.ItemCategory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,15 +23,19 @@ public final class Inventory {
 
     public static final String INVENTORY = "inventory";
     public static final String ID = "_id";
+    
     private HashMap<ObjectId, Item> items;
+    private ArrayList<InventoryListener> listeners;
 
     Inventory(DBObject ob) {
         this.items = new HashMap<ObjectId, Item>();
+        this.listeners = new ArrayList<InventoryListener>();
         this.hydrate((BasicDBList) ob);
     }
 
     Inventory() {
         this.items = new HashMap<ObjectId, Item>();
+        this.listeners = new ArrayList<InventoryListener>();
     }
 
     public void hydrate(BasicDBList obl) {
@@ -81,26 +84,51 @@ public final class Inventory {
 
         return ob;
     }
+    
+/**
+ * Ajouter un listener. Utile pour mettre à jour les panoplies.
+ * @param il Une panoplie par exemple.
+ */
+    public void addListener(InventoryListener il) {
+        this.listeners.add(il);
+    }
+    
+/**
+ * Retirer un listener
+ * @param il 
+ */
+    public void removeListener(InventoryListener il) {
+        this.listeners.remove(il);
+    }
 
-    public ArrayList<Item> getItems(ItemUsage usage) {
-        ArrayList<Item> items = new ArrayList<Item>();
+        /**
+     * Obtient la liste des items de l'inventaire correspondant à la catégorie
+     * transmise en paramètre
+     *
+     * @param category Categorie des items
+     * @return La liste des items de l'inventaure correspondant à la catégorie
+     * transmise en paramètre
+     */
+    public ArrayList<Item> getItems(ItemCategory category) {
+        ArrayList<Item> listItems = new ArrayList<Item>();
 
         Iterator<Item> it = this.items.values().iterator();
         while (it.hasNext()) {
             Item item = it.next();
-            if (item.getUsage() != null && item.getUsage().equals(usage)) {
-                items.add(item);
+            if (item.getCategory().equals(category)) {
+                listItems.add(item);
             }
         }
 
-        return items;
+        return listItems;
     }
 
+    /**
+     * Obtient un item selon son id
+     * @param id Id de l'item
+     * @return L'item correspondant à l'id
+     */
     public Item getItem(ObjectId id) {
-        if (!this.items.containsKey(id)) {
-            throw new NotFoundException("Item not found in inventory.");
-        }
-
         return this.items.get(id);
     }
 
@@ -118,8 +146,10 @@ public final class Inventory {
 
     /**
      * Retire un item de l'inventaire.
+     * Informe les listeners.
      *
      * @param item L'item à retirer.
+     * @see InventoryListener
      */
     public void remove(Item item) {
         if (!this.items.containsValue(item)) {
@@ -128,6 +158,10 @@ public final class Inventory {
 
         // TODO, supprimer de la BDD
         this.items.remove(item.getId());
+        
+        Iterator<InventoryListener> it = this.listeners.iterator();
+        while (it.hasNext())
+            it.next().remove(item);
     }
 
     public boolean contains(Item item) {

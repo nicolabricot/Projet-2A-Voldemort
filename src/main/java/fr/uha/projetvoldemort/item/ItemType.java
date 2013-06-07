@@ -10,17 +10,25 @@ package fr.uha.projetvoldemort.item;
  */
 public enum ItemType {
 
-    CUIRASS("cuirass"),
-    GAUNTLET("gauntlet"),
-    GREAVE("greave"),
-    HELMET("helmet"),
-    PAULDRON("pauldron"),
-    SOLLERET("solleret"),
-    VAMBRACE("vambrace"),
-    ARM("arm"),
-    RING("ring"),
-    BAG("bag"),
-    OHTER("other");
+    CUIRASS("cuirass"),     // Cuirasse
+    GAUNTLET("gauntlet"),   // Gant
+    GREAVE("greave"),       // Jambière
+    HELMET("helmet"),       // Haume
+    PAULDRON("pauldron"),   // Epaulière
+    SOLLERET("solleret"),   // Solleret
+    VAMBRACE("vambrace"),   // Avant-bras
+    WEAPON("weapon"),       // Arme
+    RING("ring"),           // Anneau
+    BAG("bag"),             // Sacoche
+    OHTER("other"),         // Autre
+    DEFENSIVE_THROWING("defensive_throwing"),   // Jet défensif
+    OFFENSIVE_THROWING("offensive_trhowing"),   // Jet offensif
+    PROJECTILE("projectile"),                   // Projectile
+    WEAPON_MODIFIER("weapon_modifier"),         // Modificateur d'arme
+    AMELIORATION("amelioration"),               // Amélioration
+    STIMULANT("stimulant"),                     // Stimulant
+    SHIELD("shield"),                           // Bouclier
+    SHIELD_MODIFIER("shield_modifier");         // Modificateur de bouclier
     
     private final String json;
 
@@ -50,25 +58,5 @@ public enum ItemType {
                 return i;
         
         return null;
-    }
-    
-    /**
-     * 
-     * @return 
-     * <i>true</i> si l'item est un élément d'armure
-     */
-    public boolean isArmor() {
-        return (this.equals(CUIRASS) || this.equals(GAUNTLET) ||
-                this.equals(GREAVE) || this.equals(HELMET) ||
-                this.equals(PAULDRON) || this.equals(SOLLERET) ||
-                this.equals(VAMBRACE));
-    }
-    /**
-     * 
-     * @return 
-     * <i>true</i> si l'item est une arme
-     */
-    public boolean isArm() {
-        return (this.equals(ARM));
     }
 }

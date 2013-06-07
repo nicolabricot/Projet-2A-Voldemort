@@ -22,8 +22,9 @@ public final class CharacterModel {
     private static final String ID = "_id";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
+    
     private ObjectId id;
-    private String name, description;
+    private String name, description; 
 
     public CharacterModel(ObjectId oid) {
         Resources res = Resources.getInstance();

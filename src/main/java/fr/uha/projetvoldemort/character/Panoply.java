@@ -4,14 +4,18 @@
  */
 package fr.uha.projetvoldemort.character;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import fr.uha.projetvoldemort.item.Item;
-import fr.uha.projetvoldemort.item.ItemType;
-import fr.uha.projetvoldemort.item.UnexpectedItemException;
 import fr.uha.projetvoldemort.NotFoundException;
+import fr.uha.projetvoldemort.item.ItemCategory;
+import fr.uha.projetvoldemort.item.ItemType;
 import fr.uha.projetvoldemort.resource.Resources;
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,20 +23,19 @@ import org.json.JSONObject;
  *
  * @author bruno
  */
-public final class Panoply {
+public final class Panoply implements InventoryListener {
 
     public static final String COLLECTION = "panoply";
-    
     private static final String ID = "_id";
-    private static final String ARM = "arm";
-    
+    private static final String ITEMS = "items";
     private ObjectId id;
-    private Armor armor;
-    private Item arm;
     private Inventory inventory;
+    private ArrayList<Item> items;
 
     protected Panoply(Inventory inventory, ObjectId oid) {
+        this.items = new ArrayList<Item>();
         this.inventory = inventory;
+
         Resources res = Resources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
         if (ob == null) {
@@ -42,15 +45,18 @@ public final class Panoply {
     }
 
     protected Panoply(Inventory inventory) {
+        this.items = new ArrayList<Item>();
         this.inventory = inventory;
-        this.armor = new Armor(this.inventory);
     }
 
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
-        this.armor = new Armor(this.inventory, (BasicDBObject) ob.get(Armor.ARMOR));
-        if (ob.containsField(ARM)) {
-            this.arm = this.inventory.getItem((ObjectId) ob.get(ARM));
+
+        BasicDBList listItems = (BasicDBList) ob.get("items");
+        Iterator<Object> itItems = listItems.iterator();
+        while (itItems.hasNext()) {
+            ObjectId id = (ObjectId) itItems.next();
+            this.items.add(this.inventory.getItem(id));
         }
     }
 
@@ -62,10 +68,16 @@ public final class Panoply {
     public DBObject toDBObject() {
         BasicDBObject ob = new BasicDBObject();
 
-        ob.append(Armor.ARMOR, this.armor.toDBObject());
-        if (this.arm != null) {
-            ob.append(ARM, this.arm.getId());
+        if (this.id != null) {
+            ob.append(ID, this.id);
         }
+
+        BasicDBList listItems = new BasicDBList();
+        Iterator<Item> it = this.items.iterator();
+        while (it.hasNext()) {
+            listItems.add(it.next().getId());
+        }
+        ob.append(ITEMS, listItems);
 
         return ob;
     }
@@ -78,220 +90,102 @@ public final class Panoply {
     public JSONObject toJSONObject() throws JSONException {
         JSONObject ob = new JSONObject();
 
-        ob.append(Armor.ARMOR, this.armor.toJSONObject());
-        if (this.arm != null) {
-            ob.put(ARM, this.arm.toJSONObject());
+        ob.append(ID, this.id.toString());
+
+        JSONArray listItems = new JSONArray();
+        Iterator<Item> it = this.items.iterator();
+        while (it.hasNext()) {
+            listItems.put(it.next().toJSONObject());
         }
+        ob.append(ITEMS, listItems);
 
         return ob;
     }
-    
+
     protected void save() {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
         Resources.getInstance().getCollection(COLLECTION).insert(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("Panoply.save: " + ob);
     }
-    
+
     public ObjectId getId() {
         return this.id;
     }
 
-    /**
-     * S'équiper d'un item.
-     *
-     * @param item L'item.
-     * @return L'ancien item.
-     * @throws UnexpectedItemException Si l'item ne peut pas être équipé.
-     */
-    public Item setItem(Item item) throws UnexpectedItemException {
-         if (!this.inventory.contains(item)) {
+    public void setItem(Item item) {
+        if (!this.inventory.contains(item)) {
             throw new RuntimeException("Item doesn't belong to the character.");
         }
-        
-        Item previous = null;
 
-        if (item.getModel().getType().isArmor()) {
-            previous = this.armor.setItem(item);
-        } else if (item.getModel().getType().isArm()) {
-            previous = this.setArm(item);
-        } else {
-            StringBuilder str = new StringBuilder();
-            str.append("Item \"");
-            str.append(arm.getModel().getName());
-            str.append("\" of type \"");
-            str.append(arm.getModel().getType());
-            str.append("\" cannot be used in the equipment.");
-            throw new UnexpectedItemException(str.toString());
-        }
+        this.items.add(item);
 
-        return previous;
     }
 
     /**
-     * Obtient un item selon son type.
+     * Obtient le premier item de la panoplie correspondant au type transmis en
+     * paramètre
      *
-     * @param itemType Le type de l'item à obtenir.
-     * @return L'item ou <i>null</i>
+     * @param type Type de l'item
+     * @return Le premier item de la panoplie correspondant au type transmis en
+     * paramètre ou <code>null</code>
      */
-    public Item getItem(ItemType itemType) {
-        Item item = null;
-
-        if (itemType.isArmor()) {
-            item = this.armor.getItem(itemType);
-        } else if (itemType.isArm()) {
-            item = this.arm;
+    public Item getItem(ItemType type) {
+        Iterator<Item> it = this.items.iterator();
+        while (it.hasNext()) {
+            Item item = it.next();
+            if (item.getType().equals(type)) {
+                return item;
+            }
         }
 
-        return item;
+        return null;
     }
 
     /**
-     * Obtient l'armure.
+     * Obtient la liste des items de la panoplie correspondant au type transmis
+     * en paramètre
      *
-     * @return l'armure.
+     * @param type Type des items
+     * @return La liste des items de la panoplie correspondant au type transmis
+     * en paramètre
      */
-    public Armor getArmor() {
-        return armor;
+    public ArrayList<Item> getItems(ItemType type) {
+        ArrayList<Item> list = new ArrayList<Item>();
+        Iterator<Item> it = this.items.iterator();
+        while (it.hasNext()) {
+            Item item = it.next();
+            if (item.getType().equals(type)) {
+                list.add(item);
+            }
+        }
+
+        return list;
     }
 
     /**
-     * Obtient l'arme
+     * Obtient la liste des items de la panoplie correspondant à la catégorie
+     * transmise en paramètre
      *
-     * @return l'arme.
+     * @param category Categorie des items
+     * @return La liste des items de la panoplie correspondant à la catégorie
+     * transmise en paramètre
      */
-    public Item getArm() {
-        return arm;
+    public ArrayList<Item> getItems(ItemCategory category) {
+        ArrayList<Item> list = new ArrayList<Item>();
+        Iterator<Item> it = this.items.iterator();
+        while (it.hasNext()) {
+            Item item = it.next();
+            if (item.getCategory().equals(category)) {
+                list.add(item);
+            }
+        }
+
+        return list;
     }
 
-    /**
-     * Définit l'arme.
-     *
-     * @param arm L'arme.
-     * @return L'ancienne arme.
-     * @throws UnexpectedItemException Si l'arme ne peut pas être équipée.
-     */
-    public Item setArm(Item arm) throws UnexpectedItemException {
-        if (!this.inventory.contains(arm)) {
-            throw new RuntimeException("Item doesn't belong to the character.");
-        }
-        
-        Item previous = null;
-
-        if (arm.getModel().getType().isArm()) {
-            previous = this.arm;
-            this.arm = arm;
-        } else {
-            StringBuilder str = new StringBuilder();
-            str.append("Item \"");
-            str.append(arm.getModel().getName());
-            str.append("\" of type \"");
-            str.append(arm.getModel().getType());
-            str.append("\" cannot be used as an Arm");
-            throw new UnexpectedItemException(str.toString());
-        }
-
-        return previous;
-    }
-
-    /**
-     * Obtient le total d'attaque des différents équipements
-     *
-     * @return Le total d'attaque des différents équipements
-     */
-    public int getAttack() {
-        int val = 0;
-        val += this.armor.getAttack();
-        if (this.arm != null) {
-            val += this.arm.getAttack();
-        }
-        return val;
-    }
-
-    /**
-     * Obtient le total de défense des différents équipements
-     *
-     * @return Le total de défense des différents équipements
-     */
-    public int getDefense() {
-        int val = 0;
-        val += this.armor.getDefense();
-        if (this.arm != null) {
-            val += this.arm.getDefense();
-        }
-        return val;
-    }
-
-    /**
-     * Obtient le total d'initative des différents équipements
-     *
-     * @return Le total d'initiative des différents équipements
-     */
-    public int getInitiative() {
-        int val = 0;
-        val += this.armor.getInitiative();
-        if (this.arm != null) {
-            val += this.arm.getInitiative();
-        }
-        return val;
-    }
-
-    /**
-     * Obtient le total de chance des différents équipements
-     *
-     * @return Le total de chance des différents équipements
-     */
-    public int getLuck() {
-        int val = 0;
-        val += this.armor.getLuck();
-        if (this.arm != null) {
-            val += this.arm.getLuck();
-        }
-        return val;
-    }
-
-   public int getStrength() {
-        int val = 0;
-        val += this.armor.getStrength();
-        if (this.arm != null) {
-            val += this.arm.getStrength();
-        }
-        return val;
-    }
-
-    public int getIntelligence() {
-        int val = 0;
-        val += this.armor.getIntelligence();
-        if (this.arm != null) {
-            val += this.arm.getIntelligence();
-        }
-        return val;
-    }
-
-    public int getAbility() {
-        int val = 0;
-        val += this.armor.getAbility();
-        if (this.arm != null) {
-            val += this.arm.getAbility();
-        }
-        return val;
-    }
-
-    public int getStealth() {
-        int val = 0;
-        val += this.armor.getStealth();
-        if (this.arm != null) {
-            val += this.arm.getStealth();
-        }
-        return val;
-    }
-
-    public int getAgility() {
-        int val = 0;
-        val += this.armor.getAgility();
-        if (this.arm != null) {
-            val += this.arm.getAgility();
-        }
-        return val;
+    @Override
+    public void remove(Item item) {
+        this.inventory.remove(item);
     }
 }

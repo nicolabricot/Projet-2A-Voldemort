@@ -10,7 +10,7 @@ import fr.uha.projetvoldemort.character.Character;
 import fr.uha.projetvoldemort.character.Inventory;
 import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.item.Item;
-import fr.uha.projetvoldemort.item.ItemUsage;
+import fr.uha.projetvoldemort.item.ItemCategory;
 import fr.uha.projetvoldemort.resource.Resources;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -137,7 +137,7 @@ public class ServiceCharacter {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
-            Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemUsage.SUSTAINABLE).iterator();
+            Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemCategory.SUSTAINABLE).iterator();
             while (it.hasNext()) {
                 a.put(it.next().toJSONObject());
             }
@@ -161,7 +161,7 @@ public class ServiceCharacter {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
-            Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemUsage.CONSUMABLE).iterator();
+            Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemCategory.CONSUMABLE).iterator();
             while (it.hasNext()) {
                 a.put(it.next().toJSONObject());
             }
@@ -185,7 +185,7 @@ public class ServiceCharacter {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
-            Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemUsage.DEGRADABLE).iterator();
+            Iterator<Item> it = new Character(new ObjectId(id)).getInventory().getItems(ItemCategory.DEGRADABLE).iterator();
             while (it.hasNext()) {
                 a.put(it.next().toJSONObject());
             }

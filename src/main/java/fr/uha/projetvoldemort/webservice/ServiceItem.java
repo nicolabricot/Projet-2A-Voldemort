@@ -8,7 +8,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.item.Item;
 import fr.uha.projetvoldemort.resource.Resources;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.GET;

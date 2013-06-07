@@ -7,11 +7,12 @@ package fr.uha.projetvoldemort.character;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.Attributes;
 import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.resource.Resources;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,18 +28,23 @@ public final class Character {
     private static final String ID = "_id";
     private static final String MODEL_ID = "model_id";
     private static final String NAME = "name";
+    private static final String ATTRIBUTES = "attributes";
     private static final String PANOPLIES = "panoplies";
     private static final String ACTIVE_PANOPLY = "active_panoply";
+    
     private ObjectId id;
     private CharacterModel model;
-    private Attributes attributes;
     private String name;
+    private EnumMap<CharacterAttribute, Integer> attributes;
+    private Inventory inventory;
     private HashMap<ObjectId, Panoply> panoplies;
     private Panoply activePanoply;
-    private Inventory inventory;
+
 
     public Character(ObjectId oid) {
+        this.attributes = new EnumMap<CharacterAttribute, Integer>(CharacterAttribute.class);
         this.panoplies = new HashMap<ObjectId, Panoply>();
+        
         Resources res = Resources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
         if (ob == null) {
@@ -48,27 +54,36 @@ public final class Character {
     }
 
     public Character(CharacterModel model) {
-        this.model = model;
-        this.attributes = new Attributes();
-        this.inventory = new Inventory();
+        this.attributes = new EnumMap<CharacterAttribute, Integer>(CharacterAttribute.class);
         this.panoplies = new HashMap<ObjectId, Panoply>();
+        
+        this.model = model;
+        this.inventory = new Inventory();
     }
 
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
         this.model = new CharacterModel(ob.getObjectId(MODEL_ID));
         this.name = ob.getString(NAME);
-        this.attributes = new Attributes((DBObject) ob.get(Attributes.ATTRIBUTES));
+        
+        BasicDBObject obAttributes = (BasicDBObject) ob.get(ATTRIBUTES);
+        Iterator<String> itAttributes = obAttributes.keySet().iterator();
+        while (itAttributes.hasNext()) {
+            String key = itAttributes.next();
+            Integer value = obAttributes.getInt(key);
+            this.attributes.put(CharacterAttribute.fromString(key), value);
+        }
+        
         this.inventory = new Inventory((DBObject) ob.get(Inventory.INVENTORY));
-        BasicDBList list = (BasicDBList) ob.get(PANOPLIES);
-        Iterator<Object> it = list.iterator();
-        while (it.hasNext()) {
-            ObjectId id = (ObjectId) it.next();
+        
+        BasicDBList listPanoplies = (BasicDBList) ob.get(PANOPLIES);
+        Iterator<Object> itPanoplies = listPanoplies.iterator();
+        while (itPanoplies.hasNext()) {
+            ObjectId id = (ObjectId) itPanoplies.next();
             this.panoplies.put(id, new Panoply(this.inventory, id));
         }
+        
         this.activePanoply = this.panoplies.get((ObjectId) ob.get(ACTIVE_PANOPLY));
-
-
     }
 
     /**
@@ -89,17 +104,24 @@ public final class Character {
         
         ob.append(MODEL_ID, this.model.getId());
         ob.append(NAME, this.name);
-        ob.append(Attributes.ATTRIBUTES, this.attributes.toDBObject());
+        
+        BasicDBObject obAttributes = new BasicDBObject();
+        Iterator<Entry<CharacterAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();
+        while (itAttributes.hasNext()) {
+            Entry<CharacterAttribute, Integer> attribute = itAttributes.next();
+            obAttributes.append(attribute.getKey().toString(), attribute.getValue());
+        }
+        ob.append(ATTRIBUTES, obAttributes);
+        
         ob.append(Inventory.INVENTORY, this.inventory.toDBObject());
 
-        BasicDBList list = new BasicDBList();
-        Iterator<Panoply> it = this.panoplies.values().iterator();
-        
-        while (it.hasNext()) {
-            list.add(it.next().getId());
+        BasicDBList listPanoplies = new BasicDBList();
+        Iterator<Panoply> itPanoplies = this.panoplies.values().iterator();
+        while (itPanoplies.hasNext()) {
+            listPanoplies.add(itPanoplies.next().getId());
         }
+        ob.append(PANOPLIES, listPanoplies);
         
-        ob.append(PANOPLIES, list);
         ob.append(ACTIVE_PANOPLY, this.activePanoply.getId());
 
         return ob;
@@ -128,28 +150,29 @@ public final class Character {
     public JSONObject toJSONObject() throws JSONException {
         JSONObject ob = new JSONObject();
         ob.put("id", this.id.toString());
-        ob.put(NAME, this.name);
-        ob.put(Attributes.ATTACK, this.getAttack());
-        ob.put(Attributes.DEFENSE, this.getDefense());
-        ob.put(Attributes.INITIATIVE, this.getInitiative());
-        ob.put(Attributes.LIFE, this.getLife());
-        ob.put(Attributes.LUCK, this.getLuck());
-        ob.put(Attributes.STRENGTH, this.getStrength());
-        ob.put(Attributes.INTELLIGENCE, this.getIntelligence());
-        ob.put(Attributes.AGILITY, this.getAgility());
-        ob.put(Attributes.STEALTH, this.getStealth());
-        ob.put(Attributes.ABILITY, this.getAbility());
-        ob.put(Inventory.INVENTORY, this.inventory.toJSONArray());
-        ob.put(ACTIVE_PANOPLY, this.activePanoply.toJSONObject());
-        
         ob.put("model", this.model.toJSONObject());
-
+        
+        ob.put(NAME, this.name);
+        
+        JSONArray listAttributes = new JSONArray();
+        Iterator<Entry<CharacterAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();
+        while (itAttributes.hasNext()) {
+            Entry<CharacterAttribute, Integer> attribute = itAttributes.next();
+            JSONObject obAttribute = new JSONObject();
+            obAttribute.put(attribute.getKey().toString(), attribute.getValue());
+        }
+        ob.append(ATTRIBUTES, listAttributes);
+        
+        ob.put(Inventory.INVENTORY, this.inventory.toJSONArray());
+        
         JSONArray a = new JSONArray();
         Iterator<Panoply> it = this.panoplies.values().iterator();
         while (it.hasNext()) {
             a.put(it.next().toJSONObject());
         }
         ob.put(PANOPLIES, a);
+        
+        ob.put(ACTIVE_PANOPLY, this.activePanoply.toJSONObject());
         
         return ob;
     }
@@ -166,17 +189,7 @@ public final class Character {
         this.id = ob.getObjectId(ID);
         System.out.println("Character.save: " + ob);
     }
-
-    /**
-     * Cette méthode ne doit pas être appelée directement pour le calcul des
-     * combats Les propriétées doivent être obtenues par les méthodes get
-     *
-     * @return
-     */
-    public Attributes getAttributes() {
-        return this.attributes;
-    }
-
+    
     public CharacterModel getModel() {
         return this.model;
     }
@@ -184,7 +197,7 @@ public final class Character {
     public ObjectId getId() {
         return id;
     }
-
+    
     public String getName() {
         return name;
     }
@@ -192,95 +205,24 @@ public final class Character {
     public void setName(String name) {
         this.name = name;
     }
-
+     
     public Inventory getInventory() {
         return this.inventory;
     }
 
-    public int getLife() {
-        return this.attributes.getLife();
+    public Panoply getActivePanoply() {
+        return this.activePanoply;
     }
-
-    /**
-     * Obtient le total d'attaque.
-     *
-     * @return Le total d'attaque.
-     */
-    public int getAttack() {
-        int val = 0;
-        val += this.attributes.getAttack();
-        val += this.activePanoply.getAttack();
-        return val;
+    
+    public boolean isDead() {
+        return (this.getAttribute(CharacterAttribute.LIFE) < 1);
     }
-
-    /**
-     * Obtient le total de défense.
-     *
-     * @return Le total de défense.
-     */
-    public int getDefense() {
-        int val = 0;
-        val += this.attributes.getDefense();
-        val += this.activePanoply.getDefense();
-        return val;
+    
+    public int getAttribute(CharacterAttribute attribute) {
+        return this.attributes.get(attribute);
     }
-
-    /**
-     * Obtient le total d'initiative.
-     *
-     * @return Le total d'initiative.
-     */
-    public int getInitiative() {
-        int val = 0;
-        val += this.attributes.getInitiative();
-        val += this.activePanoply.getInitiative();
-        return val;
-    }
-
-    /**
-     * Obtient le total de chance.
-     *
-     * @return Le total de chance.
-     */
-    public int getLuck() {
-        int val = 0;
-        val += this.attributes.getLuck();
-        val += this.activePanoply.getLuck();
-        return val;
-    }
-
-   public int getStrength() {
-        int val = 0;
-        val += this.attributes.getStrength();
-        val += this.activePanoply.getStrength();
-        return val;
-    }
-
-    public int getIntelligence() {
-        int val = 0;
-        val += this.attributes.getIntelligence();
-        val += this.activePanoply.getIntelligence();
-        return val;
-    }
-
-    public int getAbility() {
-        int val = 0;
-        val += this.attributes.getAbility();
-        val += this.activePanoply.getAbility();
-        return val;
-    }
-
-    public int getStealth() {
-        int val = 0;
-        val += this.attributes.getStealth();
-        val += this.activePanoply.getStealth();
-        return val;
-    }
-
-    public int getAgility() {
-        int val = 0;
-        val += this.attributes.getAgility();
-        val += this.activePanoply.getAgility();
-        return val;
+    
+    public void setAttribute(CharacterAttribute attribute, int value) {
+        this.attributes.put(attribute, value);
     }
 }

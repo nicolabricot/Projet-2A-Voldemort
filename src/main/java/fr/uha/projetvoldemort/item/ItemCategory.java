@@ -8,10 +8,10 @@ package fr.uha.projetvoldemort.item;
  *
  * @author bruno
  */
-public enum ItemUsage {
-     SUSTAINABLE("sustainable"),
-     CONSUMABLE("consumable"),
-     DEGRADABLE("degradable");
+public enum ItemCategory {
+     SUSTAINABLE("sustainable"),    // Pérenne
+     CONSUMABLE("consumable"),      // Consommable
+     DEGRADABLE("degradable");      // Dégradable
      
      private final String json;
 
@@ -20,7 +20,7 @@ public enum ItemUsage {
      * @param json 
      * Code json de l'item
      */
-    private ItemUsage(final String json) {
+    private ItemCategory(final String json) {
         this.json = json;
     }
 
@@ -34,9 +34,9 @@ public enum ItemUsage {
         return json;
     }
     
-    public static ItemUsage fromString(String string) {
+    public static ItemCategory fromString(String string) {
         
-        for (ItemUsage i : ItemUsage.values())
+        for (ItemCategory i : ItemCategory.values())
             if (i.toString().equals(string))
                 return i;
         

@@ -6,7 +6,6 @@ package fr.uha.projetvoldemort.item;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import fr.uha.projetvoldemort.Attributes;
 import fr.uha.projetvoldemort.NotFoundException;
 import fr.uha.projetvoldemort.resource.Resources;
 import org.bson.types.ObjectId;
@@ -22,12 +21,15 @@ public final class ItemModel {
     public static final String COLLECTION = "item_model";
     private static final String ID = "_id";
     private static final String TYPE = "type";
+    private static final String CATEGORY = "category";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
+    
     private ObjectId id;
     private String name, description;
     private ItemType type;
-    private Attributes attributes;
+    private ItemCategory category;
+
 
     public ItemModel(ObjectId oid) {
         Resources res = Resources.getInstance();
@@ -38,17 +40,17 @@ public final class ItemModel {
         this.hydrate(ob);
     }
 
-    public ItemModel(ItemType type) {
+    public ItemModel(ItemCategory category, ItemType type) {
         this.type = type;
-        this.attributes = new Attributes();
+        this.category = category;
     }
 
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
         this.type = ItemType.fromString(ob.getString(TYPE));
+        this.category = ItemCategory.fromString(ob.getString(CATEGORY));
         this.name = ob.getString(NAME);
         this.description = ob.getString(DESCRIPTION);
-        this.attributes = new Attributes((DBObject) ob.get(Attributes.ATTRIBUTES));
     }
 
     /**
@@ -62,10 +64,10 @@ public final class ItemModel {
         if (this.id != null) {
             ob.append(ID, id);
         }
-        ob.append(TYPE, type.toString());
-        ob.append(NAME, name);
-        ob.append(DESCRIPTION, description);
-        ob.append(Attributes.ATTRIBUTES, this.attributes.toDBObject());
+        ob.append(TYPE, this.type.toString());
+        ob.append(CATEGORY, this.category.toString());
+        ob.append(NAME, this.name);
+        ob.append(DESCRIPTION, this.description);
 
         return ob;
     }
@@ -80,6 +82,7 @@ public final class ItemModel {
         ob.put("id", this.id.toString());
         ob.put(NAME, this.name);
         ob.put(TYPE, this.type.toString());
+        ob.put(CATEGORY, this.category.toString());
         ob.put(DESCRIPTION, this.description);
         return ob;
     }
@@ -92,15 +95,19 @@ public final class ItemModel {
     }
 
     public ObjectId getId() {
-        return id;
+        return this.id;
     }
 
     public ItemType getType() {
-        return type;
+        return this.type;
+    }
+    
+    public ItemCategory getCategory() {
+        return this.category;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -108,26 +115,10 @@ public final class ItemModel {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setAttributes(Attributes attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Cette méthode ne doit pas être appelée directement pour le calcul des
-     * combats Les propriétées doivent être obtenues par les méthodes get de la
-     * classe <code>Item</code>
-     *
-     * @return
-     * @see Item
-     */
-    public Attributes getAttributes() {
-        return this.attributes;
     }
 }
