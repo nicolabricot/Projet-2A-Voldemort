@@ -2,7 +2,8 @@
     Document   : index
     Created on : 6 mai 2013, 20:24:40
     Author     : bruno
---%><%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
+--%><%@page import="java.net.InetAddress"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -40,6 +41,17 @@
         <h2>BDD</h2>
         <pre>cd /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/bin</pre>
         <pre>./mongod --dbpath /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/data</pre>
+        
+        <h2>Server</h2>
+        <ul>
+            <li>Hostname : <%= InetAddress.getLocalHost().getHostName() %></li>
+            <li>IP : <%= InetAddress.getLocalHost().getHostAddress() %></li>
+            <li>App Server : <%=getServletConfig().getServletContext().getServerInfo()%></li>
+            <li>JVM : <%= System.getProperty("java.version")%> - <%=System.getProperty("java.vendor")%></li>
+            <li>Java home : <%= System.getProperty("java.home")%></li>
+            <li>OS : <%= System.getProperty("os.name")%> - <%= System.getProperty("os.version")%></li>
+            <li>Architecture : <%= System.getProperty("os.arch")%></li>
+        </ul>
         
         <h2>Images</h2>
         <div>
