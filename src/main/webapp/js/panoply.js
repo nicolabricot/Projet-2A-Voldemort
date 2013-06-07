@@ -3,8 +3,9 @@ $(document).ready(function() {
     /*
      * CHARACTER
      */
-    var id = $("#view").data("character-id");
-    console.log(id);
+    var character = $("#view").data("character-id");
+    var id = $("#view").data("panoply-id");
+    console.log("character: "+ character, id);
 
     /*
      * LINKS AND TABS
@@ -58,15 +59,17 @@ $(document).ready(function() {
 
 
             // update drag and drop
+            var path_ajax = "rest/character/" + character + "/panoply/" + id + "/" + link.replace("#", "");
             switch (link.replace("#", "")) {
                 case "inventory":
+                    path_ajax = "rest/character/" + character + "/inventory";
                 case "sustainables":
                 case "consumables":
                 case "degradables":
                     // download content, then design and add it
                     $.ajax({
                         type: "GET",
-                        url: "rest/character/" + id + "/" + link.replace("#", ""),
+                        url: path_ajax,
                         dataType: "json",
                         success: function(data) {
                             var result = "";

@@ -1,4 +1,12 @@
-<%@page import="fr.uha.projetvoldemort.resource.Resources" contentType="text/html" pageEncoding="UTF-8"%><%--
+<%@page import="fr.uha.projetvoldemort.resource.Resources" contentType="text/html" pageEncoding="UTF-8"%><%
+
+    String panoply = "active";
+    if (request.getParameter("panoply") != null && !request.getParameter("panoply").isEmpty()) {
+        panoply = request.getParameter("panoply");
+        //request.getRequestDispatcher("panoply.jsp").forward(request, response);
+    }
+
+%><%--
 --%><!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -30,7 +38,7 @@
                 <a href="#stats" class="btn">Statistics</a>
             </div>
 
-            <div id="view" data-character-id="<% out.print(Resources.getInstance().getFirstCharacterId()); %>">
+            <div id="view" data-character-id="<%= Resources.getInstance().getFirstCharacterId() %>" data-panoply-id="<%= panoply %>">
                 <div class="row-fluid">
                     <div id="first-tab" class="tab span4"></div>
                     <div id="second-tab" class="tab span4"></div>
