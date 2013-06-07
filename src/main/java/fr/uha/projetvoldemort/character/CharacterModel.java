@@ -76,7 +76,6 @@ public final class CharacterModel {
 
     public void save() {
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
-        //Resources.getInstance().getCollection(COLLECTION).insert(ob);
         Resources.getInstance().getCollection(COLLECTION).save(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("CharacterModel.save: " + ob);

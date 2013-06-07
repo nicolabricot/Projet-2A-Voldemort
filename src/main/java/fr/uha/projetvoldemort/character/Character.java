@@ -8,6 +8,7 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import fr.uha.projetvoldemort.exception.NotFoundException;
+import fr.uha.projetvoldemort.faction.Faction;
 import fr.uha.projetvoldemort.resource.Resources;
 import java.util.Collection;
 import java.util.EnumMap;
@@ -32,6 +33,7 @@ public final class Character {
     private static final String ATTRIBUTES = "attributes";
     private static final String PANOPLIES = "panoplies";
     private static final String ACTIVE_PANOPLY = "active_panoply";
+    private static final String FACTION = "faction";
     
     private ObjectId id;
     private CharacterModel model;
@@ -40,6 +42,7 @@ public final class Character {
     private Inventory inventory;
     private HashMap<ObjectId, Panoply> panoplies;
     private Panoply activePanoply;
+    private Faction faction;
 
 
     public Character(ObjectId oid) {
@@ -85,6 +88,8 @@ public final class Character {
         }
         
         this.activePanoply = this.panoplies.get((ObjectId) ob.get(ACTIVE_PANOPLY));
+        
+        this.faction = new Faction((ObjectId) ob.get(FACTION));
     }
 
     /**
@@ -125,6 +130,8 @@ public final class Character {
         
         ob.append(ACTIVE_PANOPLY, this.activePanoply.getId());
 
+        ob.append(FACTION, this.faction.getId());
+        
         return ob;
     }
 
@@ -174,6 +181,8 @@ public final class Character {
         
         ob.put(ACTIVE_PANOPLY, this.activePanoply.toJSONObject());
         
+        ob.put(FACTION, this.faction.toJSONObject());
+        
         return ob;
     }
 
@@ -185,7 +194,6 @@ public final class Character {
             it.next().save();
         
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
-        //Resources.getInstance().getCollection(COLLECTION).insert(ob);
         Resources.getInstance().getCollection(COLLECTION).save(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("Character.save: " + ob);
@@ -233,5 +241,13 @@ public final class Character {
     
     public Panoply getPanoply(ObjectId id) {
         return this.panoplies.get(id);
+    }
+    
+    public void setFaction(Faction faction) {
+        this.faction = faction;
+    }
+    
+    public Faction getFaction() {
+        return this.faction;
     }
 }

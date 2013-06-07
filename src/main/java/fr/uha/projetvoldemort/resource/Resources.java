@@ -11,6 +11,8 @@ import fr.uha.projetvoldemort.character.CharacterModel;
 import fr.uha.projetvoldemort.character.Character;
 import fr.uha.projetvoldemort.character.CharacterAttribute;
 import fr.uha.projetvoldemort.character.Panoply;
+import fr.uha.projetvoldemort.faction.Faction;
+import fr.uha.projetvoldemort.faction.FactionType;
 import fr.uha.projetvoldemort.item.Item;
 import fr.uha.projetvoldemort.item.ItemAttribute;
 import fr.uha.projetvoldemort.item.ItemCategory;
@@ -106,6 +108,24 @@ public final class Resources {
         this.getCollection(ItemModel.COLLECTION).drop();
         this.getCollection(Item.COLLECTION).drop();
         this.getCollection(Panoply.COLLECTION).drop();
+        this.getCollection(Faction.COLLECTION).drop();
+        
+        // Crée les factions
+        Faction fw = new Faction(FactionType.WEREWOLF);
+        fw.setName("Warewolf");
+        fw.setDescription("cf. doc.");
+        fw.save();
+        
+        Faction fv = new Faction(FactionType.VAMPIRE);
+        fv.setName("Vampire");
+        fv.setDescription("cf. doc.");
+        fv.save();
+        
+        Faction fm = new Faction(FactionType.MUMMY);
+        fm.setName("Mummy");
+        fm.setDescription("cf. doc.");
+        fm.save();
+        
 
         // Crée les modèles de personnages
         CharacterModel cmb = new CharacterModel();
@@ -167,6 +187,7 @@ public final class Resources {
         // Créer un personnage
         Character cgu = new Character(cmc);
         cgu.setName("Gurdil");
+        cgu.setFaction(fw);
         cgu.setAttribute(CharacterAttribute.ATTACK, 10);
         cgu.setAttribute(CharacterAttribute.DEFENSE, 15);
         cgu.setAttribute(CharacterAttribute.INITIATIVE, 30);
