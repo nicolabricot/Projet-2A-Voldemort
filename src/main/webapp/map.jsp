@@ -1,5 +1,7 @@
-<%@page import="fr.uha.projetvoldemort.resource.Resources"%>
-<%@page contentType="text/html" pageEncoding="UTF-8" %><%
+<%@page
+    import="fr.uha.projetvoldemort.resource.Resources"
+    contentType="text/html" pageEncoding="UTF-8"
+%><%
     String map = "full";
     if (request.getParameter("map") != null && !request.getParameter("map").isEmpty()) {
         map = request.getParameter("map");
