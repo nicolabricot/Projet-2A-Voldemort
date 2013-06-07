@@ -112,65 +112,65 @@ public final class Resources {
         
         // Crée les factions
         Faction fw = new Faction(FactionType.WEREWOLF);
-        fw.setName("Warewolf");
-        fw.setDescription("cf. doc.");
+        fw.setName("werewolf_name");
+        fw.setDescription("werewolf_description");
         fw.save();
         
         Faction fv = new Faction(FactionType.VAMPIRE);
-        fv.setName("Vampire");
-        fv.setDescription("cf. doc.");
+        fv.setName("vampire_name");
+        fv.setDescription("vampire_description");
         fv.save();
         
         Faction fm = new Faction(FactionType.MUMMY);
-        fm.setName("Mummy");
-        fm.setDescription("cf. doc.");
+        fm.setName("mummy_name");
+        fm.setDescription("mummy_description");
         fm.save();
         
 
         // Crée les modèles de personnages
         CharacterModel cmb = new CharacterModel();
-        cmb.setName("Brute");
-        cmb.setDescription("Grande défense, petite attaque. (50%, 10%)");
+        cmb.setName("brute_name");
+        cmb.setDescription("brute_description");
         cmb.save();
 
         CharacterModel cmc = new CharacterModel();
-        cmc.setName("Canaille");
-        cmc.setDescription("Moyenne défense, moyenne attaque. (25%, 25%)");
+        cmc.setName("scoundrel_name");
+        cmc.setDescription("scoundrel_description");
         cmc.save();
 
         CharacterModel cmt = new CharacterModel();
-        cmt.setName("Tacticien");
-        cmt.setDescription("Petite défense, grande attaque. (10%, 50%)");
+        cmt.setName("tactician_name");
+        cmt.setDescription("tactician_description");
         cmt.save();
 
         // Crée les modèles d'items
         ItemModel img = new ItemModel(ItemCategory.CONSUMABLE, ItemType.GAUNTLET);
-        img.setName("Gant de base");
-        img.setDescription("Gant parfait pour un noob.");
+        img.setName("base_gauntlet_name");
+        img.setDescription("base_gauntlet_description");
         img.setImage("gauntlet");
         img.save();
 
         ItemModel imc = new ItemModel(ItemCategory.DEGRADABLE, ItemType.CUIRASS);
-        imc.setName("Cuirasse de m***e");
-        imc.setDescription("Cette cuirasse n'a aucun effet possitif. Mieux vaut ne pas s'en équiper.");
+        imc.setName("f*****g_cuirass_name");
+        imc.setDescription("f*****g_cuirass_description");
         imc.setImage("cuirass");
         imc.save();
 
         ItemModel ima = new ItemModel(ItemCategory.SUSTAINABLE, ItemType.WEAPON);
-        ima.setName("Epée rouillée");
-        ima.setDescription("D'aventages de risque de choper le tetanos que de tuer un adversaire en la manipulant.");
+        ima.setName("rusty_sword_name");
+        ima.setDescription("rusty_sword_desciption");
         ima.setImage("rusty-sword");
         ima.save();
 
         ItemModel imb = new ItemModel(ItemCategory.SUSTAINABLE, ItemType.BAG);
-        imb.setName("Sacoche 6 emplacements");
-        imb.setDescription("Augmente votre inventaire de 6 cases.");
+        imb.setName("bag_6_name");
+        imb.setDescription("bag_6_description");
         imb.setImage("bag");
         imb.save();
 
         ItemModel imr = new ItemModel(ItemCategory.SUSTAINABLE, ItemType.RING);
-        imr.setName("Anneau de pouvoir");
-        imr.setDescription("Perdu par une étrange créature dans un marais, il est écrit dessus \"Un anneau pour les gouverner tous. Un anneau pour les trouver tous, Un anneau pour les amener tous et dans les ténèbres les lier.\"");
+        imr.setName("ring_of_power_name");
+        imr.setDescription("ring_of_power_description");
         imr.setImage("ring");
         imr.save();
 
