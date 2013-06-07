@@ -36,7 +36,6 @@ import org.json.JSONException;
 public class ServiceCharacter {
 
     @GET
-    @Path("/all")
     public Response getCharacters() {
         Resources res = Resources.getInstance();
         res.connect();
@@ -160,7 +159,7 @@ public class ServiceCharacter {
     }
     
     @GET
-    @Path("/{id}/panoply/all")
+    @Path("/{id}/panoply")
     public Response getPanoplies(@PathParam("id") String id) {
          try {
             Resources.getInstance().connect();
