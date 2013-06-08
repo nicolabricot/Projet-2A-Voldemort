@@ -197,31 +197,31 @@ public class ServiceMap {
 
         if ("hautrhin".equals(id)) {
             sb.append("\"mulhouse\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Mulhouse\"}],");
-            sb.append("\"thann\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Thann\"}],");
-            sb.append("\"altkirch\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Altkirch\"}],");
-            sb.append("\"colmar\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Colmar\"}],");
+            sb.append("\"thann\" : [{\"type\": \"done\", \"link\": \"\", \"title\": \"Thann\"}],");
+            sb.append("\"altkirch\" : [{\"type\": \"done\", \"link\": \"\", \"title\": \"Altkirch\"}],");
+            sb.append("\"colmar\" : [{\"type\": \"close\", \"link\": \"\", \"title\": \"Colmar\"}],");
             sb.append("\"ribeauville\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Ribeauvillé\"}],");
-            sb.append("\"guebwiller\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Guebwiller\"}]");
+            sb.append("\"guebwiller\" : [{\"type\": \"close\", \"link\": \"\", \"title\": \"Guebwiller\"}]");
         } else if ("basrhin".equals(id)) {
             sb.append("\"strasbourg\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Strasbourg\"}],");
             sb.append("\"saverne\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Saverne\"}],");
             sb.append("\"wissembourg\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Wissembourg\"}],");
-            sb.append("\"selestat\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Selestat\"}],");
-            sb.append("\"molsheim\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Molsheim\"}],");
-            sb.append("\"haguenau\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Haguenau\"}]");
+            sb.append("\"selestat\" : [{\"type\": \"closed\", \"link\": \"\", \"title\": \"Selestat\"}],");
+            sb.append("\"molsheim\" : [{\"type\": \"closed\", \"link\": \"\", \"title\": \"Molsheim\"}],");
+            sb.append("\"haguenau\" : [{\"type\": \"done\", \"link\": \"\", \"title\": \"Haguenau\"}]");
         } else if ("aube".equals(id)) {
             sb.append("\"les_grands_lacs\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Les Grands Lacs\"}],");
-            sb.append("\"pays_d_othe\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Pays d'Othe\"}],");
-            sb.append("\"plaine_champenoise\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Plaine Champenoise\"}],");
-            sb.append("\"cote_des_bar\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Côte des Bar\"}],");
-            sb.append("\"chaourcois_armance\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Chaourçois Armance\"}],");
+            sb.append("\"pays_d_othe\" : [{\"type\": \"done\", \"link\": \"\", \"title\": \"Pays d'Othe\"}],");
+            sb.append("\"plaine_champenoise\" : [{\"type\": \"done\", \"link\": \"\", \"title\": \"Plaine Champenoise\"}],");
+            sb.append("\"cote_des_bar\" : [{\"type\": \"close\", \"link\": \"\", \"title\": \"Côte des Bar\"}],");
+            sb.append("\"chaourcois_armance\" : [{\"type\": \"close\", \"link\": \"\", \"title\": \"Chaourçois Armance\"}],");
             sb.append("\"nogentais\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Nogentais\"}],");
             sb.append("\"troyes\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Troyes\"}]");
         } else if ("chalonenchampagne".equals(id)) {
-            sb.append("\"vitry_le_francois\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Vitry-le-François\"}],");
-            sb.append("\"chalons_en_champagne\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Châlons-en-Champagne\"}],");
+            sb.append("\"vitry_le_francois\" : [{\"type\": \"close\", \"link\": \"\", \"title\": \"Vitry-le-François\"}],");
+            sb.append("\"chalons_en_champagne\" : [{\"type\": \"close\", \"link\": \"\", \"title\": \"Châlons-en-Champagne\"}],");
             sb.append("\"epernay\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Épernay\"}],");
-            sb.append("\"saint_menehould\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Saint-Menehould\"}],");
+            sb.append("\"saint_menehould\" : [{\"type\": \"done\", \"link\": \"\", \"title\": \"Saint-Menehould\"}],");
             sb.append("\"reims\" : [{\"type\": \"opened\", \"link\": \"\", \"title\": \"Reims\"}]");
         } else {
             return Response.status(HttpStatus.NOT_FOUND).build();

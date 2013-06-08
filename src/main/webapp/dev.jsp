@@ -59,9 +59,9 @@
         <h4>Maps</h4>
         <ul>
             <li>Get France map : <a href="./rest/map">/rest/map</a></li>
-            <li>Get a region map : <a href="./rest/map/dep51">/rest/map/{id}</a></li>
+            <li>Get a region map : <a href="./rest/map/basrhin">/rest/map/{id}</a></li>
             <li>Get states for France map : <a href="./rest/map/states/<%= id %>">/rest/map/states/{id_character}</a></li>
-            <li>Get states for France map : <a href="./rest/map/state/dep51/<%= id %>">/rest/map/state/{id}/{id_character}</a></li>
+            <li>Get states for region's map : <a href="./rest/map/states/basrhin/<%= id %>">/rest/map/states/{id}/{id_character}</a></li>
         </ul>
 
         <h2>BDD</h2>
