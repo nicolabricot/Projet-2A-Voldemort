@@ -100,7 +100,12 @@ $(document).ready(function() {
     var map_load = $("#map").data("map-load");
     var character = $("#map").data("character-id");
     var path_map = "rest/map/" + (map_load == "full" ? "" : map_load);
-    var path_state = "rest/map/" + (map_load == "full" ? "states" : "state") + "/" + character + "/" + (map_load == "full" ? "" : map_load);
+    //var path_state = "rest/map/" + (map_load == "full" ? "states" : "state") + "/" + character + "/" + (map_load == "full" ? "" : map_load);
+    if (map_load === "full") {
+        var path_state = "rest/map/states/" + character;
+    } else {
+        var path_state = "rest/map/states/" + map_load + "/" + character;
+    }
     
     var map = new Array();
     $.ajax({
