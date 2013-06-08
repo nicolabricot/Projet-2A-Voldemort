@@ -37,8 +37,8 @@
                         <a href="#consumables" class="btn">Consumable</a>
                         <a href="#degradables" class="btn">Degradable</a>
                     </div>
-                    <a href="#inventory" class="btn btn-inverse">Inventory</a>
-                    <a href="#statistics" class="btn btn-info">Statistics</a>
+                    <a href="#inventory" class="btn">Inventory</a>
+                    <a href="#statistics" class="btn">Statistics</a>
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success disabled"><i class="icon-ok icon-white"></i> enabled</a>
@@ -77,7 +77,6 @@
             <div id="statistics">
                 <div class="statictics">
                     <div class="alert">
-                        <!--<button type="button" class="close" data-dismiss="alert">&times;</button>-->
                         <strong>Warning!</strong> Not yet implemented.
                     </div>
                 </div>
