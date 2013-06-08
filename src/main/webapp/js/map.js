@@ -1,64 +1,79 @@
 $(document).ready(function() {
+    // create raphael map
     var paper = new Raphael(document.getElementById('map'), 520, 560);
-
-    var colorStroke = {
-        "default": "#888",
-        "opened": "#888",
-        "done": "#888",
-        "hover": "#888"
-    };
-    var colorFill = {
-        "default": "#fff",
-        "opened": "#47FF75",
-        "done": "#cdcdcd"
-    };
-    var colorFillHover = {
-        "default": "#eaeaea",
-        "opened": "#3ACC60",
-        "done": "#888"
-    };
+    // default values
+    var map_info = 'Choose a region to start!';
+    var map_closed = 'Region is closed. Finish first opened quests!';
+    var map_done = 'You have already done this region!';
+    var map_locked = 'This region is locked. You can unlocked it with some money.';
+    // html elements
+    var title = $('#map-info .title');
+    var description = $('#map-info .description');
+    var state = $('#map-info .state');
+    // data
+    var color_stroke = $('#map span.stroke');
+    var color_stroke_hover = $('#map span.stroke-hover');
+    var color_fill = $('#map span.fill');
+    var color_fill_hover = $('#map span.fill-hover');
+    var cursor = $('#map span.cursor');
 
     // set color and text
     function addAttr(data) {
         var result = {};
         switch (data.type) {
             // opened
-            case "opened":
+            case 'opened':
                 result = {
-                    fill: colorFill["opened"],
-                    stroke: colorStroke["opened"],
-                    "stroke-width": 1,
-                    "stroke-linejoin": "round",
-                    href: "./map.jsp?map=" + data.link,
-                    "title": data.title,
-                    cursor: "pointer"
+                    fill: color_fill.data('color-opened'),
+                    stroke: color_stroke.data('color-default'),
+                    'stroke-width': 1,
+                    'stroke-linejoin': 'round',
+                    href: data.link,
+                    //'title': data.description,
+                    cursor: 'pointer'
                 };
+                title.html(data.title);
                 break;
 
-                // done
-            case "done":
+            // done
+            case 'done':
                 result = {
-                    fill: colorFill["done"],
-                    stroke: colorStroke["done"],
-                    "stroke-width": 1,
-                    "stroke-linejoin": "round",
-                    "title": "You have already done this region",
-                    cursor: "not-allowed"
+                    fill: color_fill.data('color-done'),
+                    stroke: color_stroke.data('color-default'),
+                    'stroke-width': 1,
+                    'stroke-linejoin': 'round',
+                    //'title': map_done,
+                    cursor: 'not-allowed'
                 };
+                title.html(data.title);
+                break;
+            
+            // locked
+            case 'locked':
+                result = {
+                    fill: color_fill.data('color-locked'),
+                    stroke: color_stroke.data('color-default'),
+                    'stroke-width': 1,
+                    'stroke-linejoin': 'round',
+                    //'title': map_locked,
+                    cursor: 'not-allowed'
+                };
+                title.html(data.title);
                 break;
 
-                // closed
+            // closed
             default:
                 result = {
-                    fill: colorFill["default"],
-                    stroke: colorStroke["default"],
-                    "stroke-width": 1,
-                    "stroke-linejoin": "round",
-                    "title": "This region is closed. Finish first opened quests",
-                    cursor: "not-allowed"
+                    fill: color_fill.data('color-default'),
+                    stroke: color_stroke.data('color-default'),
+                    'stroke-width': 1,
+                    'stroke-linejoin': 'round',
+                    //'title': map_closed,
+                    cursor: 'not-allowed'
                 };
+                title.html('');
         }
-        $("#map-info p").html(map_info);
+        description.html(map_info);
         return result;
     }
 
@@ -67,60 +82,72 @@ $(document).ready(function() {
         var result = {};
         switch (data.type) {
             // opened
-            case "opened":
+            case 'opened':
                 result = {
-                    fill: colorFillHover["opened"],
-                    stroke: colorStroke["hover"]
+                    fill: color_fill_hover.data('color-opened'),
+                    stroke: color_stroke_hover.data('color-default')
                 };
-                $("#map-info p").html(data.title);
+                description.html(data.description);
+                title.html(data.title);
+                break;
+                
+            // done
+            case 'done':
+                result = {
+                    fill: color_fill_hover.data('color-done'),
+                    stroke: color_stroke_hover.data('color-default')
+                };
+                description.html(map_done);
+                title.html(data.title);
+                break;
+                
+            // locked
+            case 'locked':
+                result = {
+                    fill: color_fill_hover.data('color-locked'),
+                    stroke: color_stroke_hover.data('color-default')
+                };
+                description.html(map_locked + '<br />' + data.description);
+                title.html(data.title);
                 break;
 
-                // done
-            case "done":
-                result = {
-                    fill: colorFillHover["done"],
-                    stroke: colorStroke["hover"]
-                };
-                $("#map-info p").html("You have already done this region");
-                break;
-
-                // closed
+            // closed
             default:
                 result = {
-                    fill: colorFillHover["default"],
-                    stroke: colorStroke["hover"]
+                    fill: color_fill_hover.data('color-default'),
+                    stroke: color_stroke_hover.data('color-default')
                 };
-                $("#map-info p").html("This region is closed. Finish first opened quests");
+                description.html(map_closed);
+                title.html('');
         }
         return result;
     }
 
-    var map_info = "Survolez une zone pour avoir plus d’informations";
-
-    var map_load = $("#map").data("map-load");
-    var character = $("#map").data("character-id");
-    var path_map = "rest/map/" + (map_load == "full" ? "" : map_load);
-    //var path_state = "rest/map/" + (map_load == "full" ? "states" : "state") + "/" + character + "/" + (map_load == "full" ? "" : map_load);
-    if (map_load === "full") {
-        var path_state = "rest/map/states/" + character;
+    var map_load = $('#map').data('map-load');
+    var character = $('#map').data('character-id');
+    var path_map = 'static/map/' + map_load + '.json';
+    if (map_load === 'main') {
+        var path_state = 'rest/map/states/' + character;
     } else {
-        var path_state = "rest/map/states/" + map_load + "/" + character;
+        var path_state = 'rest/map/states/' + map_load + '/' + character;
     }
-    
+    //console.log(path_map, path_state);
+
     var map = new Array();
     $.ajax({
-        type: "GET",
+        type: 'GET',
         url: path_map,
-        dataType: "json",
+        dataType: 'json',
         success: function(data) {
             $.map(data, function(value, key) {
                 map[key] = paper.path(value)
-                        .attr(addAttr({"type": null}))
+                        .attr(addAttr({'type': null}))
                         .hover(function() {
-                    hoverAttr({"type": null});
+                    hoverAttr({'type': null});
                 })
                         .mouseout(function() {
-                    $("#map-info p").html(map_info);
+                    description.html(map_info);
+                    title.html('');
                 });
             });
             ajaxMapDone();
@@ -135,9 +162,9 @@ $(document).ready(function() {
 
     function ajaxMapDone() {
         $.ajax({
-            type: "GET",
+            type: 'GET',
             url: path_state,
-            dataType: "json",
+            dataType: 'json',
             success: function(data) {
                 //console.log(data);
                 ajaxStatesDone(data);
@@ -163,10 +190,12 @@ $(document).ready(function() {
                 st[0].onmouseout = function() {
                     st.animate(addAttr(v), 300);
                     paper.safari();
+                    title.html('');
                 };
             })(map[key], value[0]);
         });
-        $("#map-info p").html(map_info);
+        description.html(map_info);
+        title.html('');
     }
 
 });
