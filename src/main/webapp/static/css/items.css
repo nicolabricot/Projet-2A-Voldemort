@@ -23,6 +23,10 @@ div.image-items {
     background-position: 0 -442px;
 }
 
+.image-items.item-metal-cuirass {
+    background-position: -102px -442px;
+}
+
 .image-items.item-rusty-sword {
     background-position: -34px -170px;
 }
@@ -33,4 +37,40 @@ div.image-items {
 
 .image-items.item-ring {
     background-position: -170px -646px;
+}
+
+.image-items.item-bred {
+    background-position: -238px -34px;
+}
+
+.image-items.item-sword {
+    background-position: -102px -170px;
+}
+
+.image-items.item-shoes {
+    background-position: 0px -476px;
+}
+
+.image-items.item-plus-shoes {
+    background-position: -34px -476px;
+}
+
+.image-items.item-diamand {
+    background-position: 0px -510px;
+}
+
+.image-items.item-ruby {
+    background-position: -34px -510px;
+}
+
+.image-items.item-papyrus {
+    background-position: -374px -578px;
+}
+
+.image-items.item-key {
+    background-position: -272px -544px;
+}
+
+.image-items.item-blue-fiole {
+    background-position: -340px -68px;
 }
