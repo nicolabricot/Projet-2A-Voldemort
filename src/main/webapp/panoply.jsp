@@ -45,6 +45,7 @@
                     </div>
                     <a href="#inventory" class="btn">Inventory</a>
                     <a href="#statistics" class="btn">Statistics</a>
+                    <span class="btn disabled"><i class="icon-remove"></i></span>
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success disabled"><i class="icon-ok icon-white"></i> enabled</a>
