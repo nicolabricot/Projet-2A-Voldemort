@@ -42,7 +42,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="span8">
-                            <div id="map" data-map-load="<%= map%>" data-character-id="<%= Resources.getInstance().getFirstCharacterId()%>">
+                            <div id="map" data-map-load="<%= map%>" data-character-id="<%= Resources.getInstance().getFirstCharacter()%>">
                                 <span class="stroke" data-color-default="#888"></span>
                                 <span class="stroke-hover" data-color-default="#888"></span>
                                 <span class="fill" data-color-default="#F8F8F8" data-color-opened="#D9F7FF" data-color-done="#CAFFC9" data-color-locked="#dadada"></span>
