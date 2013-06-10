@@ -3,9 +3,9 @@ $(document).ready(function() {
     var paper = new Raphael(document.getElementById('map'), 520, 560);
     // default values
     var map_info = 'Choose a region to start!';
-    var map_closed = 'Region is closed. Finish first opened quests!';
-    var map_done = 'You have already done this region!';
-    var map_locked = 'This region is locked. You can unlocked it with some money.';
+    var map_closed = '<span class="more">Region is closed. Finish first opened quests!</span>';
+    var map_done = '<span class="more">You have already done this region!</span>';
+    var map_locked = '<span class="more">This region is locked. You can unlocked it with some money.</span>';
     // html elements
     var title = $('#map-info .title');
     var description = $('#map-info .description');
@@ -15,8 +15,14 @@ $(document).ready(function() {
     var color_stroke_hover = $('#map span.stroke-hover');
     var color_fill = $('#map span.fill');
     var color_fill_hover = $('#map span.fill-hover');
-    var cursor = $('#map span.cursor');
-
+    var cursor = $('#map span.cursors');
+    var icon = $('#map span.icons');
+    
+    // change state button
+    function updateState(dataState, text) {
+        state.html('<span style="background-color:' + color_fill.data('color-' + dataState) + ';"><i class="icon-' + icon.data('icon-' + dataState) + '"></i> ' + text + '</span>');
+    }
+    
     // set color and text
     function addAttr(data) {
         var result = {};
@@ -30,9 +36,8 @@ $(document).ready(function() {
                     'stroke-linejoin': 'round',
                     href: data.link,
                     //'title': data.description,
-                    cursor: 'pointer'
+                    cursor: cursor.data('cursor-opened')
                 };
-                title.html(data.title);
                 break;
 
             // done
@@ -43,9 +48,8 @@ $(document).ready(function() {
                     'stroke-width': 1,
                     'stroke-linejoin': 'round',
                     //'title': map_done,
-                    cursor: 'not-allowed'
+                    cursor: cursor.data('cursor-default')
                 };
-                title.html(data.title);
                 break;
             
             // locked
@@ -56,9 +60,8 @@ $(document).ready(function() {
                     'stroke-width': 1,
                     'stroke-linejoin': 'round',
                     //'title': map_locked,
-                    cursor: 'not-allowed'
+                    cursor: cursor.data('cursor-default')
                 };
-                title.html(data.title);
                 break;
 
             // closed
@@ -69,11 +72,9 @@ $(document).ready(function() {
                     'stroke-width': 1,
                     'stroke-linejoin': 'round',
                     //'title': map_closed,
-                    cursor: 'not-allowed'
+                    cursor: cursor.data('cursor-default')
                 };
-                title.html('');
         }
-        description.html(map_info);
         return result;
     }
 
@@ -89,6 +90,7 @@ $(document).ready(function() {
                 };
                 description.html(data.description);
                 title.html(data.title);
+                updateState(data.type, data.type);
                 break;
                 
             // done
@@ -97,8 +99,9 @@ $(document).ready(function() {
                     fill: color_fill_hover.data('color-done'),
                     stroke: color_stroke_hover.data('color-default')
                 };
-                description.html(map_done);
+                description.html(map_done + (data.description != undefined ? data.description : ''));
                 title.html(data.title);
+                updateState(data.type, data.type);
                 break;
                 
             // locked
@@ -107,8 +110,9 @@ $(document).ready(function() {
                     fill: color_fill_hover.data('color-locked'),
                     stroke: color_stroke_hover.data('color-default')
                 };
-                description.html(map_locked + '<br />' + data.description);
+                description.html(map_locked + (data.description != undefined ? data.description : ''));
                 title.html(data.title);
+                updateState(data.type, data.type);
                 break;
 
             // closed
@@ -117,8 +121,10 @@ $(document).ready(function() {
                     fill: color_fill_hover.data('color-default'),
                     stroke: color_stroke_hover.data('color-default')
                 };
-                description.html(map_closed);
+                description.html(map_closed + (data.description != undefined ? data.description : ''));
+                updateState('default', 'closed');
                 title.html('');
+                
         }
         return result;
     }
@@ -148,6 +154,7 @@ $(document).ready(function() {
                         .mouseout(function() {
                     description.html(map_info);
                     title.html('');
+                    state.html('');
                 });
             });
             ajaxMapDone();
@@ -196,6 +203,7 @@ $(document).ready(function() {
         });
         description.html(map_info);
         title.html('');
+        state.html('');
     }
 
 });

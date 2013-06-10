@@ -35,8 +35,9 @@ public class ServiceMap {
         sb.append("{");
         sb.append("\"champagne-ardenne\": [{\"type\": \"opened\", \"title\": \"Champagne-Ardenne\", \"link\":\"" + url + "champagne-ardenne\", \"description\": \"Want to drink a glass of Champagne?\"}],");
         sb.append("\"alsace\": [{\"type\": \"opened\", \"title\": \"Alsace\", \"link\": \"" + url + "alsace\", \"description\": \"Welcome in Alsace\"}],");
-        sb.append("\"centre\": [{\"type\": \"locked\", \"title\": \"Centre\", \"link\": \"" + url + "alsace\", \"description\": \"Trololo\"}],");
-        sb.append("\"corse\": [{\"type\": \"done\", \"title\": \"Corse\"}]");
+        sb.append("\"centre\": [{\"type\": \"locked\", \"title\": \"Centre\", \"link\": \"" + url + "alsace\", \"description\": \"Le Centre est une région française, qui regroupe six départements : le Cher, l'Eure-et-Loir, l'Indre, l'Indre-et-Loire, le Loir-et-Cher et le Loiret.\"}],");
+        sb.append("\"corse\": [{\"type\": \"done\", \"title\": \"Corse\", \"description\": \"Corse, ma belle Corse, que veux-tu faire par monts et par vaux...\"}],");
+        sb.append("\"ile-de-france\": [{\"type\": \"done\", \"title\": \"Île de France\"}]");
         sb.append("}");
 
         return Response.status(200).entity(sb.toString()).build();
