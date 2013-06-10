@@ -14,6 +14,14 @@ $(document).ready(function() {
     $('#links a').click(function() {
         return false;
     });
+
+    // reset all links and remove tabs
+    $('#links span.btn').click(function() {
+        $('#links a').removeClass('disabled').addClass('ready');
+        $('#view .tab').html('');
+        $(this).addClass('disabled');
+    });
+
     // set ready link to be draggeabled
     $('#links a').addClass('ready');
     $('#links a.ready').draggable({
@@ -52,13 +60,13 @@ $(document).ready(function() {
 
             ui.helper.remove();
             // add remove tab on click
+            $('#links span.btn').removeClass('disabled');
             /*
-            $('#links a[href=' + link + ']').click(function() {
-                console.log(link, tab, old_link);
-                $('#links a[href=' + link + ']').removeClass('disabled').addClass('ready');
-                $(tab).html('');
-            });
-            */
+             $('#links a[href=' + link + ']').click(function() {
+             $('#links a[href=' + link + ']').removeClass('disabled').addClass('ready');
+             $(tab).html('');
+             });
+             */
 
             // update drag and drop
             var path_ajax = 'rest/character/' + character + '/panoply/' + id + '/' + link.replace('#', '');
