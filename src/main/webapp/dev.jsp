@@ -21,8 +21,8 @@
     <body>
         <h2>Pages web</h2>
         <ul>
-            <li><a href="map.jsp">Map</a> (<a href="old-map.jsp">archive</a>)</li>
-            <li><a href="panoply.jsp">Panoply</a> (<a href="old-panoply.jsp">archive</a>)</li>
+            <li><a href="map.jsp">Map</a></li>
+            <li><a href="panoply.jsp">Panoply</a></li>
         </ul>
         <h2>Service web</h2>
         <ul>
