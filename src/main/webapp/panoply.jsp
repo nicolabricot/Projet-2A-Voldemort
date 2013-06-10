@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <div id="view" data-character-id="<%= Resources.getInstance().getFirstCharacter()%>" data-panoply-id="<%= panoply%>">
+            <div id="view" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString() %>" data-panoply-id="<%= panoply%>">
                 <div class="row-fluid">
                     <div id="first-tab" class="tab span4"></div>
                     <div id="second-tab" class="tab span4"></div>
