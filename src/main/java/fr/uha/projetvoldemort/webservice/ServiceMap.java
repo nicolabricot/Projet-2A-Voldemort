@@ -45,16 +45,18 @@ public class ServiceMap {
     @GET
     @Path("/states/{id}/{id_character}")
     public Response getStates(@PathParam("id") String id) {
+        String pano = "./panoply.jsp?panoply=";
+        String combat = "./combat.jsp?type=x&from=";
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         if ("alsace".equals(id)) {
             sb.append("\"bas-rhin\": [{\"type\": \"opened\", \"link\": \"\", \"description\": \"Mulhouse\"}],");
             sb.append("\"haut-rhin\": [{\"type\": \"opened\", \"link\": \"\", \"description\": \"Mulhouse\"}]");
         } else if ("champagne-ardenne".equals(id)) {
-            sb.append("\"marne\": [{\"type\": \"opened\", \"link\": \"\", \"description\": \"Strasbourg\"}],");
-            sb.append("\"aube\": [{\"type\": \"opened\", \"link\": \"\", \"description\": \"Strasbourg\"}],");
-            sb.append("\"ardennes\": [{\"type\": \"opened\", \"link\": \"\", \"description\": \"Strasbourg\"}],");
-            sb.append("\"haute-marne\" : [{\"type\": \"opened\", \"link\": \"\", \"description\": \"Strasbourg\"}]");
+            sb.append("\"marne\": [{\"type\": \"closed\", \"link\": \"\", \"description\": \"Strasbourg\"}],");
+            sb.append("\"aube\": [{\"type\": \"closed\", \"link\": \"\", \"description\": \"Strasbourg\"}],");
+            sb.append("\"ardennes\": [{\"type\": \"opened\", \"title\": \"Combat 1v1\", \"link\": \"" + combat + "ardennes\", \"description\": \"Kill one\"}],");
+            sb.append("\"haute-marne\" : [{\"type\": \"opened\", \"title\": \"Panoply\", \"link\": \"" + pano + "active\", \"description\": \"Bla bla bla\"}]");
         } else {
             return Response.status(HttpStatus.NOT_FOUND).build();
         }

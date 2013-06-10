@@ -93,7 +93,7 @@ public final class Resources {
     
     public String getFirstCharacterId() {
         Resources.getInstance().connect();
-        Resources.getInstance().fill();
+        //Resources.getInstance().fill();
         BasicDBObject ob = (BasicDBObject) Resources.getInstance().getCollection(Character.COLLECTION).findOne();
         ObjectId id = ob.getObjectId("_id");
         Resources.getInstance().close();
