@@ -91,13 +91,13 @@ public final class Resources {
         this.mongo = null;
     }
     
-    public String getFirstCharacterId() {
+    public Character getFirstCharacter() {
         Resources.getInstance().connect();
-        //Resources.getInstance().fill();
         BasicDBObject ob = (BasicDBObject) Resources.getInstance().getCollection(Character.COLLECTION).findOne();
         ObjectId id = ob.getObjectId("_id");
+        Character c = new Character(id);
         Resources.getInstance().close();
-        return id.toString();
+        return c;
     }
 
     public void fill() throws JSONException {        

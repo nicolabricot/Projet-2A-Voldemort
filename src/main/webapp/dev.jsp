@@ -3,11 +3,14 @@
     Created on : 6 mai 2013, 20:24:40
     Author     : bruno
 --%>
+<%@page import="org.bson.types.ObjectId"%>
 <%@page import="fr.uha.projetvoldemort.resource.Resources"%>
+<%@page import="fr.uha.projetvoldemort.character.Character"%>
 <%@page import="java.net.InetAddress"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String id = Resources.getInstance().getFirstCharacterId();
+    Character c = Resources.getInstance().getFirstCharacter();
+    String id = c.getId().toString();
 %>
 <!DOCTYPE html>
 <html>
@@ -49,6 +52,14 @@
             <li>Get active sustainable panoply : <a href="./rest/character/<%= id %>/panoply/active/sustainables">/rest/character/{id}/panoply/active/sustainables</a></li>
             <li>Get active consumable panoply : <a href="./rest/character/<%= id %>/panoply/active/consumables">/rest/character/{id}/panoply/active/consumables</a></li>
             <li>Get active degradable panoply : <a href="./rest/character/<%= id %>/panoply/active/degradables">/rest/character/{id}/panoply/active/degradables</a></li>
+        </ul>
+        
+        <ul>
+            <li>Add item to a panoply : <a href="./rest/character/<%= id %>/panoply/<%= c.getActivePanoply().getId().toString() %>/add/xxx">/rest/character/{id}/panoply/{id_panoply}/add/{id_item}</a></li>
+            <li>Remove item from a panoply : <a href="./rest/character/<%= id %>/panoply/<%= c.getActivePanoply().getId().toString() %>/remove/xxx">/rest/character/{id}/panoply/{id_panoply}/remove/{id_item}</a></li>
+            <li>Add item to active panoply : <a href="./rest/character/<%= id %>/panoply/active/add/xxx">/rest/character/{id}/panoply/active/add/{id_item}</a></li>
+            <li>Remove item from active panoply : <a href="./rest/character/<%= id %>/panoply/active/remove/xxx">/rest/character/{id}/panoply/active/remove/{id_item}</a></li>
+            <li>Set active panoply : <a href="./rest/character/<%= id %>/panoply/active/set/<%= c.getActivePanoply().getId().toString() %>">/rest/character/{id}/panoply/active/set/{id_panoply}</a></li>
         </ul>
         
         <h4>Statistics</h4>

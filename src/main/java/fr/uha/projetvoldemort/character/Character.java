@@ -34,7 +34,6 @@ public final class Character {
     private static final String PANOPLIES = "panoplies";
     private static final String ACTIVE_PANOPLY = "active_panoply";
     private static final String FACTION = "faction";
-    
     private ObjectId id;
     private CharacterModel model;
     private String name;
@@ -44,11 +43,10 @@ public final class Character {
     private Panoply activePanoply;
     private Faction faction;
 
-
     public Character(ObjectId oid) {
         this.attributes = new EnumMap<CharacterAttribute, Integer>(CharacterAttribute.class);
         this.panoplies = new HashMap<ObjectId, Panoply>();
-        
+
         Resources res = Resources.getInstance();
         BasicDBObject ob = (BasicDBObject) res.getCollection(COLLECTION).findOne(oid);
         if (ob == null) {
@@ -60,7 +58,7 @@ public final class Character {
     public Character(CharacterModel model) {
         this.attributes = new EnumMap<CharacterAttribute, Integer>(CharacterAttribute.class);
         this.panoplies = new HashMap<ObjectId, Panoply>();
-        
+
         this.model = model;
         this.inventory = new Inventory();
     }
@@ -69,7 +67,7 @@ public final class Character {
         this.id = ob.getObjectId(ID);
         this.model = new CharacterModel(ob.getObjectId(MODEL_ID));
         this.name = ob.getString(NAME);
-        
+
         BasicDBObject obAttributes = (BasicDBObject) ob.get(ATTRIBUTES);
         Iterator<String> itAttributes = obAttributes.keySet().iterator();
         while (itAttributes.hasNext()) {
@@ -77,18 +75,18 @@ public final class Character {
             Integer value = obAttributes.getInt(key);
             this.attributes.put(CharacterAttribute.fromString(key), value);
         }
-        
+
         this.inventory = new Inventory((DBObject) ob.get(Inventory.INVENTORY));
-        
+
         BasicDBList listPanoplies = (BasicDBList) ob.get(PANOPLIES);
         Iterator<Object> itPanoplies = listPanoplies.iterator();
         while (itPanoplies.hasNext()) {
             ObjectId id = (ObjectId) itPanoplies.next();
             this.panoplies.put(id, new Panoply(this.inventory, id));
         }
-        
+
         this.activePanoply = this.panoplies.get((ObjectId) ob.get(ACTIVE_PANOPLY));
-        
+
         this.faction = new Faction((ObjectId) ob.get(FACTION));
     }
 
@@ -101,16 +99,16 @@ public final class Character {
         if (this.activePanoply == null) {
             throw new RuntimeException("No active panoply definded.");
         }
-     
+
         BasicDBObject ob = new BasicDBObject();
 
         if (this.id != null) {
             ob.append(ID, this.id);
         }
-        
+
         ob.append(MODEL_ID, this.model.getId());
         ob.append(NAME, this.name);
-        
+
         BasicDBObject obAttributes = new BasicDBObject();
         Iterator<Entry<CharacterAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();
         while (itAttributes.hasNext()) {
@@ -118,7 +116,7 @@ public final class Character {
             obAttributes.append(attribute.getKey().toString(), attribute.getValue());
         }
         ob.append(ATTRIBUTES, obAttributes);
-        
+
         ob.append(Inventory.INVENTORY, this.inventory.toDBObject());
 
         BasicDBList listPanoplies = new BasicDBList();
@@ -127,11 +125,11 @@ public final class Character {
             listPanoplies.add(itPanoplies.next().getId());
         }
         ob.append(PANOPLIES, listPanoplies);
-        
+
         ob.append(ACTIVE_PANOPLY, this.activePanoply.getId());
 
         ob.append(FACTION, this.faction.getId());
-        
+
         return ob;
     }
 
@@ -144,9 +142,15 @@ public final class Character {
 
     public void setActivePanoply(Panoply pa) {
         if (!this.panoplies.containsValue(pa)) {
-            throw new RuntimeException("Panoply doesn't belong to the character.");
+            StringBuilder str = new StringBuilder();
+            str.append("Panoply ");
+            str.append(pa.getId().toString());
+            str.append(" doesn't belong to ");
+            str.append(this.getId().toString());
+            str.append(".");
+            throw new NotFoundException(str.toString());
         }
-        
+
         this.activePanoply = pa;
     }
 
@@ -159,9 +163,9 @@ public final class Character {
         JSONObject ob = new JSONObject();
         ob.put("id", this.id.toString());
         ob.put("model", this.model.toJSONObject());
-        
+
         ob.put(NAME, this.name);
-        
+
         JSONObject obAttributes = new JSONObject();
         Iterator<Entry<CharacterAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();
         while (itAttributes.hasNext()) {
@@ -169,36 +173,37 @@ public final class Character {
             obAttributes.put(attribute.getKey().toString(), attribute.getValue());
         }
         ob.put(ATTRIBUTES, obAttributes);
-        
+
         ob.put(Inventory.INVENTORY, this.inventory.toJSONArray());
-        
+
         JSONArray a = new JSONArray();
         Iterator<Panoply> it = this.panoplies.values().iterator();
         while (it.hasNext()) {
             a.put(it.next().toJSONObject());
         }
         ob.put(PANOPLIES, a);
-        
+
         ob.put(ACTIVE_PANOPLY, this.activePanoply.toJSONObject());
-        
+
         ob.put(FACTION, this.faction.toJSONObject());
-        
+
         return ob;
     }
 
     public void save() {
         this.inventory.save();
-        
+
         Iterator<Panoply> it = this.panoplies.values().iterator();
-        while (it.hasNext())
+        while (it.hasNext()) {
             it.next().save();
-        
+        }
+
         BasicDBObject ob = (BasicDBObject) this.toDBObject();
         Resources.getInstance().getCollection(COLLECTION).save(ob);
         this.id = ob.getObjectId(ID);
         System.out.println("Character.save: " + ob);
     }
-    
+
     public CharacterModel getModel() {
         return this.model;
     }
@@ -206,7 +211,7 @@ public final class Character {
     public ObjectId getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -214,7 +219,7 @@ public final class Character {
     public void setName(String name) {
         this.name = name;
     }
-     
+
     public Inventory getInventory() {
         return this.inventory;
     }
@@ -222,31 +227,40 @@ public final class Character {
     public Panoply getActivePanoply() {
         return this.activePanoply;
     }
-    
+
     public boolean isDead() {
         return (this.getAttribute(CharacterAttribute.LIFE) < 1);
     }
-    
+
     public int getAttribute(CharacterAttribute attribute) {
         return this.attributes.get(attribute);
     }
-    
+
     public void setAttribute(CharacterAttribute attribute, int value) {
         this.attributes.put(attribute, value);
     }
-    
+
     public Collection<Panoply> getPanoplies() {
         return this.panoplies.values();
     }
-    
+
     public Panoply getPanoply(ObjectId id) {
+        if (!this.panoplies.containsKey(id)) {
+            StringBuilder str = new StringBuilder();
+            str.append("Panoply ");
+            str.append(id.toString());
+            str.append(" doesn't belong to ");
+            str.append(this.getId().toString());
+            str.append(".");
+            throw new NotFoundException(str.toString());
+        }
         return this.panoplies.get(id);
     }
-    
+
     public void setFaction(Faction faction) {
         this.faction = faction;
     }
-    
+
     public Faction getFaction() {
         return this.faction;
     }

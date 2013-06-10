@@ -470,5 +470,26 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
+    
+    @GET
+    @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
+    @Path("/{idC}/panoply/active/set/{idP}")
+    public Response setActivePanoply(@PathParam("idC") String idC, @PathParam("idP") String idP) {
+         try {
+            Resources.getInstance().connect();
+
+            Character c = new Character(new ObjectId(idC));
+            Panoply p = c.getPanoply(new ObjectId(idP));
+            c.setActivePanoply(p);
+            c.save();
+            
+            return Response.status(HttpStatus.OK).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } finally {
+            Resources.getInstance().close();
+        }
+    }
         
 }
