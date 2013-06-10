@@ -1,0 +1,125 @@
+{
+    "factions": [
+        {
+            "faction_type": "werewolf",
+            "name": "werewolf_name",
+            "description": "werewolf_description"
+        },
+        {
+            "faction_type": "vampire",
+            "name": "vampire_name",
+            "description": "vampire_description"
+        },
+        {
+            "faction_type": "mummy",
+            "name": "mummy_name",
+            "description": "mummy_description"
+        }
+    ],
+    "character_models": [
+        {
+            "name": "brute_name",
+            "description": "brute_description"
+        },
+        {
+            "name": "scroundel_name",
+            "description": "scroundel_description"
+        },
+        {
+            "name": "tactician_name",
+            "description": "tactician_description"
+        }
+    ],
+    "item_models": [
+        {
+            "name": "base_gauntlet_name",
+            "description": "base_gauntlet_description",
+            "image": "gauntlet",
+            "category": "consumable",
+            "type": "gauntlet"
+        },
+        {
+            "name": "f*****g_cuirass_name",
+            "description": "f*****g_cuirass_description",
+            "image": " cuirass",
+            "category": "degradable",
+            "type": "cuirass"
+        },
+        {
+            "name": "rusty_sword_name",
+            "description": "rusty_sword_description",
+            "image": "rusty_sword",
+            "category": "sustainable",
+            "type": "weapon"
+        },
+        {
+            "name": "bag_6_name",
+            "description": "bag_6_description",
+            "image": "bag",
+            "category": "sustainable",
+            "type": "bag"
+        },
+        {
+            "name": "ring_of_power_name",
+            "description": "ring_of_power_description",
+            "image": "ring",
+            "category": "sustainable",
+            "type": "ring"
+        }
+    ],
+    "characters": [
+        {
+            "model": "scroundel_name",
+            "name": "Gurdil",
+            "faction": "werewolf",
+            "attributes":
+                    {
+                        "attack": 10,
+                        "defense": 15,
+                        "initiative": 30,
+                        "luck": 5
+                    },
+            "inventory": [
+                {
+                    "model": "f*****g_cuirass_name",
+                    "attributes": {
+                        "class": 10,
+                        "defense": 30
+                    }
+                },
+                {
+                    "model": "base_gauntlet_name",
+                    "attributes": {
+                        "class": 2,
+                        "defense": 3
+                    }
+                },
+                {
+                    "model": "base_gauntlet_name",
+                    "attributes": {
+                        "class": 2,
+                        "defense": 3
+                    }
+                },
+                {
+                    "model": "rusty_sword_name",
+                    "attributes": {
+                        "class": 3,
+                        "attack": 2
+                    }
+                },
+                {
+                    "model": "bag_6_name",
+                },
+                {
+                    "model": "ring_of_power_name",
+                    "attributes": {
+                        "class": 3,
+                        "luck": 5
+                    }
+                }
+            ]
+        }
+    ]
+
+}
