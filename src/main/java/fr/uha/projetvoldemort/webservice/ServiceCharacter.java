@@ -37,17 +37,19 @@ public class ServiceCharacter {
 
     @GET
     public Response getCharacters() {
-        Resources res = Resources.getInstance();
-        res.connect();
-        DBCollection coll = res.getCollection(Character.COLLECTION);
-        DBCursor cursor = coll.find();
-        JSONArray a = new JSONArray();
-        while (cursor.hasNext()) {
-            ObjectId id = (ObjectId) cursor.next().get("_id");
-            a.put(id.toString());
+        try {
+            Resources.getInstance().connect();
+            DBCollection coll = Resources.getInstance().getCollection(Character.COLLECTION);
+            DBCursor cursor = coll.find();
+            JSONArray a = new JSONArray();
+            while (cursor.hasNext()) {
+                ObjectId id = (ObjectId) cursor.next().get("_id");
+                a.put(id.toString());
+            }
+            return Response.status(HttpStatus.OK).entity(a.toString()).build();
+        } finally {
+            Resources.getInstance().close();
         }
-        res.close();
-        return Response.status(HttpStatus.OK).entity(a.toString()).build();
     }
 
     @GET
@@ -157,11 +159,11 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{id}/panoply")
     public Response getPanoplies(@PathParam("id") String id) {
-         try {
+        try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
@@ -178,11 +180,11 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{idC}/panoply/{idP}")
     public Response getPanoplyItems(@PathParam("idC") String idC, @PathParam("idP") String idP) {
-         try {
+        try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
@@ -202,11 +204,11 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{idC}/panoply/{idP}/sustainables")
     public Response getPanoplySustainables(@PathParam("idC") String idC, @PathParam("idP") String idP) {
-         try {
+        try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
@@ -226,11 +228,11 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{idC}/panoply/{idP}/consumables")
     public Response getPanoplyConsumables(@PathParam("idC") String idC, @PathParam("idP") String idP) {
-         try {
+        try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
@@ -250,11 +252,11 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{idC}/panoply/{idP}/degradables")
     public Response getPanoplyDegradables(@PathParam("idC") String idC, @PathParam("idP") String idP) {
-                 try {
+        try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
@@ -274,11 +276,11 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{id}/panoply/active")
     public Response getActivePanoplyItems(@PathParam("id") String id) {
-         try {
+        try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
@@ -298,11 +300,11 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{id}/panoply/active/sustainables")
     public Response getActivePanoplySustainables(@PathParam("id") String id) {
-         try {
+        try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
@@ -322,11 +324,11 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{id}/panoply/active/consumables")
     public Response getActivePanoplyConsumables(@PathParam("id") String id) {
-         try {
+        try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
@@ -346,11 +348,11 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{id}/panoply/active/degradables")
     public Response getActivePanoplyDegradables(@PathParam("id") String id) {
-                 try {
+        try {
             Resources.getInstance().connect();
             JSONArray a = new JSONArray();
 
@@ -370,18 +372,18 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Path("/{id}/statistics")
     public Response getStats(@PathParam("id") String id) {
         return Response.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
-    
+
     @GET
     @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
     @Path("/{idC}/panoply/{idP}/remove/{idM}")
     public Response removeFromPanoply(@PathParam("idC") String idC, @PathParam("idP") String idP, @PathParam("idM") String idM) {
-         try {
+        try {
             Resources.getInstance().connect();
 
             Character c = new Character(new ObjectId(idC));
@@ -389,7 +391,7 @@ public class ServiceCharacter {
             Panoply p = c.getPanoply(new ObjectId(idP));
             p.remove(i);
             p.save();
- 
+
             return Response.status(HttpStatus.OK).build();
         } catch (NotFoundException ex) {
             Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
@@ -398,12 +400,12 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
     @Path("/{idC}/panoply/active/remove/{idM}")
     public Response removeFromActivePanoply(@PathParam("idC") String idC, @PathParam("idM") String idM) {
-         try {
+        try {
             Resources.getInstance().connect();
 
             Character c = new Character(new ObjectId(idC));
@@ -411,7 +413,7 @@ public class ServiceCharacter {
             Panoply p = c.getActivePanoply();
             p.remove(i);
             p.save();
- 
+
             return Response.status(HttpStatus.OK).build();
         } catch (NotFoundException ex) {
             Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
@@ -420,12 +422,12 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
     @Path("/{idC}/panoply/{idP}/add/{idM}")
     public Response addToPanoply(@PathParam("idC") String idC, @PathParam("idP") String idP, @PathParam("idM") String idM) {
-         try {
+        try {
             Resources.getInstance().connect();
 
             Character c = new Character(new ObjectId(idC));
@@ -433,7 +435,7 @@ public class ServiceCharacter {
             Panoply p = c.getPanoply(new ObjectId(idP));
             p.setItem(i);
             p.save();
- 
+
             return Response.status(HttpStatus.OK).build();
         } catch (NotAllowedException ex) {
             Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
@@ -445,12 +447,12 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
     @Path("/{idC}/panoply/active/add/{idM}")
     public Response addtoActivePanoply(@PathParam("idC") String idC, @PathParam("idM") String idM) {
-         try {
+        try {
             Resources.getInstance().connect();
 
             Character c = new Character(new ObjectId(idC));
@@ -458,7 +460,7 @@ public class ServiceCharacter {
             Panoply p = c.getActivePanoply();
             p.setItem(i);
             p.save();
-            
+
             return Response.status(HttpStatus.OK).build();
         } catch (NotAllowedException ex) {
             Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
@@ -470,19 +472,19 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-    
+
     @GET
     @Produces(MediaType.TEXT_HTML + "; charset=utf-8")
     @Path("/{idC}/panoply/active/set/{idP}")
     public Response setActivePanoply(@PathParam("idC") String idC, @PathParam("idP") String idP) {
-         try {
+        try {
             Resources.getInstance().connect();
 
             Character c = new Character(new ObjectId(idC));
             Panoply p = c.getPanoply(new ObjectId(idP));
             c.setActivePanoply(p);
             c.save();
-            
+
             return Response.status(HttpStatus.OK).build();
         } catch (NotFoundException ex) {
             Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
@@ -491,5 +493,4 @@ public class ServiceCharacter {
             Resources.getInstance().close();
         }
     }
-        
 }
