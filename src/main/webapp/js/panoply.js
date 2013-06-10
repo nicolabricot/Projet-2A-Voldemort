@@ -61,12 +61,6 @@ $(document).ready(function() {
             ui.helper.remove();
             // add remove tab on click
             $('#links span.btn').removeClass('disabled');
-            /*
-             $('#links a[href=' + link + ']').click(function() {
-             $('#links a[href=' + link + ']').removeClass('disabled').addClass('ready');
-             $(tab).html('');
-             });
-             */
 
             // update drag and drop
             var path_ajax = 'rest/character/' + character + '/panoply/' + id + '/' + link.replace('#', '');
