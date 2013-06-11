@@ -55,7 +55,7 @@ div.image-items {
     background-position: -34px -476px;
 }
 
-.image-items.item-diamand {
+.image-items.item-diamond {
     background-position: 0px -510px;
 }
 
@@ -75,8 +75,22 @@ div.image-items {
     background-position: -340px -68px;
 }
 
-
 .image-items.item-axe {
     background-position: -0px -340px;
 }
 
+.image-items.item-double-axe {
+    background-position: -68px -340px;
+}
+
+.image-items.item-sapphire {
+    background-position: -68px -510px;
+}
+
+.image-items.item-flail {
+    background-position: -170px -306px;
+}
+
+.image-items.item-shield {
+    background-position: -68px -408px;
+}

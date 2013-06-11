@@ -15,7 +15,7 @@ public enum ItemType {
     GREAVE("greave"),       // Jambière
     HELMET("helmet"),       // Haume
     PAULDRON("pauldron"),   // Epaulière
-    SOLLERET("solleret"),   // Solleret
+    SHOES("shoes"),         // Solleret
     VAMBRACE("vambrace"),   // Avant-bras
     WEAPON("weapon"),       // Arme
     RING("ring"),           // Anneau

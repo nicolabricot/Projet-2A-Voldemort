@@ -4,7 +4,7 @@
         {
             "name": "base_gauntlet",
             "image": "gauntlet",
-            "category": "consumable",
+            "category": "degradable",
             "type": "gauntlet"
         },
         {
@@ -16,7 +16,7 @@
         {
             "name": "rusty_sword",
             "image": "rusty-sword",
-            "category": "sustainable",
+            "category": "degradable",
             "type": "weapon"
         },
         {
@@ -33,13 +33,13 @@
         },
         {
             "name": "shield",
-            "image": "ring",
-            "category": "sustainable",
+            "image": "shield",
+            "category": "degradable",
             "type": "shield"
         },
         {
-            "name": "ring_of_power2",
-            "image": "ring",
+            "name": "ruby",
+            "image": "ruby",
             "category": "sustainable",
             "type": "shield_modifier"
         },
@@ -50,16 +50,52 @@
             "type": "weapon_modifier"
         },
         {
-            "name": "offensive_throwing",
-            "image": "ring",
+            "name": "double-axe",
+            "image": "double-axe",
             "category": "consumable",
             "type": "offensive_throwing"
         },
         {
-            "name": "defensive_throwing",
-            "image": "ring",
+            "name": "flail",
+            "image": "flail",
             "category": "consumable",
             "type": "defensive_throwing"
+        },
+        {
+            "name": "bred",
+            "image": "bred",
+            "category": "consumable",
+            "type": "other"
+        },
+        {
+            "name": "shoes",
+            "image": "shoes",
+            "category": "degradable",
+            "type": "shoes"
+        },
+        {
+            "name": "diamond",
+            "image": "diamond",
+            "category": "sustainable",
+            "type": "other"
+        },
+        {
+            "name": "papyrus",
+            "image": "papyrus",
+            "category": "consumable",
+            "type": "other"
+        },
+        {
+            "name": "key",
+            "image": "key",
+            "category": "sustainable",
+            "type": "other"
+        },
+        {
+            "name": "blue-flask",
+            "image": "blue-flask",
+            "category": "consumable",
+            "type": "other"
         }
     ],
     "characters": [
@@ -123,14 +159,14 @@
                     }
                 },
                 {
-                    "model": "ring_of_power2",
+                    "model": "ruby",
                     "attributes": {
                         "class": 10,
                         "luck": 50
                     }
                 },
                 {
-                    "model": "offensive_throwing",
+                    "model": "double-axe",
                     "attributes": {
                         "class": 10,
                         "trigger": 50,
@@ -139,7 +175,7 @@
                     }
                 },
                 {
-                    "model": "defensive_throwing",
+                    "model": "flail",
                     "attributes": {
                         "class": 10,
                         "trigger": 50,
@@ -155,7 +191,13 @@
                         "class": 10,
                         "trigger": 50
                     }
-                }
+                },
+                {"model": "bred"},
+                {"model": "shoes"},
+                {"model": "diamond"},
+                {"model": "papyrus"},
+                {"model": "key"},
+                {"model": "blue-flask"}
             ]
         },
         {
