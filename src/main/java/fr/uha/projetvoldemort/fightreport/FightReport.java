@@ -5,8 +5,6 @@
 package fr.uha.projetvoldemort.fightreport;
 
 import com.mongodb.BasicDBObject;
-import fr.uha.projetvoldemort.character.Character;
-import fr.uha.projetvoldemort.faction.Faction;
 import fr.uha.projetvoldemort.resource.Resources;
 import org.bson.types.ObjectId;
 import org.json.JSONException;

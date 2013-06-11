@@ -8,7 +8,6 @@ import fr.uha.projetvoldemort.character.Character;
 import fr.uha.projetvoldemort.faction.Faction;
 import fr.uha.projetvoldemort.fight.Fight1v1;
 import fr.uha.projetvoldemort.item.Item;
-import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

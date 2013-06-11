@@ -6,7 +6,6 @@ package fr.uha.projetvoldemort.faction;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import static fr.uha.projetvoldemort.character.CharacterModel.COLLECTION;
 import fr.uha.projetvoldemort.exception.NotFoundException;
 import fr.uha.projetvoldemort.resource.Resources;
 import java.util.EnumMap;
