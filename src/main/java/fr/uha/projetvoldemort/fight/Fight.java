@@ -4,38 +4,19 @@
  */
 package fr.uha.projetvoldemort.fight;
 
+import fr.uha.projetvoldemort.fightreport.FightReport;
 import fr.uha.projetvoldemort.item.Item;
 import fr.uha.projetvoldemort.item.ItemAttribute;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
-import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  *
  * @author bruno
  */
 public abstract class Fight {
-    
-    private long seed;
-    private Random random;
-    
-    
-    Fight (long seed) {
-        this.seed = seed;
-        this.random = new Random(seed);
-    }
-    
-    public long getSeed() {
-        return this.seed;
-    }
-    
-    /*
-    public Random getRandom() {
-        return this.random;
-    }
-    */
-    
+       
     /**
      * Retourne une valeur aléatoire entre 0 et max
      * @param max
@@ -64,5 +45,7 @@ public abstract class Fight {
         return val;
     }
     
-    public abstract JSONArray getReport();
+    public abstract void AveCaesarMorituriTeSalutant() throws JSONException;
+    
+    public abstract FightReport getReport();
 }

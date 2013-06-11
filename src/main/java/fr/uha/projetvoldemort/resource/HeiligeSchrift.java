@@ -10,6 +10,7 @@ import fr.uha.projetvoldemort.character.CharacterAttribute;
 import fr.uha.projetvoldemort.character.Panoply;
 import fr.uha.projetvoldemort.faction.Faction;
 import fr.uha.projetvoldemort.faction.FactionType;
+import fr.uha.projetvoldemort.fightreport.FightReport;
 import fr.uha.projetvoldemort.item.Item;
 import fr.uha.projetvoldemort.item.ItemAttribute;
 import fr.uha.projetvoldemort.item.ItemCategory;
@@ -51,7 +52,7 @@ public class HeiligeSchrift {
             JSONTokener t = new JSONTokener(isr);
             this.heiligeSchrift = new JSONObject(t);
 
-            //isr.close(); ou pas...
+            isr.close();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         } catch (JSONException ex) {
@@ -75,6 +76,7 @@ public class HeiligeSchrift {
         Resources.getInstance().getCollection(Item.COLLECTION).drop();
         Resources.getInstance().getCollection(Panoply.COLLECTION).drop();
         Resources.getInstance().getCollection(Faction.COLLECTION).drop();
+        Resources.getInstance().getCollection(FightReport.COLLECTION).drop();
     }
 
     public void Entstehung() throws JSONException {
@@ -89,12 +91,10 @@ public class HeiligeSchrift {
     public void DerErsteTag() throws JSONException {
         // Crée les factions
 
-        JSONArray a = this.heiligeSchrift.getJSONArray("factions");
-        for (int i = 0; i < a.length(); i++) {
-            JSONObject o = a.getJSONObject(i);
-            Faction f = new Faction(FactionType.fromString(o.getString("faction_type")));
-            f.setName(o.getString("name"));
-            f.setDescription(o.getString("description"));
+        for (FactionType val : FactionType.values()) {
+            Faction f = new Faction(val);
+            f.setName(val.toString() + "_name");
+            f.setDescription(val.toString() + "_description");
             f.save();
 
             this.factions.put(f.getType(), f);
@@ -106,14 +106,14 @@ public class HeiligeSchrift {
 
         JSONArray a = this.heiligeSchrift.getJSONArray("character_models");
         for (int i = 0; i < a.length(); i++) {
-            JSONObject o = a.getJSONObject(i);
+            String str = a.getString(i);
 
             CharacterModel cm = new CharacterModel();
-            cm.setName(o.getString("name"));
-            cm.setDescription(o.getString("description"));
+            cm.setName(str + "_name");
+            cm.setDescription(str + "_description");
             cm.save();
 
-            this.characterModels.put(cm.getName(), cm);
+            this.characterModels.put(str, cm);
         }
 
     }
@@ -127,12 +127,14 @@ public class HeiligeSchrift {
 
 
             ItemModel im = new ItemModel(ItemCategory.fromString(o.getString("category")), ItemType.fromString(o.getString("type")));
-            im.setName(o.getString("name"));
-            im.setDescription(o.getString("description"));
+            String str = o.getString("name");
+
+            im.setName(str + "_name");
+            im.setDescription(str + "_description");
             im.setImage(o.getString("image"));
             im.save();
 
-            this.itemModels.put(im.getName(), im);
+            this.itemModels.put(str, im);
         }
     }
 
@@ -141,10 +143,10 @@ public class HeiligeSchrift {
 
         JSONArray a = this.heiligeSchrift.getJSONArray("characters");
         for (int i = 0; i < a.length(); i++) {
-            JSONObject o = a.getJSONObject(i);
+            JSONObject o = a.getJSONObject(0); //i);
 
             Character c = new Character(this.characterModels.get(o.getString("model")));
-            c.setName(o.getString("name"));
+            c.setName(o.getString("name") + String.valueOf(i));
             c.setFaction(this.factions.get(FactionType.fromString(o.getString("faction"))));
 
             JSONObject att = o.getJSONObject("attributes");
@@ -164,18 +166,29 @@ public class HeiligeSchrift {
             for (int j = 0; j < inv.length(); j++) {
                 JSONObject ob = inv.getJSONObject(j);
 
-                Item item = new Item(this.itemModels.get(ob.getString("model")));
-                if (ob.has("attributes")) {
+                ItemModel fuck = this.itemModels.get(ob.getString("model"));
+                
+                int max =1;
+                if (fuck.getType().equals(ItemType.PROJECTILE)
+                        || fuck.getType().equals(ItemType.DEFENSIVE_THROWING)
+                        || fuck.getType().equals(ItemType.OFFENSIVE_THROWING))
+                    max = 50;
+                
+                for (int varDeMerde = 0; varDeMerde < max; varDeMerde++) {
+                     Item item = new Item(this.itemModels.get(ob.getString("model")));
+                    
+                    if (ob.has("attributes")) {
 
-                    att = ob.getJSONObject("attributes");
-                    it = att.keys();
-                    while (it.hasNext()) {
-                        String key = (String) it.next();
-                        item.setAttribute(ItemAttribute.fromString(key), att.getInt(key));
+                        att = ob.getJSONObject("attributes");
+                        it = att.keys();
+                        while (it.hasNext()) {
+                            String key = (String) it.next();
+                            item.setAttribute(ItemAttribute.fromString(key), att.getInt(key));
+                        }
                     }
+                    c.getInventory().add(item);
+                    p.setItem(item); // Si on veut que les items soient ajoutés à la panoplie
                 }
-                c.getInventory().add(item);
-                p.setItem(item); // Si on veut que les items soient ajoutés à la panoplie
             }
 
             c.save();

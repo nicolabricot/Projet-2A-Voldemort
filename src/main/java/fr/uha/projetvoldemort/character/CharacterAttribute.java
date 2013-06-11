@@ -46,7 +46,11 @@ public enum CharacterAttribute {
             if (i.toString().equals(string))
                 return i;
         
-        return null;
+        StringBuilder str = new StringBuilder();
+        str.append(string);
+        str.append(" is not a type of CharacterAttribute.");
+        
+        throw new RuntimeException(str.toString());
     }
     
 }

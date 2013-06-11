@@ -1,124 +1,165 @@
 {
-    "factions": [
-        {
-            "faction_type": "werewolf",
-            "name": "werewolf_name",
-            "description": "werewolf_description"
-        },
-        {
-            "faction_type": "vampire",
-            "name": "vampire_name",
-            "description": "vampire_description"
-        },
-        {
-            "faction_type": "mummy",
-            "name": "mummy_name",
-            "description": "mummy_description"
-        }
-    ],
-    "character_models": [
-        {
-            "name": "brute_name",
-            "description": "brute_description"
-        },
-        {
-            "name": "scroundel_name",
-            "description": "scroundel_description"
-        },
-        {
-            "name": "tactician_name",
-            "description": "tactician_description"
-        }
-    ],
+    "character_models": ["brute","scroundel","tactician"],
     "item_models": [
         {
-            "name": "base_gauntlet_name",
-            "description": "base_gauntlet_description",
+            "name": "base_gauntlet",
             "image": "gauntlet",
             "category": "consumable",
             "type": "gauntlet"
         },
         {
-            "name": "f*****g_cuirass_name",
-            "description": "f*****g_cuirass_description",
-            "image": " cuirass",
+            "name": "f*****g_cuirass",
+            "image": "cuirass",
             "category": "degradable",
             "type": "cuirass"
         },
         {
-            "name": "rusty_sword_name",
-            "description": "rusty_sword_description",
-            "image": "rusty_sword",
+            "name": "rusty_sword",
+            "image": "rusty-sword",
             "category": "sustainable",
             "type": "weapon"
         },
         {
-            "name": "bag_6_name",
-            "description": "bag_6_description",
+            "name": "axe",
+            "image": "axe",
+            "category": "consumable",
+            "type": "projectile"
+        },
+        {
+            "name": "bag_6",
             "image": "bag",
             "category": "sustainable",
             "type": "bag"
         },
         {
-            "name": "ring_of_power_name",
-            "description": "ring_of_power_description",
+            "name": "shield",
             "image": "ring",
             "category": "sustainable",
-            "type": "ring"
+            "type": "shield"
+        },
+        {
+            "name": "ring_of_power2",
+            "image": "ring",
+            "category": "sustainable",
+            "type": "shield_modifier"
+        },
+        {
+            "name": "ring_of_power",
+            "image": "ring",
+            "category": "sustainable",
+            "type": "weapon_modifier"
+        },
+        {
+            "name": "offensive_throwing",
+            "image": "ring",
+            "category": "consumable",
+            "type": "offensive_throwing"
+        },
+        {
+            "name": "defensive_throwing",
+            "image": "ring",
+            "category": "consumable",
+            "type": "defensive_throwing"
         }
     ],
     "characters": [
         {
-            "model": "scroundel_name",
+            "model": "scroundel",
             "name": "Gurdil",
             "faction": "werewolf",
             "attributes":
                     {
                         "attack": 10,
-                        "defense": 15,
-                        "initiative": 30,
-                        "luck": 5
+                        "defense": 10,
+                        "initiative": 10,
+                        "luck": 50,
+                        "life": 100,
+                        "dodge": 50,
+                        "ability": 10,
+                        "class": 10
                     },
             "inventory": [
                 {
-                    "model": "f*****g_cuirass_name",
+                    "model": "f*****g_cuirass",
                     "attributes": {
                         "class": 10,
-                        "defense": 30
+                        "defense": 10
                     }
                 },
                 {
-                    "model": "base_gauntlet_name",
+                    "model": "base_gauntlet",
                     "attributes": {
-                        "class": 2,
-                        "defense": 3
+                        "class": 10,
+                        "defense": 10
                     }
                 },
                 {
-                    "model": "base_gauntlet_name",
+                    "model": "axe",
                     "attributes": {
-                        "class": 2,
-                        "defense": 3
+                        "class": 10,
+                        "defense": 10,
+                        "critical_hit_modifier": 10
                     }
                 },
                 {
-                    "model": "rusty_sword_name",
+                    "model": "rusty_sword",
                     "attributes": {
-                        "class": 3,
-                        "attack": 2
+                        "class": 10,
+                        "attack": 10
                     }
                 },
                 {
-                    "model": "bag_6_name",
+                    "model": "bag_6",
+                    "attributes": {
+                        "class": 10,
+                        "luck": 50
+                    }
                 },
                 {
-                    "model": "ring_of_power_name",
+                    "model": "ring_of_power",
                     "attributes": {
-                        "class": 3,
-                        "luck": 5
+                        "class": 10,
+                        "luck": 50
+                    }
+                },
+                {
+                    "model": "ring_of_power2",
+                    "attributes": {
+                        "class": 10,
+                        "luck": 50
+                    }
+                },
+                {
+                    "model": "offensive_throwing",
+                    "attributes": {
+                        "class": 10,
+                        "trigger": 50,
+                        "luck": 50,
+                        "attack": 10
+                    }
+                },
+                {
+                    "model": "defensive_throwing",
+                    "attributes": {
+                        "class": 10,
+                        "trigger": 50,
+                        "active": 10,
+                        "defense": 10,
+                        "luck": 50,
+                        "duration": 10
+                    }
+                },
+                {
+                    "model": "shield",
+                    "attributes": {
+                        "class": 10,
+                        "trigger": 50
                     }
                 }
             ]
+        },
+        {
+            "name": "Gurdil2",
         }
     ]
 

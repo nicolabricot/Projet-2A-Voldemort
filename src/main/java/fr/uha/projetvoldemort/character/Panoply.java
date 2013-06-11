@@ -15,6 +15,8 @@ import fr.uha.projetvoldemort.resource.Resources;
 import fr.uha.projetvoldemort.exception.NotAllowedException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,13 +117,13 @@ public final class Panoply implements InventoryListener {
 
     public void setItem(Item item) {
         if (!this.inventory.contains(item)) {
-                        StringBuilder str = new StringBuilder();
+            StringBuilder str = new StringBuilder();
             str.append("Item ");
             str.append(item.getId().toString());
             str.append(" does not come from the inventory.");
             throw new NotAllowedException(str.toString());
         }
-        
+
         if (this.items.contains(item)) {
             StringBuilder str = new StringBuilder();
             str.append("Item ");
@@ -153,6 +155,10 @@ public final class Panoply implements InventoryListener {
             }
         }
 
+        StringBuilder str = new StringBuilder();
+        str.append("Inventory does not contain an item of type ");
+        str.append(type.toString());
+        Logger.getLogger(Panoply.class.getName()).log(Level.WARNING, str.toString());
         return null;
     }
 
@@ -197,7 +203,7 @@ public final class Panoply implements InventoryListener {
 
         return list;
     }
-    
+
     public ArrayList<Item> getItems() {
         return this.items;
     }
@@ -213,7 +219,7 @@ public final class Panoply implements InventoryListener {
             str.append(".");
             throw new NotFoundException(str.toString());
         }
-    
+
         this.items.remove(item);
     }
 }

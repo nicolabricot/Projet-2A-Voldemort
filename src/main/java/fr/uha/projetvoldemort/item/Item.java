@@ -11,6 +11,8 @@ import fr.uha.projetvoldemort.resource.Resources;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,7 +131,16 @@ public final class Item {
         return this.model;
     }
     
-    public int getAttribute(ItemAttribute attribute) {  
+    public int getAttribute(ItemAttribute attribute) {
+        if (!this.attributes.containsKey(attribute)) {
+            StringBuilder str = new StringBuilder();
+            str.append(this.model.getName());
+            str.append(" does not contain attribute ");
+            str.append(attribute.toString());
+            Logger.getLogger(Item.class.getName()).log(Level.WARNING, str.toString());
+            return 0;
+        }
+            
         return this.attributes.get(attribute);
     }
     
@@ -138,6 +149,8 @@ public final class Item {
     }
     
     public Item getAmelioration() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       // Logger.getLogger(Item.class.getName()).log(Level.WARNING, "getAmelioration() Not supported yet");
+        return this; // TODO
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

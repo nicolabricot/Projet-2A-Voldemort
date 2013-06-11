@@ -22,7 +22,7 @@ public enum ItemType {
     BAG("bag"),             // Sacoche
     OHTER("other"),         // Autre
     DEFENSIVE_THROWING("defensive_throwing"),   // Jet défensif
-    OFFENSIVE_THROWING("offensive_trhowing"),   // Jet offensif
+    OFFENSIVE_THROWING("offensive_throwing"),   // Jet offensif
     PROJECTILE("projectile"),                   // Projectile
     WEAPON_MODIFIER("weapon_modifier"),         // Modificateur d'arme
     AMELIORATION("amelioration"),               // Amélioration
@@ -57,6 +57,10 @@ public enum ItemType {
             if (i.toString().equals(string))
                 return i;
         
-        return null;
+        StringBuilder str = new StringBuilder();
+        str.append(string);
+        str.append(" is not a type of ItemType.");
+        
+        throw new RuntimeException(str.toString());
     }
 }

@@ -152,6 +152,8 @@ public final class Inventory {
      * @see InventoryListener
      */
     public void remove(Item item) {
+        if (item == null)
+            throw new NullPointerException();
         if (!this.items.containsValue(item)) {
             throw new RuntimeException("Item doesn't belong to the character.");
         }

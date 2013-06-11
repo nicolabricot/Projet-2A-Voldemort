@@ -40,6 +40,10 @@ public enum ItemCategory {
             if (i.toString().equals(string))
                 return i;
         
-        return null;
+        StringBuilder str = new StringBuilder();
+        str.append(string);
+        str.append(" is not a type of ItemCategory.");
+        
+        throw new RuntimeException(str.toString());
     }
 }

@@ -74,3 +74,7 @@ div.image-items {
 .image-items.item-blue-fiole {
     background-position: -340px -68px;
 }
+
+.image-items.item-axe {
+    background-position: -0px -340px;
+}

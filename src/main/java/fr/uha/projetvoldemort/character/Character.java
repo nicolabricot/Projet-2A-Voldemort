@@ -15,6 +15,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,8 +83,10 @@ public final class Character {
         BasicDBList listPanoplies = (BasicDBList) ob.get(PANOPLIES);
         Iterator<Object> itPanoplies = listPanoplies.iterator();
         while (itPanoplies.hasNext()) {
-            ObjectId id = (ObjectId) itPanoplies.next();
-            this.panoplies.put(id, new Panoply(this.inventory, id));
+            ObjectId pid = (ObjectId) itPanoplies.next();
+            Panoply p = new Panoply(this.inventory, pid);
+            this.panoplies.put(pid, p);
+            this.inventory.addListener(p);
         }
 
         this.activePanoply = this.panoplies.get((ObjectId) ob.get(ACTIVE_PANOPLY));
@@ -137,6 +141,7 @@ public final class Character {
         Panoply p = new Panoply(this.inventory);
         p.save();
         this.panoplies.put(p.getId(), p);
+        this.inventory.addListener(p);
         return p;
     }
 
@@ -154,40 +159,59 @@ public final class Character {
         this.activePanoply = pa;
     }
 
+    public JSONObject toJSONObject(boolean full) throws JSONException {
+        JSONObject ob = new JSONObject();
+
+        if (full) {
+            ob.put("id", this.id.toString());
+            ob.put("model", this.model.toJSONObject());
+
+            ob.put(NAME, this.name);
+
+            JSONObject obAttributes = new JSONObject();
+            Iterator<Entry<CharacterAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();
+            while (itAttributes.hasNext()) {
+                Entry<CharacterAttribute, Integer> attribute = itAttributes.next();
+                obAttributes.put(attribute.getKey().toString(), attribute.getValue());
+            }
+            ob.put(ATTRIBUTES, obAttributes);
+
+            ob.put(Inventory.INVENTORY, this.inventory.toJSONArray());
+
+            JSONArray a = new JSONArray();
+            Iterator<Panoply> it = this.panoplies.values().iterator();
+            while (it.hasNext()) {
+                a.put(it.next().toJSONObject());
+            }
+            ob.put(PANOPLIES, a);
+
+            ob.put(ACTIVE_PANOPLY, this.activePanoply.toJSONObject());
+
+            ob.put(FACTION, this.faction.toJSONObject());
+        } else {
+
+            ob.put("id", this.id.toString());
+            ob.put("name", this.name);
+
+            JSONObject obAttributes = new JSONObject();
+            Iterator<Entry<CharacterAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();
+            while (itAttributes.hasNext()) {
+                Entry<CharacterAttribute, Integer> attribute = itAttributes.next();
+                obAttributes.put(attribute.getKey().toString(), attribute.getValue());
+            }
+            ob.put(ATTRIBUTES, obAttributes);
+        }
+
+        return ob;
+    }
+
     /**
      * Obtient un objet JSON déstiné à être envoyé par le sevice web.
      *
      * @return l'objet JSON
      */
     public JSONObject toJSONObject() throws JSONException {
-        JSONObject ob = new JSONObject();
-        ob.put("id", this.id.toString());
-        ob.put("model", this.model.toJSONObject());
-
-        ob.put(NAME, this.name);
-
-        JSONObject obAttributes = new JSONObject();
-        Iterator<Entry<CharacterAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();
-        while (itAttributes.hasNext()) {
-            Entry<CharacterAttribute, Integer> attribute = itAttributes.next();
-            obAttributes.put(attribute.getKey().toString(), attribute.getValue());
-        }
-        ob.put(ATTRIBUTES, obAttributes);
-
-        ob.put(Inventory.INVENTORY, this.inventory.toJSONArray());
-
-        JSONArray a = new JSONArray();
-        Iterator<Panoply> it = this.panoplies.values().iterator();
-        while (it.hasNext()) {
-            a.put(it.next().toJSONObject());
-        }
-        ob.put(PANOPLIES, a);
-
-        ob.put(ACTIVE_PANOPLY, this.activePanoply.toJSONObject());
-
-        ob.put(FACTION, this.faction.toJSONObject());
-
-        return ob;
+        return this.toJSONObject(true);
     }
 
     public void save() {
@@ -233,6 +257,14 @@ public final class Character {
     }
 
     public int getAttribute(CharacterAttribute attribute) {
+        if (!this.attributes.containsKey(attribute)) {
+            StringBuilder str = new StringBuilder();
+            str.append(this.getName());
+            str.append(" does not contain attribute ");
+            str.append(attribute.toString());
+            Logger.getLogger(Character.class.getName()).log(Level.WARNING, str.toString());
+            return 0;
+        }
         return this.attributes.get(attribute);
     }
 
