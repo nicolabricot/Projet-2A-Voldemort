@@ -18,12 +18,6 @@
             .statictics {
                 padding: 10px;
             }
-            .inventory span,
-            .consumables span {
-                display: block;
-                margin: 20px;
-                font-size: 20px;
-            }
         </style>
     </head>
 
@@ -73,26 +67,7 @@
             </div>
             <div id="consumables">
                 <div class="consumables equipment">
-                    <span>Consumable</span>
-                    <div class="item">
-                        <div class="image-items item-bred"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-ruby"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-diamand"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-papyrus"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-key"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-blue-fiole"></div>
-                    </div>
-                    <div class="item cuirass">water</div>
+                    
                 </div>
             </div>
             <div id="degradables">
@@ -102,52 +77,6 @@
             </div>
             <div id="inventory">
                 <div class="inventory">
-                    <span>Inventory</span>
-                    <div class="item">
-                        <div class="image-items item-cuirass"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-rusty-sword"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-bag"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-ring"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-gauntlet"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-bred"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-ruby"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-sword"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-shoes"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-plus-shoes"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-diamand"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-papyrus"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-key"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-metal-cuirass"></div>
-                    </div>
-                    <div class="item">
-                        <div class="image-items item-blue-fiole"></div>
-                    </div>
                 </div>
             </div>
             <div id="statistics">
