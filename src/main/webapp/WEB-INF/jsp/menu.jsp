@@ -14,13 +14,11 @@
                     <a class="brand" href="./" title="Projet Voldemort"><img src="./static/img/favicon.png" alt="Projet Voldemort"/></a>
                     <ul class="nav">
                         <li<%=menu(actual, "home")%>><a href="./">Home</a></li>
-                        <li<%=menu(actual, "map")%>><a href="./map.jsp">Map</a></li>
-                        <li<%=menu(actual, "panoply")%>><a href="./panoply.jsp">Panoply</a></li>
+                        <!--<li<%=menu(actual, "map")%>><a href="./map.jsp">Map</a></li>
+                        <li<%=menu(actual, "panoply")%>><a href="./panoply.jsp">Panoply</a></li>-->
                     </ul>
                     <ul class="nav pull-right">
-                        <li><a href="./test.jsp">Test</a></li>
-                        <li class="divider-vertical"></li>
-                        <li><a href="./dev.jsp" rel="external">Dev <i class="icon-share-alt"></i></a></li>
+                        <li><a href="./dev.jsp" rel="external">API <i class="icon-share-alt"></i></a></li>
                     </ul>
                 </div>
             </div>
