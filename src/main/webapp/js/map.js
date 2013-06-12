@@ -17,12 +17,12 @@ $(document).ready(function() {
     var color_fill_hover = $('#map span.fill-hover');
     var cursor = $('#map span.cursors');
     var icon = $('#map span.icons');
-    
+
     // change state button
     function updateState(dataState, text) {
         state.html('<span style="background-color:' + color_fill.data('color-' + dataState) + ';"><i class="icon-' + icon.data('icon-' + dataState) + '"></i> ' + text + '</span>');
     }
-    
+
     // set color and text
     function addAttr(data) {
         var result = {};
@@ -40,7 +40,7 @@ $(document).ready(function() {
                 };
                 break;
 
-            // done
+                // done
             case 'done':
                 result = {
                     fill: color_fill.data('color-done'),
@@ -51,8 +51,8 @@ $(document).ready(function() {
                     cursor: cursor.data('cursor-default')
                 };
                 break;
-            
-            // locked
+
+                // locked
             case 'locked':
                 result = {
                     fill: color_fill.data('color-locked'),
@@ -64,7 +64,7 @@ $(document).ready(function() {
                 };
                 break;
 
-            // closed
+                // closed
             default:
                 result = {
                     fill: color_fill.data('color-default'),
@@ -92,8 +92,8 @@ $(document).ready(function() {
                 title.html(data.title);
                 updateState(data.type, data.type);
                 break;
-                
-            // done
+
+                // done
             case 'done':
                 result = {
                     fill: color_fill_hover.data('color-done'),
@@ -103,8 +103,8 @@ $(document).ready(function() {
                 title.html(data.title);
                 updateState(data.type, data.type);
                 break;
-                
-            // locked
+
+                // locked
             case 'locked':
                 result = {
                     fill: color_fill_hover.data('color-locked'),
@@ -115,7 +115,7 @@ $(document).ready(function() {
                 updateState(data.type, data.type);
                 break;
 
-            // closed
+                // closed
             default:
                 result = {
                     fill: color_fill_hover.data('color-default'),
@@ -124,7 +124,7 @@ $(document).ready(function() {
                 description.html(map_closed + (data.description != undefined ? data.description : ''));
                 updateState('default', 'closed');
                 title.html('');
-                
+
         }
         return result;
     }
@@ -160,7 +160,10 @@ $(document).ready(function() {
             ajaxMapDone();
         },
         error: function(result, state, error) {
-            alert('Error! Unable to load the map.');
+            $('.notifications').notify({
+                type: 'error',
+                message: {text: 'Unable to load the map!'}
+            }).show();
             console.log('result: ' + result);
             console.log('state: ' + state);
             console.log('error: ' + error);
@@ -177,7 +180,10 @@ $(document).ready(function() {
                 ajaxStatesDone(data);
             },
             error: function(result, state, error) {
-                alert('Error! Unable to load states.');
+                $('.notifications').notify({
+                type: 'error',
+                message: {text: 'Unable to load states!'}
+            }).show();
                 console.log('result: ' + result);
                 console.log('state: ' + state);
                 console.log('error: ' + error);

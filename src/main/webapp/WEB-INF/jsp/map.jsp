@@ -6,7 +6,7 @@
 <%@page import="fr.uha.projetvoldemort.resource.Resources"%>
 <div class="row">
     <div class="span8">
-        <div id="map" data-map-load="<%= request.getParameter("map") %>" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString()%>">
+        <div id="map" data-map-load="<%= request.getParameter("map")%>" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString()%>">
             <span class="stroke" data-color-default="#888"></span>
             <span class="stroke-hover" data-color-default="#888"></span>
             <span class="fill" data-color-default="#F8F8F8" data-color-opened="#D9F7FF" data-color-done="#CAFFC9" data-color-locked="#dadada"></span>
@@ -21,3 +21,6 @@
         <div class="description"></div>
     </div>
 </div>
+
+<!-- notifications -->
+<div class="notifications top-right"></div>
