@@ -16,7 +16,7 @@ import org.json.JSONObject;
  */
 public abstract class FightReport {
     
-    public static String COLLECTION = "report";
+    public static String COLLECTION = "fight_report";
     public static String REPORT = "report";
     public static String ID = "_id";
 
