@@ -175,8 +175,16 @@ public class FightDemo extends Fight {
         } while (!this.attacker.isDead() && !this.defenser.isDead());
         // Retourne victoire ou défaite
         if (!this.attacker.isDead()) {
+            
+            this.attacker.setLevel(this.attacker.getLevel()+1);
+            this.attacker.setAttribute(CharacterAttribute.LIFE, 100);
+            this.attacker.save();
+            
             this.report.setWinner(this.attacker);
         } else {
+            this.defenser.setLevel(this.defenser.getLevel()+1);
+            this.defenser.setAttribute(CharacterAttribute.LIFE, 100);
+            this.defenser.save();
             this.report.setWinner(this.defenser);
         }
 

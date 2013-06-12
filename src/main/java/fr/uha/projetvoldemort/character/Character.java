@@ -36,6 +36,8 @@ public final class Character {
     private static final String PANOPLIES = "panoplies";
     private static final String ACTIVE_PANOPLY = "active_panoply";
     private static final String FACTION = "faction";
+    private static final String LEVEL = "level";
+    
     private ObjectId id;
     private CharacterModel model;
     private String name;
@@ -44,6 +46,7 @@ public final class Character {
     private HashMap<ObjectId, Panoply> panoplies;
     private Panoply activePanoply;
     private Faction faction;
+    private int level;
 
     public Character(ObjectId oid) {
         this.attributes = new EnumMap<CharacterAttribute, Integer>(CharacterAttribute.class);
@@ -63,12 +66,14 @@ public final class Character {
 
         this.model = model;
         this.inventory = new Inventory();
+        this.level = 1;
     }
 
     private void hydrate(BasicDBObject ob) {
         this.id = ob.getObjectId(ID);
         this.model = new CharacterModel(ob.getObjectId(MODEL_ID));
         this.name = ob.getString(NAME);
+        this.level = ob.getInt(LEVEL);
 
         BasicDBObject obAttributes = (BasicDBObject) ob.get(ATTRIBUTES);
         Iterator<String> itAttributes = obAttributes.keySet().iterator();
@@ -133,6 +138,8 @@ public final class Character {
         ob.append(ACTIVE_PANOPLY, this.activePanoply.getId());
 
         ob.append(FACTION, this.faction.getId());
+        
+        ob.append(LEVEL, this.level);
 
         return ob;
     }
@@ -295,5 +302,13 @@ public final class Character {
 
     public Faction getFaction() {
         return this.faction;
+    }
+    
+    public int getLevel() {
+        return this.level;
+    }
+    
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

@@ -17,6 +17,8 @@ import fr.uha.projetvoldemort.item.ItemAttribute;
 import fr.uha.projetvoldemort.item.ItemCategory;
 import fr.uha.projetvoldemort.item.ItemModel;
 import fr.uha.projetvoldemort.item.ItemType;
+import fr.uha.projetvoldemort.map.Map;
+import fr.uha.projetvoldemort.map.MapType;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -40,7 +42,7 @@ public class HeiligeSchrift {
     private EnumMap<FactionType, Faction> factions;
     private HashMap<String, CharacterModel> characterModels;
     private HashMap<String, ItemModel> itemModels;
-
+    
     private HeiligeSchrift() {
 
         this.factions = new EnumMap<FactionType, Faction>(FactionType.class);
@@ -78,6 +80,7 @@ public class HeiligeSchrift {
         Resources.getInstance().getCollection(Panoply.COLLECTION).drop();
         Resources.getInstance().getCollection(Faction.COLLECTION).drop();
         Resources.getInstance().getCollection(FightReport.COLLECTION).drop();
+        Resources.getInstance().getCollection(Map.COLLECTION).drop();
     }
 
     public void Entstehung() throws JSONException {
@@ -86,6 +89,7 @@ public class HeiligeSchrift {
         this.DerZweiteTag(); // Crée les modèles de personnages
         this.DerDritteTag(); // Crée les modèles d'items
         this.DerVierteTag(); // Crée les personnages
+        this.DerFünfteTag(); // Crée les maps
 
     }
 
@@ -183,9 +187,79 @@ public class HeiligeSchrift {
                 p.setItem(item); // Si on veut que les items soient ajoutés à la panoplie
             }
 
+            c.setLevel(2);
+            
             c.save();
 
 
         }
+    }
+    
+    public void DerFünfteTag() {
+        // Crée les maps
+        Map m1 = new Map("main", MapType.MAP, 0);
+        m1.setTitle("France");
+        m1.setDescription("Carte de la France");
+        
+ 
+        
+        Map m11 = new Map("champagne-ardenne", MapType.MAP, 2);
+        m11.setTitle("Champagne-Ardenne");
+        m11.setDescription("Want to drink a glass of Champagne?");
+        m1.add(m11);
+        
+        Map m12 = new Map("alsace", MapType.MAP, 2);
+        m12.setTitle("Alsace");
+        m12.setDescription("Welcome in Alsace");
+        m1.add(m12);
+        
+        Map m13 = new Map("centre", MapType.MAP, 1);
+        m13.setTitle("Centre");
+        m13.setDescription("Le Centre est une région française, qui regroupe six départements : le Cher, l'Eure-et-Loir, l'Indre, l'Indre-et-Loire, le Loir-et-Cher et le Loiret.");
+        m1.add(m13);
+        
+        Map m14 = new Map("corse", MapType.MAP, 1);
+        m14.setTitle("Corse");
+        m14.setDescription("Corse, ma belle Corse, que veux-tu faire par monts et par vaux...");
+        m1.add(m14);
+        
+        Map m15 = new Map("ile-de-france", MapType.MAP, 6);
+        m15.setTitle("Île de France");
+        m1.add(m15);
+
+        
+        Map m121 = new Map("bas-rhin", MapType.PANOPLY, 3);
+        m121.setTitle("Panoplie");
+        m121.setTitle("Panoplie du Bas-Rhin.");
+        m12.add(m121);
+        
+        Map m122 = new Map("haut-rhin", MapType.FIGHT, 4);
+        m122.setTitle("Combat 1v1");
+        m122.setDescription("Engagez vous dans la lutte contre les Germains dans la fôret.");
+        m12.add(m122);
+        
+        
+        
+        Map m111 = new Map("marne", MapType.FIGHT, 2);
+        m111.setTitle("Combat");
+        m111.setDescription("Combat 1v1 sur les champs de batailles de la Marne.");
+        m11.add(m111);
+        
+        Map m112 = new Map("aube", MapType.PANOPLY, 2);
+        m112.setTitle("Panoplie");
+        m112.setDescription("Panoplie de l'Aube");
+        m11.add(m112);
+        
+        Map m113 = new Map("ardennes", MapType.FIGHT, 3);
+        m113.setTitle("Combat 1v1");
+        m113.setDescription("Participez à un combat 1v1 dans la bataille des Ardennes.");
+        m11.add(m113);
+        
+        Map m114 = new Map("haute-marne", MapType.PANOPLY, 3);
+        m114.setTitle("Panoplie");
+        m114.setDescription("Panoplie de la Haute-Marne");
+        m11.add(m114);
+        
+        m1.save(); // sauvegarde tout    
     }
 }
