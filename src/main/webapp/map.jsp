@@ -2,9 +2,12 @@
     import="fr.uha.projetvoldemort.resource.Resources"
     contentType="text/html" pageEncoding="UTF-8"
 %><%
-    String map = "main";
-    if (request.getParameter("map") != null && !request.getParameter("map").isEmpty()) {
+    String map = "";
+    if (request.getParameter("map") != null && !request.getParameter("map").isEmpty())
         map = request.getParameter("map");
+    
+    if (map.isEmpty() || map.contentEquals("")) {
+        response.sendRedirect(Resources.PUBLIC_URL_HOME);
     }
     %><!DOCTYPE html>
     <html lang="fr">
@@ -25,7 +28,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="span8">
-                            <div id="map" data-map-load="<%= map%>" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString()%>">
+                            <div id="map" data-map-load="<%= map %>" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString()%>">
                                 <jsp:include page="/WEB-INF/jsp/data-map.jsp" />
                             </div>
                         </div>
