@@ -20,7 +20,8 @@ public enum ItemType {
     WEAPON("weapon"),       // Arme
     RING("ring"),           // Anneau
     BAG("bag"),             // Sacoche
-    OHTER("other"),         // Autre
+    OHTER_SUSTAINABLE("other_sustainable"),         // Autre
+    OTHER_CONSUMABLE("other_consumable"),
     DEFENSIVE_THROWING("defensive_throwing"),   // Jet défensif
     OFFENSIVE_THROWING("offensive_throwing"),   // Jet offensif
     PROJECTILE("projectile"),                   // Projectile

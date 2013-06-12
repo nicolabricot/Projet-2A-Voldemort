@@ -65,7 +65,7 @@
             "name": "bred",
             "image": "bred",
             "category": "consumable",
-            "type": "other"
+            "type": "other_consumable"
         },
         {
             "name": "shoes",
@@ -77,25 +77,25 @@
             "name": "diamond",
             "image": "diamond",
             "category": "sustainable",
-            "type": "other"
+            "type": "other_sustainable"
         },
         {
             "name": "papyrus",
             "image": "papyrus",
             "category": "consumable",
-            "type": "other"
+            "type": "other_consumable"
         },
         {
             "name": "key",
             "image": "key",
             "category": "sustainable",
-            "type": "other"
+            "type": "other_sustainable"
         },
         {
             "name": "blue-flask",
             "image": "blue-flask",
             "category": "consumable",
-            "type": "other"
+            "type": "other_consumable"
         }
     ],
     "characters": [
