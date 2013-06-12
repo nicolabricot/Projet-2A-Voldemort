@@ -3,9 +3,10 @@
     contentType="text/html" pageEncoding="UTF-8"
 %><%
     String map = "";
-    if (request.getParameter("map") != null && !request.getParameter("map").isEmpty())
+    if (request.getParameter("map") != null && !request.getParameter("map").isEmpty()) {
         map = request.getParameter("map");
-    
+    }
+
     if (map.isEmpty() || map.contentEquals("")) {
         response.sendRedirect(Resources.PUBLIC_URL_HOME);
     }
@@ -26,18 +27,9 @@
             <!-- content -->
             <div id="content">
                 <div class="container">
-                    <div class="row">
-                        <div class="span8">
-                            <div id="map" data-map-load="<%= map %>" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString()%>">
-                                <jsp:include page="/WEB-INF/jsp/data-map.jsp" />
-                            </div>
-                        </div>
-                        <div class="span4" id="map-info">
-                            <div class="state"></div>
-                            <div class="title"></div>
-                            <div class="description"></div>
-                        </div>
-                    </div>
+                    <jsp:include page="/WEB-INF/jsp/map.jsp">
+                        <jsp:param name="map" value="<%= map %>" />
+                    </jsp:include>
                 </div>
             </div>
             <!-- /content -->
