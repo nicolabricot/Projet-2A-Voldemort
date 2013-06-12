@@ -94,11 +94,13 @@ $(document).ready(function() {
                             // get layout and compare if the item is already used
                             var layout = layouts[link.replace('#', '')];
                             if (layout != undefined) {
-                                layout.reverse();
-                                for (i = layout.length - 1; i >= 0; i--) {
+                                for (i = 0; i < layout.length; i++) {
                                     // if item not exists, add droppable case
                                     if ($.inArray(layout[i], items) == -1) {
                                         result += '<div class="item item-droppable ' + layout[i] + '">' + layout[i] + '</div>';
+                                    }
+                                    else {
+                                        items.splice(items.indexOf(layout[i]), 1);
                                     }
                                 }
                             }
