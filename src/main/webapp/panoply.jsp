@@ -1,9 +1,12 @@
 <%@page import="fr.uha.projetvoldemort.resource.Resources" contentType="text/html" pageEncoding="UTF-8"%><%
 
-    String panoply = "active";
+    String panoply = "";
     if (request.getParameter("panoply") != null && !request.getParameter("panoply").isEmpty()) {
         panoply = request.getParameter("panoply");
-        //request.getRequestDispatcher("panoply.jsp").forward(request, response);
+    }
+    
+    if (panoply.isEmpty() || panoply.contentEquals("")) {
+        response.sendRedirect(Resources.PUBLIC_URL_HOME);
     }
 
 %><%--
