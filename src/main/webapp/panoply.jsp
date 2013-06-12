@@ -68,8 +68,8 @@
                          "bag",
                          "weapon_modifier",
                          "shield_modifier",
-                         "other",
-                         "other"
+                         "other_sustainable",
+                         "other_sustainable"
                          ]'></div>
                 </div>
             </div>
@@ -79,9 +79,9 @@
                          "projectile",
                          "offensive_throwing",
                          "defensive_throwing",
-                         "other",
-                         "other",
-                         "other"
+                         "other_consumable",
+                         "other_consumable",
+                         "other_consumable"
                          ]'></div>
                 </div>
             </div>
@@ -109,7 +109,8 @@
             </div>
         </div>
 
-
+        <!-- notifications -->
+        <div class="notifications top-right"></div>
 
         <!-- footer -->
         <!-- /footer -->

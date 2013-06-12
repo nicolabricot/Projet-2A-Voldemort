@@ -109,7 +109,10 @@ $(document).ready(function() {
                             drag_drop();
                         },
                         error: function(result, state, error) {
-                            alert('Ajax failed: ' + error);
+                            $('.notifications').notify({
+                                type: 'error',
+                                message: {text: 'Impossible to add item!'}
+                            }).show();
                             console.log('result: ' + result);
                             console.log('state: ' + state);
                             console.log('error: ' + error);
@@ -146,18 +149,24 @@ $(document).ready(function() {
             url: path_ajax,
             success: function(data) {
                 //console.log('Item added to panoply!');
+                // add the item to equipment
+                $(parent).html(item);
+                $(parent).removeClass('item-droppable');
+                $(parent).droppable('disable');
+                $('.notifications').notify({
+                    message: {text: 'Item added to panoply!'}
+                }).show();
             },
             error: function(result, state, error) {
-                alert('Ajax failed: ' + error);
+                $('.notifications').notify({
+                    type: 'error',
+                    message: {text: 'Impossible to add item!'}
+                }).show();
                 console.log('result: ' + result);
                 console.log('state: ' + state);
                 console.log('error: ' + error);
             }
         });
-        // add the item to equipment
-        $(parent).html(item);
-        $(parent).removeClass('item-droppable');
-        $(parent).droppable('disable');
     }
 
     function inventory() {
@@ -178,7 +187,7 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
+
         // weapon-modifier droppable
         $('.sustainables .item-droppable.weapon_modifier').droppable({
             accept: '.inventory .item.weapon_modifier',
@@ -189,7 +198,7 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
+
         // shield-modifier droppable
         $('.sustainables .item-droppable.shield_modifier').droppable({
             accept: '.inventory .item.shield_modifier',
@@ -200,10 +209,10 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
-        // other droppable
-        $('.sustainables .item-droppable.other').droppable({
-            accept: '.inventory .item.other',
+
+        // other_sustainable droppable
+        $('.sustainables .item-droppable.other_sustainable').droppable({
+            accept: '.inventory .item.other_sustainable',
             activeClass: 'active',
             hoverClass: 'accept',
             addClasses: false,
@@ -211,7 +220,7 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
+
         // projectile droppable
         $('.consumables .item-droppable.projectile').droppable({
             accept: '.inventory .item.projectile',
@@ -222,7 +231,7 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
+
         // offensive_throwing droppable
         $('.consumables .item-droppable.offensive_throwing').droppable({
             accept: '.inventory .item.offensive_throwing',
@@ -233,7 +242,7 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
+
         // defensive_throwing droppable
         $('.consumables .item-droppable.defensive_throwing').droppable({
             accept: '.inventory .item.defensive_throwing',
@@ -244,10 +253,10 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
-        // other droppable
-        $('.consumables .item-droppable.other').droppable({
-            accept: '.inventory .item.other',
+
+        // other_consumable droppable
+        $('.consumables .item-droppable.other_consumable').droppable({
+            accept: '.inventory .item.other_consumable',
             activeClass: 'active',
             hoverClass: 'accept',
             addClasses: false,
@@ -255,7 +264,7 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
+
         // cuirass droppable
         $('.degradables .item-droppable.cuirass').droppable({
             accept: '.inventory .item.cuirass',
@@ -266,7 +275,7 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
+
         // gauntlet droppable
         $('.degradables .item-droppable.gauntlet').droppable({
             accept: '.inventory .item.gauntlet',
@@ -288,7 +297,7 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
+
         // shield droppable
         $('.degradables .item-droppable.shield').droppable({
             accept: '.inventory .item.shield',
@@ -299,7 +308,7 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-        
+
         // shoes droppable
         $('.degradables .item-droppable.shoes').droppable({
             accept: '.inventory .item.shoes',
