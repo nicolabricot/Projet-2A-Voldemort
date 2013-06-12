@@ -185,7 +185,7 @@ public class HeiligeSchrift {
                     }
                 }
                 c.getInventory().add(item);
-                p.setItem(item); // Si on veut que les items soient ajoutés à la panoplie
+                //p.setItem(item); // Si on veut que les items soient ajoutés à la panoplie
             }  
             c.save();
         }
