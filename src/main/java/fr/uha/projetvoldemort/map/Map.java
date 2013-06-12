@@ -123,14 +123,14 @@ public class Map {
         return o;
     }
 
-    private String getUrl(int level) {
+    private String getUrl() {
         switch (this.type) {
             case MAP:
                 return "./map.jsp?map=" + this.name;
             case FIGHT:
                 return "./rest/fight/" + FightDemo.class.getSimpleName();
             case PANOPLY:
-                return "./panoply.jsp";
+                return "./panoply.jsp?panoply=active";
             default:
                 return "./map.jsp?map=main";
         }
@@ -183,7 +183,7 @@ public class Map {
 
         JSONObject o = new JSONObject();
         o.put("type", this.getState(c.getLevel()));
-        o.put("link", this.getUrl(c.getLevel()));
+        o.put("link", this.getUrl());
         o.put("description", this.description);
 
         JSONArray a = new JSONArray();
