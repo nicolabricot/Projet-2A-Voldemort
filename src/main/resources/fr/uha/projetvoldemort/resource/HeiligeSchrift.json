@@ -1,5 +1,5 @@
 {
-    "character_models": ["brute","scroundel","tactician"],
+    "character_models": ["brute", "scroundel", "tactician"],
     "item_models": [
         {
             "name": "base_gauntlet",
@@ -103,6 +103,7 @@
             "model": "scroundel",
             "name": "Joueur",
             "faction": "werewolf",
+            "level": 2,
             "attributes":
                     {
                         "attack": 20,
@@ -183,7 +184,7 @@
                         "defense": 10,
                         "luck": 50,
                         "duration": 10,
-                        "attack" : 10
+                        "attack": 10
                     }
                 },
                 {
@@ -203,6 +204,107 @@
             ]
         },
         {}
-    ]
+    ],
+    "map": {
+        "name": "main",
+        "type": "map",
+        "level": 0,
+        "title": "France",
+        "description": "Carte de la France",
+        "maps": [
+            {
+                "name": "champagne-ardenne",
+                "type": "map",
+                "level": 2,
+                "title": "Champagne-Ardenne",
+                "description": "Want to drink a glass of Champagne?",
+                "maps": [
+                    {
+                        "name": "marne",
+                        "type": "fight",
+                        "level": 2,
+                        "title": "Combat 1v1",
+                        "description": "Combat 1v1 sur les champs de batailles de la Marne.",
+                        "maps": []
+                    },
+                    {
+                        "name": "aube",
+                        "type": "panoply",
+                        "level": 2,
+                        "title": "Panoplie",
+                        "description": "Panoplie de l'Aube",
+                        "maps": []
+                    },
+                    {
+                        "name": "ardennes",
+                        "type": "fight",
+                        "level": 3,
+                        "title": "Combat 1v1",
+                        "description": "Participez à un combat 1v1 dans la bataille des Ardennes.",
+                        "maps": []
+                    },
+                    {
+                        "name": "haute-marne",
+                        "type": "panoply",
+                        "level": 3,
+                        "title": "Panoplie",
+                        "description": "Panoplie de la Haute-Marne.",
+                        "maps": []
+                    }
+                ]
+            },
+            {
+                "name": "alsace",
+                "type": "map",
+                "level": 2,
+                "title": "Alsace",
+                "description": "Welcome in Alsace",
+                "maps": [
+                    {
+                        "name": "bas-rhin",
+                        "type": "panoply",
+                        "level": 3,
+                        "title": "Panoplie",
+                        "description": "Panoplie du Bas-Rhin.",
+                        "maps": []
+                    },
+                    {
+                        "name": "haut-rhin",
+                        "type": "fight",
+                        "level": 4,
+                        "title": "Combat 1v1",
+                        "description": "Engagez vous dans la lutte contre les Germains dans la fôret.",
+                        "maps": []
+                    }
+                ]
+            },
+            {
+                "name": "centre",
+                "type": "map",
+                "level": 1,
+                "title": "Centre",
+                "description": "Le Centre est une région française, qui regroupe six départements : le Cher, l'Eure-et-Loir, l'Indre, l'Indre-et-Loire, le Loir-et-Cher et le Loiret.",
+                "maps": []
+            },
+            {
+                "name": "corse",
+                "type": "map",
+                "level": 1,
+                "title": "Corse",
+                "description": "Corse, ma belle Corse, que veux-tu faire par monts et par vaux...",
+                "maps": []
+            },
+            {
+                "name": "ile-de-france",
+                "type": "map",
+                "level": 6,
+                "title": "Île de France",
+                "description": "",
+                "maps": []
+            }
+        ]
+
+    }
+
 
 }
