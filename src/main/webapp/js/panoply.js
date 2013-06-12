@@ -111,7 +111,7 @@ $(document).ready(function() {
                         error: function(result, state, error) {
                             $('.notifications').notify({
                                 type: 'error',
-                                message: {text: 'Impossible to add item!'}
+                                message: {text: 'Impossible to load informations!'}
                             }).show();
                             console.log('result: ' + result);
                             console.log('state: ' + state);
@@ -148,7 +148,6 @@ $(document).ready(function() {
             type: 'GET',
             url: path_ajax,
             success: function(data) {
-                //console.log('Item added to panoply!');
                 // add the item to equipment
                 $(parent).html(item);
                 $(parent).removeClass('item-droppable');
