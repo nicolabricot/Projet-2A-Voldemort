@@ -101,11 +101,11 @@
     "characters": [
         {
             "model": "scroundel",
-            "name": "Gurdil",
+            "name": "Joueur",
             "faction": "werewolf",
             "attributes":
                     {
-                        "attack": 10,
+                        "attack": 20,
                         "defense": 10,
                         "initiative": 10,
                         "luck": 50,
@@ -182,14 +182,16 @@
                         "active": 10,
                         "defense": 10,
                         "luck": 50,
-                        "duration": 10
+                        "duration": 10,
+                        "attack" : 10
                     }
                 },
                 {
                     "model": "shield",
                     "attributes": {
                         "class": 10,
-                        "trigger": 50
+                        "trigger": 50,
+                        "defense": 10
                     }
                 },
                 {"model": "bred"},
@@ -200,9 +202,7 @@
                 {"model": "blue-flask"}
             ]
         },
-        {
-            "name": "Gurdil2",
-        }
+        {}
     ]
 
 }

@@ -37,7 +37,7 @@ public class Fight1v1 extends Fight {
         return this.attacker;
     }
 
-    public Character getDefesner() {
+    public Character getDefenser() {
         return this.defenser;
     }
 

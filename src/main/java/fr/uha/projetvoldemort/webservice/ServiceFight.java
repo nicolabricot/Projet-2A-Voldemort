@@ -10,7 +10,7 @@ import com.mongodb.DBCursor;
 import fr.uha.projetvoldemort.character.Character;
 import fr.uha.projetvoldemort.exception.NotFoundException;
 import fr.uha.projetvoldemort.fight.Fight;
-import fr.uha.projetvoldemort.fight.Fight1v1;
+import fr.uha.projetvoldemort.fight.FightDemo;
 import fr.uha.projetvoldemort.fightreport.FightReport;
 import fr.uha.projetvoldemort.resource.Resources;
 import java.util.logging.Level;
@@ -63,7 +63,7 @@ public class ServiceFight {
             Character c1 = new Character((ObjectId) cursor.next().get("_id"));
             Character c2 = new Character((ObjectId) cursor.next().get("_id"));
             
-            Fight f = new Fight1v1(c1, c2);
+            Fight f = new FightDemo(c1, c2);
             f.AveCaesarMorituriTeSalutant();
             FightReport fr = f.getReport();
             

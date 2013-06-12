@@ -9,6 +9,7 @@ import fr.uha.projetvoldemort.character.Character;
 import fr.uha.projetvoldemort.character.CharacterAttribute;
 import fr.uha.projetvoldemort.character.Panoply;
 import fr.uha.projetvoldemort.faction.Faction;
+import fr.uha.projetvoldemort.faction.FactionAttribute;
 import fr.uha.projetvoldemort.faction.FactionType;
 import fr.uha.projetvoldemort.fightreport.FightReport;
 import fr.uha.projetvoldemort.item.Item;
@@ -95,6 +96,8 @@ public class HeiligeSchrift {
             Faction f = new Faction(val);
             f.setName(val.toString() + "_name");
             f.setDescription(val.toString() + "_description");
+            f.setAttribute(FactionAttribute.HIT, 0);
+            f.setAttribute(FactionAttribute.POWER, 5);
             f.save();
 
             this.factions.put(f.getType(), f);
@@ -146,7 +149,7 @@ public class HeiligeSchrift {
             JSONObject o = a.getJSONObject(0); //i);
 
             Character c = new Character(this.characterModels.get(o.getString("model")));
-            c.setName(o.getString("name") + String.valueOf(i));
+            c.setName(o.getString("name") + "_" +String.valueOf(i));
             c.setFaction(this.factions.get(FactionType.fromString(o.getString("faction"))));
 
             JSONObject att = o.getJSONObject("attributes");
@@ -155,7 +158,6 @@ public class HeiligeSchrift {
                 String key = (String) it.next();
                 c.setAttribute(CharacterAttribute.fromString(key), att.getInt(key));
             }
-
 
             // Créer une panoplie
             Panoply p = c.createPanoply();
@@ -166,29 +168,19 @@ public class HeiligeSchrift {
             for (int j = 0; j < inv.length(); j++) {
                 JSONObject ob = inv.getJSONObject(j);
 
-                ItemModel fuck = this.itemModels.get(ob.getString("model"));
-                
-                int max =1;
-                if (fuck.getType().equals(ItemType.PROJECTILE)
-                        || fuck.getType().equals(ItemType.DEFENSIVE_THROWING)
-                        || fuck.getType().equals(ItemType.OFFENSIVE_THROWING))
-                    max = 50;
-                
-                for (int varDeMerde = 0; varDeMerde < max; varDeMerde++) {
-                     Item item = new Item(this.itemModels.get(ob.getString("model")));
-                    
-                    if (ob.has("attributes")) {
+                Item item = new Item(this.itemModels.get(ob.getString("model")));
 
-                        att = ob.getJSONObject("attributes");
-                        it = att.keys();
-                        while (it.hasNext()) {
-                            String key = (String) it.next();
-                            item.setAttribute(ItemAttribute.fromString(key), att.getInt(key));
-                        }
+                if (ob.has("attributes")) {
+
+                    att = ob.getJSONObject("attributes");
+                    it = att.keys();
+                    while (it.hasNext()) {
+                        String key = (String) it.next();
+                        item.setAttribute(ItemAttribute.fromString(key), att.getInt(key));
                     }
-                    c.getInventory().add(item);
-                    p.setItem(item); // Si on veut que les items soient ajoutés à la panoplie
                 }
+                c.getInventory().add(item);
+                p.setItem(item); // Si on veut que les items soient ajoutés à la panoplie
             }
 
             c.save();
