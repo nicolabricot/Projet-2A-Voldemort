@@ -87,7 +87,6 @@ public class Map {
             ObjectId oid = (ObjectId) it.next();
             this.maps.add(new Map(oid));
         }
-        System.out.println(this.name + " " + String.valueOf(this.level));
     }
 
     public DBObject toDBObject() {
@@ -178,9 +177,6 @@ public class Map {
     }
 
     protected JSONArray getState(Character c) throws JSONException {
-
-        System.out.println(this.name + " " + String.valueOf(this.level));
-
         JSONObject o = new JSONObject();
         o.put("type", this.getState(c.getLevel()));
         o.put("link", this.getUrl());

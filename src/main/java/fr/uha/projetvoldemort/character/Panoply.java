@@ -14,7 +14,6 @@ import fr.uha.projetvoldemort.item.ItemType;
 import fr.uha.projetvoldemort.resource.Resources;
 import fr.uha.projetvoldemort.exception.NotAllowedException;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,12 +33,12 @@ public final class Panoply implements InventoryListener {
     private static final String ITEMS = "items";
     private ObjectId id;
     private Inventory inventory;
-    //private ArrayList<Item> items;
-    private EnumMap<ItemType, Item> items;
+    private ArrayList<Item> items;
+    //private EnumMap<ItemType, Item> items;
 
     protected Panoply(Inventory inventory, ObjectId oid) {
-        //this.items = new ArrayList<Item>();
-        this.items = new EnumMap<ItemType, Item>(ItemType.class);
+        this.items = new ArrayList<Item>();
+        //this.items = new EnumMap<ItemType, Item>(ItemType.class);
         this.inventory = inventory;
 
         Resources res = Resources.getInstance();
@@ -51,8 +50,8 @@ public final class Panoply implements InventoryListener {
     }
 
     protected Panoply(Inventory inventory) {
-        //this.items = new ArrayList<Item>();
-        this.items = new EnumMap<ItemType, Item>(ItemType.class);
+        this.items = new ArrayList<Item>();
+        //this.items = new EnumMap<ItemType, Item>(ItemType.class);
         this.inventory = inventory;
     }
 
@@ -62,9 +61,9 @@ public final class Panoply implements InventoryListener {
         Iterator<Object> itItems = listItems.iterator();
         while (itItems.hasNext()) {
             ObjectId oid = (ObjectId) itItems.next();
-            //this.items.add(this.inventory.getItem(oid));
-            Item item = this.inventory.getItem(oid);
-            this.items.put(item.getType(), item);
+            this.items.add(this.inventory.getItem(oid));
+            //Item item = this.inventory.getItem(oid);
+            //this.items.put(item.getType(), item);
         }
     }
 
@@ -81,7 +80,7 @@ public final class Panoply implements InventoryListener {
         }
 
         BasicDBList listItems = new BasicDBList();
-        Iterator<Item> it = this.items.values().iterator();
+        Iterator<Item> it = this.items.iterator();
         while (it.hasNext()) {
             listItems.add(it.next().getId());
         }
@@ -101,7 +100,7 @@ public final class Panoply implements InventoryListener {
         ob.put(ID, this.id.toString());
 
         JSONArray listItems = new JSONArray();
-        Iterator<Item> it = this.items.values().iterator();
+        Iterator<Item> it = this.items.iterator();
         while (it.hasNext()) {
             listItems.put(it.next().toJSONObject());
         }
@@ -130,7 +129,7 @@ public final class Panoply implements InventoryListener {
             throw new NotAllowedException(str.toString());
         }
 
-        if (this.items.values().contains(item)) {
+        if (this.items.contains(item)) {
             StringBuilder str = new StringBuilder();
             str.append("Item ");
             str.append(item.getId().toString());
@@ -140,8 +139,8 @@ public final class Panoply implements InventoryListener {
             throw new NotAllowedException(str.toString());
         }
 
-        //this.items.add(item);
-        this.items.put(item.getType(), item);
+        this.items.add(item);
+        //this.items.put(item.getType(), item);
 
     }
 
@@ -154,7 +153,7 @@ public final class Panoply implements InventoryListener {
      * paramètre ou <code>null</code>
      */
     public Item getItem(ItemType type) {
-        /*
+        
         Iterator<Item> it = this.items.iterator();
         while (it.hasNext()) {
             Item item = it.next();
@@ -162,10 +161,10 @@ public final class Panoply implements InventoryListener {
                 return item;
             }
         }
-        */
+        /*
         if (this.items.containsKey(type))
             return this.items.get(type);
-        
+        */
         StringBuilder str = new StringBuilder();
         str.append("Inventory does not contain an item of type ");
         str.append(type.toString());
@@ -184,15 +183,15 @@ public final class Panoply implements InventoryListener {
     
     public ArrayList<Item> getItems(ItemType type) {
         ArrayList<Item> list = new ArrayList<Item>();
-        /*
+        
         Iterator<Item> it = this.items.iterator();
         while (it.hasNext()) {
             Item item = it.next();
             if (item.getType().equals(type)) {
                 list.add(item);
             }
-        }*/
-        list.add(this.items.get(type));
+        }
+        //list.add(this.items.get(type));
         
         return list;
     }
@@ -208,7 +207,7 @@ public final class Panoply implements InventoryListener {
      */
     public ArrayList<Item> getItems(ItemCategory category) {
         ArrayList<Item> list = new ArrayList<Item>();
-        Iterator<Item> it = this.items.values().iterator();
+        Iterator<Item> it = this.items.iterator();
         while (it.hasNext()) {
             Item item = it.next();
             if (item.getCategory().equals(category)) {
@@ -221,7 +220,7 @@ public final class Panoply implements InventoryListener {
 
     public ArrayList<Item> getItems() {
         ArrayList<Item> a = new ArrayList<Item>();
-        Iterator<Item> it = this.items.values().iterator();
+        Iterator<Item> it = this.items.iterator();
         while (it.hasNext()) {
             a.add(it.next());
         }
@@ -230,7 +229,7 @@ public final class Panoply implements InventoryListener {
 
     @Override
     public void remove(Item item) {
-        if (!this.items.containsValue(item)) {
+        if (!this.items.contains(item)) {
             StringBuilder str = new StringBuilder();
             str.append("Item ");
             str.append(item.getId().toString());
@@ -240,6 +239,6 @@ public final class Panoply implements InventoryListener {
             throw new NotFoundException(str.toString());
         }
 
-        this.items.remove(item.getType());
+        this.items.remove(item);
     }
 }
