@@ -16,7 +16,7 @@ import org.json.JSONException;
  *
  * @author bruno
  */
-@Path("/ressources/")
+@Path("/resources/")
 public class ServiceResources {
     
     @GET

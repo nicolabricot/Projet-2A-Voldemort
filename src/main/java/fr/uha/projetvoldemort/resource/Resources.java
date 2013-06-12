@@ -33,6 +33,13 @@ public final class Resources {
     private int serverPort;
     private String databaseName;
     private Mongo mongo;
+    
+    public final static String PUBLIC_URL_HOME = "./";
+    public final static String PUBLIC_URL_MAP = "./map.jsp";
+    public final static String PUBLIC_PARAM_MAP = "?map=";
+    public final static String PUBLIC_URL_PANOPLY = "./panoply.jsp";
+    public final static String PUBLIC_PARAM_PANOPLY = "?panoply=";
+    public final static String PUBLIC_PARAM_PANOPLY_ID = "?id=";
 
     private Resources() {
         InputStreamReader isr = null;

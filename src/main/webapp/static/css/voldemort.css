@@ -25,13 +25,22 @@ body {
 
 /* page-map */
 .page-map #map {
-    /*width: 520px;
-    height: 560px;*/
     margin: auto;
-    /*border: 1px solid #aaa;*/
 }
-.page-map #map-info {
-    /*border: 1px solid;*/
+#map-info .state {
+    margin: 10px 0;
+}
+#map-info .state span {
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+}
+#map-info .title {
+    margin: 15px 0 5px;
+    font-size: 16px;
+}
+#map-info .description .more {
+    display: block;
+    margin-bottom: 5px;
 }
 
 /* page-panoply */

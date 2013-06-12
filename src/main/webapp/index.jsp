@@ -1,29 +1,38 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%><!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <jsp:include page="/WEB-INF/jsp/head.jsp" />
-    </head>
-    <body class="page-home">
-        <%-- menu --%>
-        <jsp:include page="/WEB-INF/jsp/menu.jsp">
-            <jsp:param name="page" value="home" />
-        </jsp:include>
+<%@page
+    import="fr.uha.projetvoldemort.resource.Resources"
+contentType="text/html" pageEncoding="UTF-8"%><%
+    String map = "main";
+    if (request.getParameter("map") != null && !request.getParameter("map").isEmpty()) {
+        map = request.getParameter("map");
+    }
+    %><!DOCTYPE html>
+    <html lang="fr">
+        <head>
+            <jsp:include page="/WEB-INF/jsp/head.jsp" />
+        </head>
+        <body class="page-map">
 
-        <!-- content -->
-        <div id="content">
-            <div class="container">
-                <p class="center">
-                    <img src="./static/img/loader.gif" alt="..." />
-                    <br />work in progress
-                </p>
+            <%-- menu --%>
+            <jsp:include page="/WEB-INF/jsp/menu.jsp">
+                <jsp:param name="page" value="home" />
+            </jsp:include>
+
+            <!-- content -->
+            <div id="content">
+                <div class="container">
+                    <jsp:include page="/WEB-INF/jsp/map.jsp">
+                        <jsp:param name="map" value="main" />
+                    </jsp:include>
+                </div>
             </div>
-        </div>
-        <!-- /content -->
+            <!-- /content -->
 
-        <!-- footer -->
-        <!-- /footer -->
+            <!-- footer -->
+            <!-- /footer -->
 
-        <%-- scripts --%>
-        <jsp:include page="/WEB-INF/jsp/script.jsp" />
-    </body>
-</html>
+            <%-- scripts --%>
+            <jsp:include page="/WEB-INF/jsp/script.jsp" />
+            <script src="./static/js/raphael.js" charset="utf-8"></script>
+            <script src="./js/map.js" charset="utf-8"></script>
+        </body>
+    </html>
