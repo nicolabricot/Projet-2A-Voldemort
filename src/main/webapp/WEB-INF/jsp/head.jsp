@@ -20,4 +20,5 @@
         <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
         <link rel="stylesheet" href="./static/css/bootstrap.min.css" media="screen" />
         <!--<link rel="stylesheet" href="./static/css/bootstrap-responsive.min.css" media="screen" />-->
+        <link rel="stylesheet" href="./static/css/bootstrap-notify.css" media="screen" />
         <link rel="stylesheet" href="./static/css/voldemort.css" media="screen" />

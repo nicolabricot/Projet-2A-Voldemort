@@ -5,4 +5,5 @@
 --%><%@page contentType="text/html" pageEncoding="UTF-8"%>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
         <script src="./static/js/bootstrap.min.js"></script>
+        <script src="./static/js/bootstrap-notify.js"></script>
         <script src="./static/js/voldemort.js"></script>
