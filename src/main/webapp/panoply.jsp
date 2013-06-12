@@ -4,7 +4,7 @@
     if (request.getParameter("panoply") != null && !request.getParameter("panoply").isEmpty()) {
         panoply = request.getParameter("panoply");
     }
-    
+
     if (panoply.isEmpty() || panoply.contentEquals("")) {
         response.sendRedirect(Resources.PUBLIC_URL_HOME);
     }
@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <div id="view" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString() %>" data-panoply-id="<%= panoply%>">
+            <div id="view" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString()%>" data-panoply-id="<%= panoply%>">
                 <div class="row-fluid">
                     <div id="first-tab" class="tab span4"></div>
                     <div id="second-tab" class="tab span4"></div>
@@ -61,21 +61,39 @@
 
 
         <!-- deviendra de l'ajax -->
-        <div style="display:none; clear:both;">
+        <div style="display:none; clear:both;" id="layouts">
             <div id="sustainables" class="equipment">
                 <div class="sustainables equipment">
-                    <div class="item weapon">weapon</div>
-                    <div class="item ring">ring</div>
+                    <div class="data" data-items='[
+                         "bag",
+                         "weapon_modifier",
+                         "shield_modifier",
+                         "other",
+                         "other"
+                         ]'></div>
                 </div>
             </div>
             <div id="consumables">
                 <div class="consumables equipment">
-                    
+                    <div class="data" data-items='[
+                         "projectile",
+                         "offensive_throwing",
+                         "defensive_throwing",
+                         "other",
+                         "other",
+                         "other"
+                         ]'></div>
                 </div>
             </div>
             <div id="degradables">
                 <div class="degradables equipment">
-                    <div class="item cuirass">cuirass</div>
+                    <div class="data" data-items='[
+                         "cuirass",
+                         "gauntlet",
+                         "weapon",
+                         "shield",
+                         "shoes"
+                         ]'></div>
                 </div>
             </div>
             <div id="inventory">

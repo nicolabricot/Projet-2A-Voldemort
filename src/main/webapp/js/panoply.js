@@ -8,6 +8,14 @@ $(document).ready(function() {
     //console.log('character: '+ character, id);
 
     /*
+     * LAYOUTS
+     */
+    var layouts = [];
+    layouts['sustainables'] = $('#layouts .sustainables .data').data('items');
+    layouts['degradables'] = $('#layouts .degradables .data').data('items');
+    layouts['consumables'] = $('#layouts .consumables .data').data('items');
+
+    /*
      * LINKS AND TABS
      */
     // remove click on link tabs
@@ -77,8 +85,24 @@ $(document).ready(function() {
                         dataType: 'json',
                         success: function(data) {
                             var result = '';
-                            for (i = 0; i < data.length; i++)
-                                result += '<div class="item ' + data[i].model.type + '"><div class="image-items item-' + data[i].model.image + '"></div></div>';
+                            var items = [];
+                            // get all elements
+                            for (i = 0; i < data.length; i++) {
+                                items.push(data[i].model.type);
+                                result += '<div class="item ' + data[i].model.type + '" data-item-id="' + data[i].id + '"><div class="image-items item-' + data[i].model.image + '"></div></div>';
+                            }
+                            // get layout and compare if the item is already used
+                            var layout = layouts[link.replace('#', '')];
+                            if (layout != undefined) {
+                                layout.reverse();
+                                for (i = layout.length - 1; i >= 0; i--) {
+                                    // if item not exists, add droppable case
+                                    if ($.inArray(layout[i], items) == -1) {
+                                        result += '<div class="item item-droppable ' + layout[i] + '">' + layout[i] + '</div>';
+                                    }
+                                }
+                            }
+                            // display the result
                             $(tab).html('<div class="' + link.replace('#', '') + '">' + result + '</div>');
                             drag_drop();
                         },
@@ -112,8 +136,26 @@ $(document).ready(function() {
     function inventory_drop(event, ui, parent) {
         // get the item
         var item = ui.helper.children();
+        var item_id = ui.helper.data('item-id');
+        // request ajax to save the transfer
+        var path_ajax = 'rest/character/' + character + '/panoply/' + id + '/add/' + item_id;
+        $.ajax({
+            type: 'GET',
+            url: path_ajax,
+            success: function(data) {
+                //console.log('Item added to panoply!');
+            },
+            error: function(result, state, error) {
+                alert('Ajax failed: ' + error);
+                console.log('result: ' + result);
+                console.log('state: ' + state);
+                console.log('error: ' + error);
+            }
+        });
         // add the item to equipment
         $(parent).html(item);
+        $(parent).removeClass('item-droppable');
+        $(parent).droppable('disable');
     }
 
     function inventory() {
@@ -124,9 +166,9 @@ $(document).ready(function() {
             cursor: 'move'
         });
 
-        // weapon droppable
-        $('.permanent .item.weapon').droppable({
-            accept: '.inventory .item.weapon',
+        // bag droppable
+        $('.sustainables .item-droppable.bag').droppable({
+            accept: '.inventory .item.bag',
             activeClass: 'active',
             hoverClass: 'accept',
             addClasses: false,
@@ -134,9 +176,97 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
-
+        
+        // weapon-modifier droppable
+        $('.sustainables .item-droppable.weapon_modifier').droppable({
+            accept: '.inventory .item.weapon_modifier',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
+        // shield-modifier droppable
+        $('.sustainables .item-droppable.shield_modifier').droppable({
+            accept: '.inventory .item.shield_modifier',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
+        // other droppable
+        $('.sustainables .item-droppable.other').droppable({
+            accept: '.inventory .item.other',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
+        // projectile droppable
+        $('.consumables .item-droppable.projectile').droppable({
+            accept: '.inventory .item.projectile',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
+        // offensive_throwing droppable
+        $('.consumables .item-droppable.offensive_throwing').droppable({
+            accept: '.inventory .item.offensive_throwing',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
+        // defensive_throwing droppable
+        $('.consumables .item-droppable.defensive_throwing').droppable({
+            accept: '.inventory .item.defensive_throwing',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
+        // other droppable
+        $('.consumables .item-droppable.other').droppable({
+            accept: '.inventory .item.other',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
+        // cuirass droppable
+        $('.degradables .item-droppable.cuirass').droppable({
+            accept: '.inventory .item.cuirass',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
         // gauntlet droppable
-        $('.permanent .item.gauntlet').droppable({
+        $('.degradables .item-droppable.gauntlet').droppable({
             accept: '.inventory .item.gauntlet',
             activeClass: 'active',
             hoverClass: 'accept',
@@ -146,9 +276,31 @@ $(document).ready(function() {
             }
         });
 
-        // ring droppable
-        $('.permanent .item.ring').droppable({
-            accept: '.inventory .item.ring',
+        // weapon droppable
+        $('.degradables .item-droppable.weapon').droppable({
+            accept: '.inventory .item.weapon',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
+        // shield droppable
+        $('.degradables .item-droppable.shield').droppable({
+            accept: '.inventory .item.shield',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                inventory_drop(event, ui, this);
+            }
+        });
+        
+        // shoes droppable
+        $('.degradables .item-droppable.shoes').droppable({
+            accept: '.inventory .item.shoes',
             activeClass: 'active',
             hoverClass: 'accept',
             addClasses: false,
@@ -157,16 +309,7 @@ $(document).ready(function() {
             }
         });
 
-        // cuirass droppable
-        $('.permanent .item.cuirass').droppable({
-            accept: '.inventory .item.cuirass',
-            activeClass: 'active',
-            hoverClass: 'accept',
-            addClasses: false,
-            drop: function(event, ui) {
-                inventory_drop(event, ui, this);
-            }
-        });
+
     }
 
 });
