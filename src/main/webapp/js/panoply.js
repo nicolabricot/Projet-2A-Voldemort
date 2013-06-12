@@ -50,8 +50,6 @@ $(document).ready(function() {
             var tab = '#' + $(this).attr('id');
             var old_link = $(tab).data('actual-link');
 
-            //console.log('link:' + link, 'tab:' + tab, old_link);
-
             // s'il y a deja une view, on la récupère pour l'enlever et on réactive le lien
             if (old_link !== undefined) {
                 $('#links a[href=' + old_link + ']').removeClass('disabled').addClass('ready');
@@ -63,7 +61,6 @@ $(document).ready(function() {
             $(tab).data('actual-link', link);
 
             // il va falloir faire une requete pour récupérer le contenu, on fait patienter
-            //$(tab).append($(link).html());
             $(tab).append('<p class="center loading"><img src="./static/img/loader-length.gif" alt="..." /></p>');
 
             ui.helper.remove();
@@ -89,7 +86,7 @@ $(document).ready(function() {
                             // get all elements
                             for (i = 0; i < data.length; i++) {
                                 items.push(data[i].model.type);
-                                result += '<div class="item ' + data[i].model.type + '" data-item-id="' + data[i].id + '"><div class="image-items item-' + data[i].model.image + '"></div></div>';
+                                result += '<div class="item ' + (link.replace('#', '') != 'inventory' ? 'item-removable ' : '') + data[i].model.type + '" data-item-id="' + data[i].id + '"><div class="image-items item-' + data[i].model.image + '"></div></div>';
                             }
                             // get layout and compare if the item is already used
                             var layout = layouts[link.replace('#', '')];
@@ -103,6 +100,10 @@ $(document).ready(function() {
                                         items.splice(items.indexOf(layout[i]), 1);
                                     }
                                 }
+                            }
+                            // if it's inventory add the trash
+                            if (link.replace('#', '') == 'inventory') {
+                                result += '<div class="item item-trash"><i class="icon-share-alt"></i></div>';
                             }
                             // display the result
                             $(tab).html('<div class="' + link.replace('#', '') + '">' + result + '</div>');
@@ -131,12 +132,13 @@ $(document).ready(function() {
      * CHECK ALL DRAG AND DROP
      */
     function drag_drop() {
-        inventory();
+        inventory2panoply();
+        panoply2inventory();
     }
 
 
     /*
-     * INVENTORY
+     * INVENTORY TO PANOPLY
      */
     function inventory_drop(event, ui, parent) {
         // get the item
@@ -151,15 +153,18 @@ $(document).ready(function() {
                 // add the item to equipment
                 $(parent).html(item);
                 $(parent).removeClass('item-droppable');
-                $(parent).droppable('disable');
+                $(parent).attr('data-item-id', item_id);
+                $(parent).droppable('destroy');
+                $(parent).addClass('item-removable');
+                drag_drop();
                 $('.notifications').notify({
-                    message: {text: 'Item added to panoply!'}
+                    message: {html: '<i class="icon-ok"></i> Item added to panoply!'}
                 }).show();
             },
             error: function(result, state, error) {
                 $('.notifications').notify({
                     type: 'error',
-                    message: {text: 'Impossible to add item!'}
+                    message: {html: '<i class="icon-ban-circle"></i> Impossible to add item!'}
                 }).show();
                 console.log('result: ' + result);
                 console.log('state: ' + state);
@@ -168,13 +173,14 @@ $(document).ready(function() {
         });
     }
 
-    function inventory() {
+    function inventory2panoply() {
         $('.inventory .item').draggable({
             revert: 'invalid',
             helper: 'clone',
             addClasses: false,
             cursor: 'move'
         });
+        $('.inventory .item.item-trash').draggable('destroy');
 
         // bag droppable
         $('.sustainables .item-droppable.bag').droppable({
@@ -318,7 +324,58 @@ $(document).ready(function() {
                 inventory_drop(event, ui, this);
             }
         });
+    }
+    
+    /*
+     * PANOPLY TO INVENTORY
+     */
+    function panoply_drop(event, ui) {
+        // get the item
+        var item_id = ui.helper.data('item-id');
+        var item = $('.item-removable[data-item-id="' + item_id + '"]');
+        // request ajax to save the transfer
+        var path_ajax = 'rest/character/' + character + '/panoply/' + id + '/remove/' + item_id;
+        $.ajax({
+            type: 'GET',
+            url: path_ajax,
+            success: function(data) {
+                // remove the item to equipment
+                item.html(item.removeClass('item-removable').attr('class').replace('item', ''));
+                item.addClass('item-droppable');
+                drag_drop();
+                $('.notifications').notify({
+                    type: 'alert',
+                    message: {html: '<i class="icon-trash"></i> Item removed from panoply!'}
+                }).show();
+            },
+            error: function(result, state, error) {
+                $('.notifications').notify({
+                    type: 'error',
+                    message: {text: 'Impossible to remove item!'}
+                }).show();
+                console.log('result: ' + result);
+                console.log('state: ' + state);
+                console.log('error: ' + error);
+            }
+        });
+    }
 
+    function panoply2inventory() {
+        $('.item-removable').draggable({
+            revert: 'invalid',
+            helper: 'clone',
+            addClasses: false,
+            cursor: 'move'
+        });
+        $('.inventory .item-trash').droppable({
+            accept: '.item-removable',
+            activeClass: 'active',
+            hoverClass: 'accept',
+            addClasses: false,
+            drop: function(event, ui) {
+                panoply_drop(event, ui);
+            }
+        });
 
     }
 

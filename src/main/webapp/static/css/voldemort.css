@@ -96,3 +96,14 @@ body {
 .page-panoply .inventory .item {
     cursor: move;
 }
+
+.page-panoply .inventory .item-trash {
+    display: block;
+    cursor: default;
+}
+.page-panoply .item-trash.active {
+    border: 1px solid #B94A48;
+}
+.page-panoply .item-trash.accept {
+    background-color: #F2DEDE;
+}
