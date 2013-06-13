@@ -113,9 +113,6 @@
             </div>
         </div>
 
-        <!-- notifications -->
-        <div class="notifications top-right"></div>
-
         <!-- footer -->
         <!-- /footer -->
 

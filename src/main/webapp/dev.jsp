@@ -67,6 +67,11 @@
             <li>Get states for France map : <a href="./rest/map/<%= id %>">/rest/map/{id_character}</a></li>
             <li>Get states for region's map : <a href="./rest/map/bas-rhin/<%= id %>">/rest/map/{id}/{id_character}</a></li>
         </ul>
+        
+        <h4>Fight</h4>
+        <ul>
+            <li>Get result of a demo fight : <a href="./rest/fight/FightDemo">/rest/fight/FightDemo</a></li>
+        </ul>
 
         <h2>BDD</h2>
         <pre>cd /Users/Voldemort/Downloads/mongodb-osx-x86_64-2.4.3/bin

@@ -129,7 +129,8 @@ public class Map {
                 return Resources.PUBLIC_URL_MAP + Resources.PUBLIC_PARAM_MAP + this.name;
             case FIGHT:
                 //return "./rest/fight/" + FightDemo.class.getSimpleName();
-                return Resources.PUCLIC_URL_FIGHT + Resources.PUBLIC_PARAM_MAP + this.name + Resources.PUBLIC_PARAM_TYPE + FightDemo.class.getSimpleName();
+                //return Resources.PUCLIC_URL_FIGHT + Resources.PUBLIC_PARAM_FIGHT_FROM + this.name + Resources.PUBLIC_PARAM_TYPE + FightDemo.class.getSimpleName();
+                return Resources.PUBLIC_URL_FIGHT + Resources.PUBLIC_PARAM_FIGHT_FROM + this.name;
             case PANOPLY:
                 return Resources.PUBLIC_URL_PANOPLY + Resources.PUBLIC_PARAM_PANOPLY + "active";
             default:

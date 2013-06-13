@@ -103,7 +103,7 @@ $(document).ready(function() {
                             }
                             // if it's inventory add the trash
                             if (link.replace('#', '') == 'inventory') {
-                                result += '<div class="item item-trash"><i class="icon-share-alt"></i></div>';
+                                result += '<div class="item item-trash"><i class="icon-trash"></i></div>';
                             }
                             // display the result
                             $(tab).html('<div class="' + link.replace('#', '') + '">' + result + '</div>');
@@ -367,7 +367,7 @@ $(document).ready(function() {
             addClasses: false,
             cursor: 'move'
         });
-        $('.inventory .item-trash').droppable({
+        $('.item-trash').droppable({
             accept: '.item-removable',
             activeClass: 'active',
             hoverClass: 'accept',
