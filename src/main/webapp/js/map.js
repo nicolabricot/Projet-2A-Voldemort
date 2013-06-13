@@ -210,6 +210,7 @@ $(document).ready(function() {
         description.html(map_info);
         title.html('');
         state.html('');
+        $('.loading').remove();
     }
 
 });

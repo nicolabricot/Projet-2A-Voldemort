@@ -7,6 +7,7 @@
 <div class="row">
     <div class="span8">
         <div id="map" data-map-load="<%= request.getParameter("map")%>" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString()%>">
+            <div class="loading center"><img src="./static/img/loader-length.gif" alt="..." /></div>
             <span class="stroke" data-color-default="#888"></span>
             <span class="stroke-hover" data-color-default="#888"></span>
             <span class="fill" data-color-default="#F8F8F8" data-color-opened="#D9F7FF" data-color-done="#CAFFC9" data-color-locked="#dadada"></span>
@@ -19,6 +20,10 @@
         <div class="state"></div>
         <div class="title"></div>
         <div class="description"></div>
+        
+        <div class="avatar" style="position:fixed; bottom: 0;">
+            <img src="./static/media/perso-warden.png" alt="Warden" />
+        </div>
     </div>
 </div>
 
