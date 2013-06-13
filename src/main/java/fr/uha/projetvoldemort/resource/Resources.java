@@ -37,7 +37,9 @@ public final class Resources {
     public final static String PUBLIC_URL_HOME = "./";
     public final static String PUBLIC_URL_MAP = "./map.jsp";
     public final static String PUBLIC_PARAM_MAP = "?map=";
+    public final static String PUBLIC_PARAM_TYPE = "&type=";
     public final static String PUBLIC_URL_PANOPLY = "./panoply.jsp";
+    public final static String PUCLIC_URL_FIGHT = "./fight.jsp";
     public final static String PUBLIC_PARAM_PANOPLY = "?panoply=";
     public final static String PUBLIC_PARAM_PANOPLY_ID = "?id=";
     public final static String PUBLIC_URL_FIGHT = "./fight.jsp";
