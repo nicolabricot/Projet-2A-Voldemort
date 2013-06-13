@@ -190,7 +190,7 @@ public class FightReportDemo extends FightReport {
         StringBuilder str = new StringBuilder();
         str.append("Player ");
         str.append(winner.getName());
-        str.append(" wins the figth.");
+        str.append(" wins the fight.");
         o.put(DESCRIPTION, str.toString());
         
         this.report.put(o);

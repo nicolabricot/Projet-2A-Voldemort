@@ -210,7 +210,7 @@
         "type": "map",
         "level": 0,
         "title": "France",
-        "description": "Map of France",
+        "description": "Map of France.",
         "maps": [
             {
                 "name": "champagne-ardenne",
@@ -232,7 +232,7 @@
                         "type": "panoply",
                         "level": 2,
                         "title": "Panoply",
-                        "description": "Panoply from Aube",
+                        "description": "Panoply from Aube.",
                         "maps": []
                     },
                     {
@@ -258,7 +258,7 @@
                 "type": "map",
                 "level": 2,
                 "title": "Alsace",
-                "description": "Welcome in Alsace",
+                "description": "Welcome in Alsace !",
                 "maps": [
                     {
                         "name": "bas-rhin",
