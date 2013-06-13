@@ -133,9 +133,9 @@ $(document).ready(function() {
     var character = $('#map').data('character-id');
     var path_map = 'static/map/' + map_load + '.json';
     if (map_load === 'main') {
-        var path_state = 'rest/map/states/' + character;
+        var path_state = 'rest/map/' + character;
     } else {
-        var path_state = 'rest/map/states/' + map_load + '/' + character;
+        var path_state = 'rest/map/' + map_load + '/' + character;
     }
     //console.log(path_map, path_state);
 
