@@ -21,6 +21,10 @@
             .statictics {
                 padding: 10px;
             }
+            h4 {
+                margin-left: 10px;
+                text-transform: capitalize;
+            }
         </style>
     </head>
 

@@ -81,7 +81,7 @@ $(document).ready(function() {
                         url: path_ajax,
                         dataType: 'json',
                         success: function(data) {
-                            var result = '';
+                            var result = '<h4>' + link.replace('#', '') + '</h4>';
                             var items = [];
                             // get all elements
                             for (i = 0; i < data.length; i++) {
