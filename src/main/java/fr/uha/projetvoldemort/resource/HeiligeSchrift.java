@@ -147,13 +147,15 @@ public class HeiligeSchrift {
 
     public void DerVierteTag() throws JSONException {
         // Crée les personnages
+        
+        String names[]  = {"Hassen", "Tipam"};
 
         JSONArray a = this.heiligeSchrift.getJSONArray("characters");
         for (int i = 0; i < a.length(); i++) {
             JSONObject o = a.getJSONObject(0); //i);
 
             Character c = new Character(this.characterModels.get(o.getString("model")));
-            c.setName(o.getString("name") + "_" +String.valueOf(i));
+            c.setName(names[i]);
             c.setFaction(this.factions.get(FactionType.fromString(o.getString("faction"))));
             c.setLevel(o.getInt("level"));
 

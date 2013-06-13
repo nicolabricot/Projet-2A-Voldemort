@@ -75,7 +75,7 @@ public class FightReportDemo extends FightReport {
             str.append(defensiveThrowing.getModel().getName().replace("_name", ""));
             str.append(". ");
             str.append(second.getName());
-            str.append(" looses ");
+            str.append(" loses ");
             str.append(attack - defense);
             str.append(" points of life.");
         } else if (defense > attack) {
@@ -84,7 +84,7 @@ public class FightReportDemo extends FightReport {
             str.append(offensiveThrowing.getModel().getName().replace("_name", ""));
             str.append(". ");
             str.append(first.getName());
-            str.append(" looses ");
+            str.append(" loses ");
             str.append(defense - attack);
             str.append(" points of life.");
         } else {
@@ -113,7 +113,7 @@ public class FightReportDemo extends FightReport {
             str.append(first.getName());
             str.append(" attacks ");
             str.append(second.getName());
-            str.append(" which looses ");
+            str.append(" which loses ");
             str.append(attack - defense);
             str.append(" points of life.");
         } else {
@@ -148,7 +148,7 @@ public class FightReportDemo extends FightReport {
                 str.append(faction.getName().replace("_name", ""));
                 str.append(" and " );
                 str.append(second.getName());
-                str.append(" looses ");
+                str.append(" loses ");
                 str.append(delta);
                 str.append(" points of life.");
                 break;
