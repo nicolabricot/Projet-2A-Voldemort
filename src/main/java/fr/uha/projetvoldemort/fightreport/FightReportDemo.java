@@ -44,9 +44,9 @@ public class FightReportDemo extends FightReport {
         o.put(PLAYER, c.toJSONObject(false));
 
         StringBuilder str = new StringBuilder();
-        str.append("Le joueur ");
+        str.append("Player ");
         str.append(c.getName());
-        str.append(" prend l'initiative.");
+        str.append(" takes initiative.");
 
         o.put(DESCRIPTION, str.toString());
 
@@ -70,31 +70,28 @@ public class FightReportDemo extends FightReport {
 
         StringBuilder str = new StringBuilder();
         if (attack > defense) {
-            str.append("Jet offensif [");
-            str.append(offensiveThrowing.getModel().getName());
-            str.append("] esquive jet defensif [");
-            str.append(defensiveThrowing.getModel().getName());
-            str.append("] et fait perdre ");
-            str.append(attack - defense);
-            str.append(" points de vie à ");
+            str.append(offensiveThrowing.getModel().getName().replace("_name", ""));
+            str.append(" dodges ");
+            str.append(defensiveThrowing.getModel().getName().replace("_name", ""));
+            str.append(". ");
             str.append(second.getName());
-            str.append(".");
+            str.append(" looses ");
+            str.append(attack - defense);
+            str.append(" points of life.");
         } else if (defense > attack) {
-            str.append("Jet defensif [");
-            str.append(defensiveThrowing.getModel().getName());
-            str.append("] esquive jet offensif [");
-            str.append(offensiveThrowing.getModel().getName());
-            str.append("] et fait perdre ");
-            str.append(defense - attack);
-            str.append(" point de vie à ");
+            str.append(defensiveThrowing.getModel().getName().replace("_name", ""));
+            str.append(" dodges ");
+            str.append(offensiveThrowing.getModel().getName().replace("_name", ""));
+            str.append(". ");
             str.append(first.getName());
-            str.append(".");
+            str.append(" looses ");
+            str.append(defense - attack);
+            str.append(" points of life.");
         } else {
-            str.append("Jet offensif [");
-            str.append(offensiveThrowing.getModel().getName());
-            str.append("] et jet defensif [");
-            str.append(defensiveThrowing.getModel().getName());
-            str.append("] s'esquivent mutuellement, aucun dégats n'est infligé.");
+            str.append(offensiveThrowing.getModel().getName().replace("_name", ""));
+            str.append(" and ");
+            str.append(defensiveThrowing.getModel().getName().replace("_name", ""));
+            str.append(" dodge themselves. No damage.");
         }
         o.put(DESCRIPTION, str.toString());
 
@@ -114,16 +111,16 @@ public class FightReportDemo extends FightReport {
         StringBuilder str = new StringBuilder();
         if (attack > defense) {
             str.append(first.getName());
-            str.append(" attaque ");
+            str.append(" attacks ");
             str.append(second.getName());
-            str.append(" et lui fait perdre ");
+            str.append(" which looses ");
             str.append(attack - defense);
-            str.append(" points de vie.");
+            str.append(" points of life.");
         } else {
             str.append(first.getName());
-            str.append(" attaque ");
+            str.append(" attacks ");
             str.append(second.getName());
-            str.append(" qui parvient à se défendre, aucun dégats n'est infligé.");
+            str.append(" which can defend himself. No damage.");
         }
         o.put(DESCRIPTION, str.toString());
 
@@ -147,33 +144,33 @@ public class FightReportDemo extends FightReport {
         switch (faction.getType()) {
             case WEREWOLF:
                 str.append(first.getName());
-                str.append(" utilise son pouvoir de [");
-                str.append(faction.getName());
-                str.append("] et fait perdre " );
-                str.append(delta);
-                str.append(" points de vie ");
+                str.append(" uses his power of ");
+                str.append(faction.getName().replace("_name", ""));
+                str.append(" and " );
                 str.append(second.getName());
-                str.append(".");
+                str.append(" looses ");
+                str.append(delta);
+                str.append(" points of life.");
                 break;
             // Vampire :
             case VAMPIRE:
                 str.append(first.getName());
-                str.append(" utilise son pouvoir de [");
-                str.append(faction.getName());
-                str.append("] et vole " );
+                str.append(" uses his power of ");
+                str.append(faction.getName().replace("_name", ""));
+                str.append(" and steals " );
                 str.append(delta);
-                str.append(" points de vie à ");
+                str.append(" points of life from ");
                 str.append(second.getName());
                 str.append(".");
                 break;
             // Momie
             case MUMMY:
                 str.append(first.getName());
-                str.append(" utilise son pouvoir de [");
-                str.append(faction.getName());
-                str.append("] et gagne " );
+                str.append(" uses his power of ");
+                str.append(faction.getName().replace("_name", ""));
+                str.append(" and wins " );
                 str.append(delta);
-                str.append(" points de vie.");
+                str.append(" points of life.");
                 break;
         }
 
@@ -191,9 +188,9 @@ public class FightReportDemo extends FightReport {
         o.put("winner", winner.toJSONObject(false));
 
         StringBuilder str = new StringBuilder();
-        str.append("Le joueur ");
+        str.append("Player ");
         str.append(winner.getName());
-        str.append(" gagne le combat.");
+        str.append(" wins the figth.");
         o.put(DESCRIPTION, str.toString());
         
         this.report.put(o);
@@ -202,7 +199,7 @@ public class FightReportDemo extends FightReport {
     @Override
     public JSONObject toJSONObject() throws JSONException {
         JSONObject ob = new JSONObject();
-        ob.put(TYPE, "demo");
+        ob.put(TYPE, FightDemo.class.getSimpleName());
         
         ob.put(ATTACKER, this.fight.getAttacker().toJSONObject());
         ob.put(DEFENSER, this.fight.getDefenser().toJSONObject());
