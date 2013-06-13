@@ -121,6 +121,41 @@ $(document).ready(function() {
                     });
                     break;
 
+                case 'statistics':
+                    path_ajax = 'rest/character/' + $('#view').data('character-id') + '/statistics';
+                    console.log(path_ajax);
+                    $.ajax({
+                        type: 'GET',
+                        url: path_ajax,
+                        dataType: 'json',
+                        success: function(data) {
+                            var result = '<h4>' + link.replace('#', '') + '</h4>';
+                            result += '<dl class="dl-horizontal">';
+                            result += '<dt>Name</dt><dd>' + data.name + '</dd>';
+                            result += '<dt>Class</dt><dd>' + data.class + '</dd>';
+                            result += '<dt>Faction</dt><dd>' + data.faction + '</dd>';
+                            result += '</dl>';
+                            result += '<dl class="dl-horizontal">';
+                            for(var key in data.attributes) {
+                                result += '<dt>' + key + '</dt>';
+                                result += '<dd>' + data.attributes[key] + '</dd>';
+                            }
+                            result += '</dl>';
+                            // display the result
+                            $(tab).html('<div class="' + link.replace('#', '') + '">' + result + '</div>');
+                        },
+                        error: function(result, state, error) {
+                            $('.notifications').notify({
+                                type: 'error',
+                                message: {text: 'Impossible to load informations!'}
+                            }).show();
+                            console.log('result: ' + result);
+                            console.log('state: ' + state);
+                            console.log('error: ' + error);
+                        }
+                    });
+                    break;
+
                 default:
                     $(tab).html('').append($(link).html());
                     drag_drop();
@@ -325,7 +360,7 @@ $(document).ready(function() {
             }
         });
     }
-    
+
     /*
      * PANOPLY TO INVENTORY
      */

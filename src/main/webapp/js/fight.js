@@ -14,7 +14,7 @@ $.ajax({
         // add synthese
         result += '<div class="row" style="margin-bottom: 15px;"><div class="span4" style="text-align:center;"><p class="well well-small">Fight during ' + data.fight.length + ' phases</p></div>';
         // add link to return to map
-        result += '<div class="span4" style="text-align:center; margin-top: 5px;"><a class="btn " href="./map.jsp?map=' + $('#fight').data('map-id') + '">Next step <i class="icon-share-alt"></i></a></div>'
+        result += '<div class="span4" style="text-align:center; margin-top: 5px;"><a class="btn " href="./map.jsp?map=' + $('#fight').data('map-id') + '">Next step <i class="icon-share-alt"></i></a></div>';
         // fast result of the fight
         result += '<div class="span4 pull-right" style="text-align: center;">';
         if (data.defenser.id != data.fight[data.fight.length - 1].winner.id)
@@ -22,8 +22,8 @@ $.ajax({
         else
             result += '<p class="alert alert-error">You lose against ' + data.defenser.name + ' :/</p>';
         result += '</div></div>';
-                // add animation
-        result += '<div class="center"><img src="./static/media/fight-' + (data.defenser.id != data.fight[data.fight.length - 1].winner.id ? 'win' : 'lose') + '.gif" alt="fight animation" /></div>';
+        // add animation
+        result += '<div class="center"><img src="./static/media/fight-' + (data.defenser.id != data.fight[data.fight.length - 1].winner.id ? 'win' : 'lose') + '.gif' + '?' + new Date().getTime() + '" alt="fight animation" /></div>';
         // add description of each phases
         result += '<div id="rapport-link"></div>';
         result += '<table class="table table-striped table-hover" id="rapport">';

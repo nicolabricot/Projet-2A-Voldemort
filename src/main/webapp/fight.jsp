@@ -19,6 +19,9 @@
                     cursor: pointer;
                     margin: 20px 0;
                 }
+                #rapport tr td:first-letter {
+                    text-transform: capitalize;
+                }
             </style>
         </head>
         <body class="page-fight">
