@@ -14,6 +14,12 @@
         <head>
             <jsp:include page="/WEB-INF/jsp/head.jsp" />
             <link rel="stylesheet" href="./static/css/items.css" media="screen" />
+            <style>
+                #rapport-link {
+                    cursor: pointer;
+                    margin: 20px 0;
+                }
+            </style>
         </head>
         <body class="page-fight">
 
@@ -25,7 +31,7 @@
             <!-- content -->
             <div id="content">
                 <div class="container">
-                    <div id="fight" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString()%>">
+                    <div id="fight" data-character-id="<%= Resources.getInstance().getFirstCharacter().getId().toString()%>" data-map-id="<%= map%>">
                         
                     </div>
                 </div>

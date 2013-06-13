@@ -40,7 +40,7 @@
             <div class="container">
                 <div id="links" class="pull-left"> 
                     <div class="btn-group">
-                        <a href="#sustainables" class="btn">Permanent</a>
+                        <a href="#sustainables" class="btn">Sustainable</a>
                         <a href="#consumables" class="btn">Consumable</a>
                         <a href="#degradables" class="btn">Degradable</a>
                     </div>
