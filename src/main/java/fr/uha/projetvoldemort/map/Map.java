@@ -35,6 +35,7 @@ public class Map {
     private static final String OPENED = "opened";
     private static final String CLOSED = "closed";
     private static final String DONE = "done";
+    private static final String LOCKED = "locked";
     private ArrayList<Map> maps;
     private MapType type;
     private ObjectId id;
@@ -125,13 +126,13 @@ public class Map {
     private String getUrl() {
         switch (this.type) {
             case MAP:
-                return "./map.jsp?map=" + this.name;
+                return Resources.PUBLIC_URL_MAP + Resources.PUBLIC_PARAM_MAP + this.name;
             case FIGHT:
                 return "./rest/fight/" + FightDemo.class.getSimpleName();
             case PANOPLY:
-                return "./panoply.jsp?panoply=active";
+                return Resources.PUBLIC_URL_PANOPLY + Resources.PUBLIC_PARAM_PANOPLY + "active";
             default:
-                return "./map.jsp?map=main";
+                return Resources.PUBLIC_URL_HOME;
         }
     }
 
