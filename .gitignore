@@ -12,3 +12,6 @@
 
 /target/
 *.jsp~
+/QuickAndDirtyMapEditor/sources/QuickAndDirtyMapEditor/build/
+/QuickAndDirtyMapEditor/sources/QuickAndDirtyMapEditor/dist/
+/QuickAndDirtyMapEditor/sources/QuickAndDirtyMapEditor/nbproject/private/
