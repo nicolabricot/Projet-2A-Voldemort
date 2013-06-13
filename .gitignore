@@ -3,8 +3,6 @@
 
 # Java #
 *.class
-*.jar
-*.war
 *.ear
 
 # JEE #
@@ -14,3 +12,4 @@
 target/
 build/
 nbproject/private/
+private.*
