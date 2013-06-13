@@ -18,6 +18,8 @@
                         <li<%=menu(actual, "panoply")%>><a href="./panoply.jsp">Panoply</a></li>-->
                     </ul>
                     <ul class="nav pull-right">
+                        <li><a href="#reset"><i class="icon-play-circle"></i></a></li>
+                        <li class="divider-vertical"></li>
                         <li><a href="./dev.jsp" rel="external">API <i class="icon-share-alt"></i></a></li>
                     </ul>
                 </div>
