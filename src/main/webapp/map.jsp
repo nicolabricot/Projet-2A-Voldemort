@@ -7,7 +7,7 @@
         map = request.getParameter("map");
     }
 
-    if (map.isEmpty() || map.contentEquals("")) {
+    if (map.isEmpty() || map.contentEquals("") || map.contentEquals("main")) {
         response.sendRedirect(Resources.PUBLIC_URL_HOME);
     }
     %><!DOCTYPE html>

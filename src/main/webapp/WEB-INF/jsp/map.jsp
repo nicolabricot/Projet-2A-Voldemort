@@ -21,11 +21,8 @@
         <div class="title"></div>
         <div class="description"></div>
         
-        <div class="avatar" style="position:fixed; bottom: 0;">
+        <div class="avatar" style="position:absolute; bottom: 0;">
             <img src="./static/media/perso-warden.png" alt="Warden" />
         </div>
     </div>
 </div>
-
-<!-- notifications -->
-<div class="notifications top-right"></div>

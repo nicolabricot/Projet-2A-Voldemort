@@ -40,6 +40,8 @@ public final class Resources {
     public final static String PUBLIC_URL_PANOPLY = "./panoply.jsp";
     public final static String PUBLIC_PARAM_PANOPLY = "?panoply=";
     public final static String PUBLIC_PARAM_PANOPLY_ID = "?id=";
+    public final static String PUBLIC_URL_FIGHT = "./fight.jsp";
+    public final static String PUBLIC_PARAM_FIGHT_FROM = "?from=";
 
     private Resources() {
         InputStreamReader isr = null;
