@@ -37,7 +37,7 @@ public class ServiceMap {
      */
 
     @GET
-    @Path("/states/{id_character}")
+    @Path("/{id_character}")
     public Response getStates(@PathParam("id_character") String idc) {        
         try {
             Resources.getInstance().connect();
@@ -60,7 +60,7 @@ public class ServiceMap {
     }
 
     @GET
-    @Path("/states/{id_map}/{id_character}")
+    @Path("/{id_map}/{id_character}")
     public Response getStates(@PathParam("id_map") String idm, @PathParam("id_character") String idc) {
         try {
             Resources.getInstance().connect();
