@@ -210,7 +210,7 @@
         "type": "map",
         "level": 0,
         "title": "France",
-        "description": "Carte de la France",
+        "description": "Map of France",
         "maps": [
             {
                 "name": "champagne-ardenne",
@@ -224,31 +224,31 @@
                         "type": "fight",
                         "level": 2,
                         "title": "Combat 1v1",
-                        "description": "Combat 1v1 sur les champs de batailles de la Marne.",
+                        "description": "1 vs 1 fight on the Marne's battlefields.",
                         "maps": []
                     },
                     {
                         "name": "aube",
                         "type": "panoply",
                         "level": 2,
-                        "title": "Panoplie",
-                        "description": "Panoplie de l'Aube",
+                        "title": "Panoply",
+                        "description": "Panoply from Aube",
                         "maps": []
                     },
                     {
                         "name": "ardennes",
                         "type": "fight",
                         "level": 3,
-                        "title": "Combat 1v1",
-                        "description": "Participez à un combat 1v1 dans la bataille des Ardennes.",
+                        "title": "1 vs 1 figth",
+                        "description": "Participate to a 1 vs 1 fight in the Ardennes.",
                         "maps": []
                     },
                     {
                         "name": "haute-marne",
                         "type": "panoply",
                         "level": 3,
-                        "title": "Panoplie",
-                        "description": "Panoplie de la Haute-Marne.",
+                        "title": "Panoply",
+                        "description": "Panoply from Haute-Marne.",
                         "maps": []
                     }
                 ]
@@ -264,16 +264,16 @@
                         "name": "bas-rhin",
                         "type": "panoply",
                         "level": 3,
-                        "title": "Panoplie",
-                        "description": "Panoplie du Bas-Rhin.",
+                        "title": "Panoply",
+                        "description": "Panoply from Bas-Rhin.",
                         "maps": []
                     },
                     {
                         "name": "haut-rhin",
                         "type": "fight",
                         "level": 4,
-                        "title": "Combat 1v1",
-                        "description": "Engagez vous dans la lutte contre les Germains dans la fôret.",
+                        "title": "1 vs 1 fight",
+                        "description": "Go fight against the Germains in the forest.",
                         "maps": []
                     }
                 ]
@@ -283,7 +283,7 @@
                 "type": "map",
                 "level": 1,
                 "title": "Centre",
-                "description": "Le Centre est une région française, qui regroupe six départements : le Cher, l'Eure-et-Loir, l'Indre, l'Indre-et-Loire, le Loir-et-Cher et le Loiret.",
+                "description": "Centre is one of the 27 regions of France, around the Loire Valley, northwest of the geographical centre of the country. The capital is Orleans but the largest city is Tours.",
                 "maps": []
             },
             {
@@ -291,7 +291,7 @@
                 "type": "map",
                 "level": 1,
                 "title": "Corse",
-                "description": "Corse, ma belle Corse, que veux-tu faire par monts et par vaux...",
+                "description": "<em>Corse, ma belle Corse, que veux-tu faire par monts et par vaux...</em>",
                 "maps": []
             },
             {
