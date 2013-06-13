@@ -199,6 +199,8 @@ public final class Character {
 
             ob.put("id", this.id.toString());
             ob.put("name", this.name);
+            ob.put("faction", this.faction.getName().replace("_name", ""));
+            ob.put("class", this.model.getName().replace("_name", ""));
 
             JSONObject obAttributes = new JSONObject();
             Iterator<Entry<CharacterAttribute, Integer>> itAttributes = this.attributes.entrySet().iterator();

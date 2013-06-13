@@ -26,6 +26,7 @@ import javax.ws.rs.core.Response;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -376,7 +377,22 @@ public class ServiceCharacter {
     @GET
     @Path("/{id}/statistics")
     public Response getStats(@PathParam("id") String id) {
-        return Response.status(HttpStatus.NOT_IMPLEMENTED).build();
+         try {
+            Resources.getInstance().connect();
+            
+            Character c = new Character(new ObjectId(id));
+            JSONObject o = c.toJSONObject(false);
+
+            return Response.status(HttpStatus.OK).entity(o.toString()).build();
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.NOT_FOUND).build();
+        } catch (JSONException ex) {
+            Logger.getLogger(ServiceCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            Resources.getInstance().close();
+        }        
     }
 
     @GET
